@@ -1,36 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8" />
     {% load static %}
-    <title>Shoham - PLMC</title>
-        <!--  Our style CSS -->
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <!-- BootStrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PLMC - SHOHAM</title>
+	<!-- BOOTSTRAP STYLES-->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+     <!-- FONTAWESOME STYLES-->
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet" />
+        <!-- STYLE STYLES-->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+     <!-- GOOGLE FONTS-->
+   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <h1>line</h1>
-        </div>
-        <div class="row">
-            <div class="col-lg-3">
-                <p>sidebar</p>
-            </div>
-            <div class="col-lg-9">
-                <p>content</p>
-            </div>
-        </div>
+     
+           
+          
+    <div id="wrapper">
+         <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="adjust-nav">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img src="{% static 'img/logo_heb.png' %}" width="180px"/>
 
-    </div>
+                    </a>
+                    
+                </div>
+                <span class="logout-spn" >
+                  <a href="#" style="color:#000066;">LOGOUT</a>  
+                </span>
+            </div>
+        </div>
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <a><i class="fa fa-edit "></i>Orders <span class="badge"></span></a>
+                    </li>
+                   
+
+                    <li>
+                        <a><i class="fa fa-child "></i>Clients  <span class="badge"></span></a>
+                    </li>
+                    <li>
+                        <a><i class="fa fa-database "></i>Floor Management  <span class="badge"></span></a>
+                    </li>
+
+
+                    <li>
+                        <a><i class="fa fa-file "></i>Reports <span class="badge"></span></a>
+                    </li>
+                    <li>
+                        <a><i class="fa fa-users "></i>Workers <span class="badge"></span></a>
+                    </li>
+                    
+                </ul>
+                            </div>
+
+        </nav>
+        <div id="page-wrapper" >
+            <div id="page-inner">
+                   
+            </div>
+        </div>
+    <!-- JQUERY SCRIPTS -->
+    <script src="{% static 'js/jquery-1.10.2.js' %}"></script>
+      <!-- BOOTSTRAP SCRIPTS -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+      <!-- STYLE SCRIPTS -->
+    <script src="{% static 'js/style.js' %}"></script>
+    
+   
 </body>
 </html>
