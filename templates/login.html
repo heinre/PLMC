@@ -22,8 +22,13 @@
     </div>
     <div class="login-error">
         <span>
-            {% if invalid %}
+            {% for message in messages %}
+                 <p>{{ message }}</p>
+            {% endfor %}
+            {% if error == 'invalid' %}
                 Invalid Username/Password
+            {% elif  error == 'manager'%}
+                Permission Denied, You Need Admin Permissions For Access
             {% endif %}
         </span>
     </div>
@@ -40,6 +45,9 @@
                 <i class="glyphicon glyphicon-lock"></i>
                 {{ form.password }}
             </div>
+        {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+        {% endif %}
         <input class="btn btn-primary" type="submit" value="Log in">
     </form>
 </div>

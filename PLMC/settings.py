@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'PLMC.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'PLMC.urls'
@@ -122,3 +123,15 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/')
 ]
+
+LOGIN_URL = '/login/'
+LOGIN_EXEMPT_URLS = (
+   # r'^$',
+    r'^asd/',
+    r'^logout/',
+)
+
+MANAGER_EXEMPT_URLS = (
+    r'^$',
+    r'^logout/',
+)

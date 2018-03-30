@@ -9,6 +9,7 @@
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
      <!-- FONTAWESOME STYLES-->
     <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
         <!-- STYLE STYLES-->
     <link href="{% static 'css/style.css' %}" rel="stylesheet" />
      <!-- GOOGLE FONTS-->
@@ -28,9 +29,15 @@
                     </a>
                     
                 </div>
-                <span class="logout-spn" >
-                  <a href="#" style="color:#000066;">LOGOUT</a>  
-                </span>
+                <div class="user-info">
+                        {% if user.is_authenticated %}
+                            <i class="fa fa-user"></i>
+                            {{ user.get_username }}
+                        {% endif %}
+                    <div class="logout-spn" >
+                        <a href="{% url 'logout' %}"><i class="fa fa-power-off"></i> LOGOUT</a>
+                    </div>
+                </div>
             </div>
         </div>
         <nav class="navbar-default navbar-side" role="navigation">
@@ -42,27 +49,32 @@
                    
 
                     <li>
-                        <a><i class="fa fa-child "></i>Clients  <span class="badge"></span></a>
+                        <a href="clients"><i class="fas fa-address-card"></i>Clients  <span class="badge"></span></a>
                     </li>
                     <li>
-                        <a><i class="fa fa-database "></i>Floor Management  <span class="badge"></span></a>
+                        <a><i class="fab fa-whmcs "></i>Floor Management  <span class="badge"></span></a>
                     </li>
+                    <li>
+                        <a><i class="fas fa-bar-chart"></i>Reports <span class="badge"></span></a>
+                    </li>
+                        <li>
+                            <a><i class="fa fa-users "></i>Workers <span class="badge"></span></a>
+                        </li>
 
-
-                    <li>
-                        <a><i class="fa fa-file "></i>Reports <span class="badge"></span></a>
-                    </li>
-                    <li>
-                        <a><i class="fa fa-users "></i>Workers <span class="badge"></span></a>
-                    </li>
-                    
                 </ul>
                             </div>
 
         </nav>
         <div id="page-wrapper" >
             <div id="page-inner">
-                   
+            {% if not 'Employee' in request.user.groups.all %}
+                <h1>
+                    {{ request.user.groups.all }}
+                </h1>
+            {% endif %}
+                   {% block content %}
+
+                    {% endblock %}
             </div>
         </div>
     <!-- JQUERY SCRIPTS -->

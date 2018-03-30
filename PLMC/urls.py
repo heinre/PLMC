@@ -17,7 +17,10 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from clients import views as a
 urlpatterns = [
+    url(r'^$', a.index, name='homepage'),
     url(r'^admin/', admin.site.urls),
-    url(r'^login/', a.login_view),
-    url(r'^clients/',include('clients.urls'))
+    url(r'^login/$', a.login_view, name='login'),
+    url(r'^logout/$', a.logout_view, name='logout'),
+    url(r'^clients/', include('clients.urls')),
+    url(r'^asd/', a.index)
 ]

@@ -80,16 +80,22 @@ min-height: 80px;
     margin-right:10px;
 }
 .logout-spn {
-    float:right;
-    color:#fff;
-    font-size:20px;
-    font-weight:800;
-    margin:20px;
-    margin: 30px 40px 40px 50px;
+    font-size:0.6em;
+    color: red;
+    margin: 0 auto;
+    display: table;
 }
     .logout-spn a {
         text-decoration:none;
+        color: red;
     }
+.user-info{
+    color: #214761;
+    float: right;
+    font-size:1.5em;
+    font-weight:800;
+    margin: 30px 40px 10px 50px;
+}
 .active-link {
     background-color:#f3f3f3;
 }
@@ -182,9 +188,11 @@ min-height: 80px;
 
 .input-group{
     margin: 0 auto;
+    width: 40%;
 }
 .login-form input{
- margin: 0 0 10px 10px;
+    margin: 0 0 10px 10px;
+    width: 80%;
 }
 .login-error{
     min-height: 30px;
@@ -196,5 +204,6 @@ min-height: 80px;
 
 .login-form .btn-primary{
     margin-top: 20px;
-    width: 30%;
+    margin-left: 24px;
+    width: 32%;
 }
