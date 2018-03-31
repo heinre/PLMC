@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', a.login_view, name='login'),
     url(r'^logout/$', a.logout_view, name='logout'),
-    url(r'^clients/', include('clients.urls')),
-    url(r'^asd/', a.index)
+    url(r'^orders/', include('orders.urls', namespace='orders')),
+    url(r'^clients/', include('clients.urls', namespace='clients')),
+    url(r'^reports/', include('reports.urls', namespace='reports')),
 ]

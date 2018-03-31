@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8" />
     {% load static %}
+    {% load clients_extras %}
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PLMC - SHOHAM</title>
 	<!-- BOOTSTRAP STYLES-->
@@ -23,9 +25,8 @@
          <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="adjust-nav">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand">
                         <img src="{% static 'img/logo_heb.png' %}" width="180px"/>
-
                     </a>
                     
                 </div>
@@ -44,22 +45,24 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
-                        <a><i class="fa fa-edit "></i>Orders <span class="badge"></span></a>
+                        <a href="{% url 'orders:index' %}"><i class="fa fa-edit "></i>Orders <span class="badge"></span></a>
                     </li>
                    
 
                     <li>
-                        <a href="clients"><i class="fas fa-address-card"></i>Clients  <span class="badge"></span></a>
+                        <a href="{% url 'clients:index' %}"><i class="fas fa-address-card"></i>Clients  <span class="badge"></span></a>
                     </li>
                     <li>
                         <a><i class="fab fa-whmcs "></i>Floor Management  <span class="badge"></span></a>
                     </li>
                     <li>
-                        <a><i class="fas fa-bar-chart"></i>Reports <span class="badge"></span></a>
+                        <a href="{% url 'reports:index' %}"><i class="fas fa-bar-chart"></i>Reports <span class="badge"></span></a>
                     </li>
+                    {% if request.user|has_group:"Manager" %}
                         <li>
                             <a><i class="fa fa-users "></i>Workers <span class="badge"></span></a>
                         </li>
+                    {% endif %}
 
                 </ul>
                             </div>
@@ -67,14 +70,9 @@
         </nav>
         <div id="page-wrapper" >
             <div id="page-inner">
-            {% if not 'Employee' in request.user.groups.all %}
-                <h1>
-                    {{ request.user.groups.all }}
-                </h1>
-            {% endif %}
-                   {% block content %}
+                {% block content %}
 
-                    {% endblock %}
+                {% endblock %}
             </div>
         </div>
     <!-- JQUERY SCRIPTS -->

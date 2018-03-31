@@ -3,21 +3,16 @@ from django.template import loader
 from django.http import HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
-from django.contrib.messages import error
-from django import template
-from django.contrib.auth.models import Group
+from django.contrib.messages import info
 
-register = template.Library()
-
-
-@register.filter(name='has_group')
-def has_group(user, group_name):
-    group = Group.objects.get(name=group_name)
-    return group in user.groups.all()
 
 
 def index(request):
     return render(request, 'base.html')
+
+
+def clients_index(request):
+    return render(request, 'client_page.html')
 
 
 def login_view(request):
@@ -31,7 +26,7 @@ def login_view(request):
             else:
                 return redirect('homepage')
         else:
-            error(request, 'Invalid Username/Password')
+            info(request, 'Invalid Username/Password')
             if 'next' in request.POST:
                 return redirect('/login/?next=%s' % request.POST.get('next'))
             return redirect('login')

@@ -18,18 +18,16 @@
 <div id="content-login">
     <div class="login-header">
         <h1>Login</h1>
-        <img src="{% static 'img/logo_heb.png' %}" width="180px"/>
+        <a href="{% url 'homepage' %}">
+            <img src="{% static 'img/logo_heb.png' %}" width="180px"/>
+        </a>
+
     </div>
     <div class="login-error">
         <span>
             {% for message in messages %}
                  <p>{{ message }}</p>
             {% endfor %}
-            {% if error == 'invalid' %}
-                Invalid Username/Password
-            {% elif  error == 'manager'%}
-                Permission Denied, You Need Admin Permissions For Access
-            {% endif %}
         </span>
     </div>
 

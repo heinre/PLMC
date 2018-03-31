@@ -25,7 +25,7 @@ SECRET_KEY = '!@#n=c*zhrq721+s4_q*^%zq#i9$or&m&+xv0mc887xx)#$60e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['PLMC']
 
 
 # Application definition
@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'clients.apps.ClientsConfig'
+    'clients.apps.ClientsConfig',
+    'orders',
+    'reports',
 ]
 
 MIDDLEWARE = [
@@ -126,12 +128,10 @@ STATICFILES_DIRS = [
 
 LOGIN_URL = '/login/'
 LOGIN_EXEMPT_URLS = (
-   # r'^$',
-    r'^asd/',
     r'^logout/',
 )
 
-MANAGER_EXEMPT_URLS = (
-    r'^$',
-    r'^logout/',
+MANAGER_ONLY_URLS = (
+    r'^admin/',
+    r'^clients/',
 )
