@@ -24,7 +24,9 @@ class LoginRequiredMiddleware(MiddlewareMixin):
                 return redirect('/login/?next=%s' % next)
         else:
             if not request.user.groups.filter(name='Manager').exists():
+                print('logged in')
                 if not any(m.match(path) for m in EXEMPT_URLS) and any(m.match(path) for m in MANAGER_URLS):
-                    info(request, 'Permission Denied, You Need Admin Permissions For Access')
+                    print('no manager')
+                    error(request, 'Permission Denied, You Need Admin Permissions For Access')
                     return redirect('/login/?next=%s' % next)
 

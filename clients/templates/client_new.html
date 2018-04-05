@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}
+    {% if edit %}
+        - Edit {{ form.name.value }}
+    {% else %}
+        - New Client
+    {% endif %}
+{% endblock %}
+{% block  content %}
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6 page-title">
+            <h1>
+                {% if edit %}
+                    Edit {{ form.name.value }}
+                {% else %}
+                    Add a New Client
+                {% endif %}
+            </h1>
+        </div>
+    </div>
+    <div class="menu">
+        <ul>
+            <li>
+                <a onclick="window.history.back(); return false;" >
+                    <div class="menu-icon"><i class="fas fa-arrow-left"></i></div>
+                    <div class="menu-text">Back</div>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <label for="submit-form">
+                        <div class="menu-icon"><i class="far fa-save" aria-hidden="true"></i></div>
+                        <div class="menu-text">Save</div>
+                    </label>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+
+    <div class="row"></div>
+    <div class="row">
+    <div class="col-lg-2"></div>
+        <form class="new-client-form" action="" method="POST">
+            {% csrf_token %}
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span>{{ form.name.label_tag }}</span>
+                    {{ form.name }}
+                </div>
+                <div class="input-group">
+                    <span>{{ form.address.label_tag }}</span>
+                    {{ form.address }}
+                </div>
+                <div class="input-group">
+                    <span>{{ form.contactName.label_tag }}</span>
+                    {{ form.contactName }}
+                    <span class="form-error">{{ form.contactName.errors }}</span>
+                </div>
+            </div>
+                <div class="input-group">
+                    <span>{{ form.contactPhone.label_tag }}</span>
+                    {{ form.contactPhone }}
+                </div>
+                <div class="input-group">
+                    <span>{{ form.contactEmail.label_tag }}</span>
+                    {{ form.contactEmail }}
+                    <span class="form-error">{{ form.contactEmail.errors }}</span>
+                </div>
+                <div class="input-group">
+                    <span>{{ form.remarks.label_tag }}</span>
+                    {{ form.remarks }}
+                </div>
+                <input type="submit" id="submit-form" class="hidden">
+        </form>
+    </div>
+
+{% endblock %}

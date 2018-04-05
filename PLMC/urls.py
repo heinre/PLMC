@@ -15,13 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from clients import views as a
+from PLMC import views
+
+
 urlpatterns = [
-    url(r'^$', a.index, name='homepage'),
+    url(r'^$', views.index, name='homepage'),
     url(r'^admin/', admin.site.urls),
-    url(r'^login/$', a.login_view, name='login'),
-    url(r'^logout/$', a.logout_view, name='logout'),
+    url(r'^login/$', views.login_view, name='login'),
+    url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^orders/', include('orders.urls', namespace='orders')),
     url(r'^clients/', include('clients.urls', namespace='clients')),
     url(r'^reports/', include('reports.urls', namespace='reports')),
+    url(r'^api/clients/', views.get_clients),
 ]

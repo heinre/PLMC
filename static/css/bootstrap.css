@@ -4745,6 +4745,10 @@ a.thumbnail.active {
        -o-animation: progress-bar-stripes 2s linear infinite;
           animation: progress-bar-stripes 2s linear infinite;
 }
+progress-bar-animated{
+  -webkit-animation:progress-bar-stripes 1s linear infinite;
+  animation:progress-bar-stripes 1s linear infinite;
+}
 .progress-bar[aria-valuenow="1"],
 .progress-bar[aria-valuenow="2"] {
   min-width: 30px;
@@ -6200,4 +6204,3 @@ button.close {
     display: none !important;
   }
 }
-/*# sourceMappingURL=bootstrap.css.map */

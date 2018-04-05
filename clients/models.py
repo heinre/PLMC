@@ -1,10 +1,16 @@
 from django.db import models
 
-# Create your models here.
-class Clients(models.Model):
-    firstName = models.CharField(max_length=50)
-    lastName = models.CharField(max_length=50)
-    type = models.BooleanField() # new or interested
+
+class Client(models.Model):
+    name = models.CharField(max_length=200)
+    address = models.CharField(max_length=400)
+    contactName = models.CharField(max_length=100)
+    contactEmail = models.EmailField(null=True, blank=True)
+    contactPhone = models.CharField(max_length=15, null=True, blank=True)
+    remarks = models.TextField(null=True, blank=True)
+    #created = models.DateField.auto_now_add()
+    #lastChanged = models.DateField.auto_now()
+    #type = models.BooleanField() # new or interested
 
     def __str__(self):
-        return self.firstName + self.lastName
+        return self.name

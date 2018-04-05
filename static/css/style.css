@@ -52,14 +52,19 @@ body {
     color: #214761;
 font-weight: 900;
 font-size: 16px;
+    cursor: default;
 }
 .sidebar-collapse > .nav > li {
 	border-bottom:1px solid #e1e1e1;
 }
 .sidebar-collapse .nav > li > a:hover,
 .sidebar-collapse .nav > li > a:focus {
-	
 	background:#F3F3F3;
+	outline:0;
+}
+.sidebar-collapse .nav > li > a.active{
+   	background:#F3F3F3;
+    color: #2145ba;
 	outline:0;
 }
 
@@ -99,7 +104,112 @@ min-height: 80px;
 .active-link {
     background-color:#f3f3f3;
 }
-    
+.menu{
+    margin-top: 10px;
+}
+.menu li{
+    list-style-type: none;
+    float: left;
+    margin: 0 15px;
+}
+.menu:after{
+   display: block;
+    content: "";
+    clear: both;
+}
+
+.menu li a {
+    color: #214761;
+    cursor: default;
+}
+.menu li a:hover {
+    text-decoration: none;
+    color: #4cae4c;
+
+}
+.menu-icon{
+    font-size: 2.5em;
+    text-align: center;
+}
+
+.menu-text{
+    text-align: center;
+}
+.row.table{
+    margin: 3% auto;
+}
+th{
+    text-align: center;
+}
+.table{
+    text-align: center;
+}
+.site-from{
+    display: block;
+}
+.page-title h1{
+    text-align: center;
+    margin-top: 30px;
+}
+.not-exist{
+    font-size: 1em;
+    text-align: center;
+    font-size: 1.5em;
+    margin-top: 20px;
+
+}
+.not-exist i{
+    margin-bottom: 20px;
+    color:red;
+    font-size: 8em;
+    opacity: 0.7;
+}
+.client-search .input-group,
+.order-search .input-group{
+    margin: 0 auto;
+    width: 47.5%;
+}
+
+.new-client-form .input-group{
+    margin-bottom: 20px;
+}
+.new-client-form .input-group label{
+    display: inline-block;
+    float: left;
+    clear: left;
+    width: 150px;
+    text-align: right;
+    margin-right: 10px;
+}
+.new-client-form .input-group input {
+  display: inline-block;
+  float: left;
+}
+.menu label{
+    font-weight: normal;
+}
+.info{
+    margin-top: 30px;
+}
+.modal-content{
+    text-align: center;
+}
+.modal-content h1{
+    color: red;
+    font-size: 10em;
+    opacity: 0.7;
+}
+.modal-footer{
+    text-align: center;
+}
+.right-menu{
+    float: right !important;
+    margin-right: 100px !important;
+}
+.ui-widget label{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1em;
+}
 /*==============================================
     DASHBOARD STYLES    
     =============================================*/
@@ -186,7 +296,7 @@ min-height: 80px;
     margin: 10px 0;
 }
 
-.input-group{
+.login-form .input-group{
     margin: 0 auto;
     width: 40%;
 }
