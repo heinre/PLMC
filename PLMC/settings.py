@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'clients.apps.ClientsConfig',
     'orders.apps.OrdersConfig',
+    'production_floor.apps.ProductionfloorConfig',
     'reports.apps.ReportsConfig',
+    'workers.apps.WorkersConfig',
 ]
 
 MIDDLEWARE = [
@@ -120,11 +122,11 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/')
 ]
+
 
 LOGIN_URL = '/login/'
 LOGIN_EXEMPT_URLS = (

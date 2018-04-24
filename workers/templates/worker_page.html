@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %}
+- Orders
+{% endblock %}
+{% block  content %}
+    <div class="row">
+        <div class="col-lg-6 page-title">
+            <h1></h1>
+        </div>
+    </div>
+    <div class="menu">
+        <ul>
+            {% if query %}
+                <li>
+                    <a onclick="window.history.back(); return false;" >
+                        <div class="menu-icon"><i class="fas fa-arrow-left"></i></div>
+                        <div class="menu-text">Back</div>
+                    </a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="{% url 'orders:new' %}">
+                    <div class="menu-icon"><i class="fas fa-cart-plus"></i></div>
+                    <div class="menu-text">New Order</div>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'workers:shifts' %}">
+                    <div class="menu-icon"><i class="far fa-calendar-alt"></i></div>
+                    <div class="menu-text">Assign Shifts</div>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+    <div class="row search">
+         <div class="col-lg-12">
+             <form class="order-search" action="." method="GET">
+                <div class="input-group">
+                    <span class="input-group-addon" id="sizing-addon1">
+                        <i class="fas fa-edit"></i>
+                    </span>
+                    {% if query %}
+                    <input type="text" class="form-control" name='query'
+                        placeholder="Search for Order by Client's name, Client's ID# or order ID#..." value={{ query }}>
+                    {% else %}
+                    <input type="text" class="form-control" name='query'
+                           placeholder="Search for Order by Client's name, Client's ID# or order ID#...">
+                    {% endif %}
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </span>
+                </div><!-- /input-group -->
+             </form>
+        </div>
+    </div><!-- /.row -->
+
+    <div class="row table">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            {% if not orders and query %}
+                Nothing found
+            {% else %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>
+                                 Shifts Assignment
+                        </h4>
+                    </div>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th colspan="3"></th>
+                                 <th colspan="3" onclick="sortTable(1,0)">Sunday</th>
+                                 <th colspan="3" onclick="sortTable(2,0)">Monday</th>
+                                 <th colspan="3" onclick="sortTable(3,0)">Tuesday</th>
+                                 <th colspan="3" onclick="sortTable(4,0)">Wednesday</th>
+                                 <th colspan="3" onclick="sortTable(5,0)">Thursday</th>
+                              </tr>
+                            <tr>
+                                <th colspan="3">Employee/Shift</th>
+                                {% for i in 'xxxxx'%}
+                                    <th>1</th>
+                                    <th>2</th>
+                                    <th>3</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key,value in shifts.items %}
+                                <tr class="clickable-order-row">
+                                    <td colspan="3">{{ key }}</td>
+                                    {% for i in value %}
+                                        {% if i != 'x' %}
+                                            <td>{{ i }}</td>
+                                        {% else %}
+                                            <td>x</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+
+
+{% endblock %}

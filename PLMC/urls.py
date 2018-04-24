@@ -26,5 +26,6 @@ urlpatterns = [
     url(r'^orders/', include('orders.urls', namespace='orders')),
     url(r'^clients/', include('clients.urls', namespace='clients')),
     url(r'^reports/', include('reports.urls', namespace='reports')),
+    url(r'^workers/', include('workers.urls', namespace='workers')),
     url(r'^api/clients/', views.get_clients),
 ]
