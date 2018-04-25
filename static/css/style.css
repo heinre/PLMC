@@ -210,6 +210,12 @@ th{
     font-family: 'Open Sans', sans-serif;
     font-size: 1em;
 }
+.green-check{
+    color: green;
+}
+.red-x{
+    color: red;
+}
 /*==============================================
     DASHBOARD STYLES    
     =============================================*/

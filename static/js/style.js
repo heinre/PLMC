@@ -53,6 +53,12 @@
         $(".clickable-order-row").dblclick(function() {
             window.location="/orders/"+$(this).children('td')[0].innerHTML;
         });
+        $(".clickable-worker-row").dblclick(function() {
+            window.location="/workers/"+$(this).children('td')[0].innerHTML;
+        });
+        $(".clickable-shift-row").dblclick(function() {
+            window.location="/workers/"+$(this).children('td')[0].innerHTML.substr(0,1);
+        });
         $("#delete").click(function() {
             $("#deleteModal").modal();
         });
@@ -81,6 +87,31 @@
                     window.location.href = './delete'
                 }
             });
+        }
+
+        function deleteWorker(id){
+            $("#deleteModal").modal("hide");
+            $.post("/workers/delete/", {'csrfmiddlewaretoken': $("[name=csrfmiddlewaretoken]").val(), 'id': id},
+                function(data){
+                if (data['status'] == 'success'){
+                    window.location.href = './'
+                }
+                else{
+                    window.location.href = './delete'
+                }
+            });
+        }
+        function setCharAt(str,index,chr) {
+            if(index > str.length-1) return str;
+            return str.substr(0,index) + chr + str.substr(index+1);
+        }
+        function updateAvailability(shift){
+            if ($("#shift"+shift).is(':checked')){
+                $("#id_availability").val(setCharAt($("#id_availability").val(),shift,'o'))
+            }
+            else{
+                $("#id_availability").val(setCharAt($("#id_availability").val(),shift,'x'))
+            }
         }
 
         function sortTable(n,t) {

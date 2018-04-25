@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load PLMC_extras %}
+{% block title %}
+            {% if worker %}
+                - {{ worker.firstName }} {{ worker.lastName }}
+            {% else %}
+                - Workers
+            {% endif %}
+{% endblock %}
+{% block  content %}
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6 page-title">
+        <h1>
+            {% if worker %}
+                {{ worker.firstName }} {{ worker.lastName }}
+            {% endif %}
+        </h1>
+        </div>
+    </div>
+    <!-- MENU -->
+    <div class="menu">
+        <ul>
+            <li>
+                <a onclick="window.history.back(); return false;" >
+                    <div class="menu-icon"><i class="fas fa-arrow-left"></i></div>
+                    <div class="menu-text">Back</div>
+                </a>
+            </li>
+            {% if worker %}
+                <li>
+                    <a href="{% url 'workers:edit' worker.id %}" >
+                        <div class="menu-icon"><i class="fas fa-pencil-alt"></i></div>
+                        <div class="menu-text">Edit</div>
+                    </a>
+                </li>
+                <li>
+                    <a id="delete" >
+                        <div class="menu-icon"><i class="fas fa-trash-alt"></i></div>
+                        <div class="menu-text">Delete</div>
+                    </a>
+                </li>
+                <li class="right-menu">
+                <a href="{% url 'workers:shifts' %}">
+                    <div class="menu-icon"><i class="far fa-calendar-alt"></i></div>
+                    <div class="menu-text">Shifts</div>
+                </a>
+            </li>
+            {% endif %}
+                </ul>
+    </div>
+        <!-- CONTENT -->
+            {% if worker %}
+                <div class="row"></div>
+                <div class="row info">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-3">
+                        <h3>Contact Information</h3>
+                        {% if worker.phone %}
+                            <p>{{ worker.phone }}</p>
+                        {% endif %}
+                        {% if worker.email %}
+                            <p>{{ worker.email }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-2">
+                        <h3>Address</h3>
+                            {% if worker.address %}
+                                <p>{{ worker.address }}</p>
+                            {% endif %}
+                    </div>
+                    <div class="col-lg-2">
+                        <h3>Skills</h3>
+                        <p>{{ worker.skills }}</p>
+                    </div>
+                </div>
+                <div class="row info table">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4>Availability</h4>
+                            </div>
+                                <table class="table table-hover table-worker">
+                                    <thead>
+                                        <tr>
+                                            <th>Shift</th>
+                                            <th>Sunday</th>
+                                            <th>Monday</th>
+                                            <th>Tuesday</th>
+                                            <th>Wednesday</th>
+                                            <th>Thursday</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr>
+                                             <td>1</td>
+                                             {% for shift in worker.availability %}
+                                                {% ifequal forloop.counter0|modulo:3 0 %}
+                                                    <td>
+                                                    {% ifequal shift 'o' %}
+                                                        <i class="fas fa-check green-check"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-times red-x"></i>
+                                                    {% endifequal %}
+                                                    </td>
+                                                 {% endifequal %}
+                                             {% endfor %}
+                                         </tr>
+                                         <tr>
+                                             <td>2</td>
+                                             {% for shift in worker.availability %}
+                                                {% ifequal forloop.counter0|modulo:3 1 %}
+                                                    <td>
+                                                    {% ifequal shift 'o' %}
+                                                        <i class="fas fa-check green-check"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-times red-x"></i>
+                                                    {% endifequal %}
+                                                    </td>
+                                                 {% endifequal %}
+                                             {% endfor %}
+                                         </tr>
+                                         <tr>
+                                             <td>3</td>
+                                             {% for shift in worker.availability %}
+                                                {% ifequal forloop.counter0|modulo:3 2 %}
+                                                    <td>
+                                                    {% ifequal shift 'o' %}
+                                                        <i class="fas fa-check green-check"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-times red-x"></i>
+                                                    {% endifequal %}
+                                                    </td>
+                                                 {% endifequal %}
+                                             {% endfor %}
+                                         </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- DELETE MODAL -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <h1><i class="fas fa-exclamation-circle"></i></h1>
+                                <h3>Are you sure you want to delete {{ worker.firstName }} {{ worker.lastName }}(#{{ worker.id }})?</h3>
+                                <p>This process will delete any data related to {{ worker.firstName }}.</p>
+                                <p style="font-weight: bold">This process cannot be undone.</p>
+                            </div>
+                            <div class="modal-footer">
+                                {% csrf_token %}
+                                <button type="button" class="btn btn-danger" onclick="deleteWorker({{ worker.id }})">
+                                    <i class="fas fa-check"></i> Delete
+                                </button>
+                                <button type="button" class="btn btn-info" data-dismiss="modal">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- NOT EXISTS MESSAGE -->
+            {% else %}
+                <div class="row"></div>
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-6">
+                        <div class="not-exist">
+                            <i class="fas fa-ban"></i>
+                            <p>Item Does Not Exist</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+
+
+{% endblock %}

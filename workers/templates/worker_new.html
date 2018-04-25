@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load PLMC_extras %}
+{% block title %}
+    {% if edit %}
+        - Edit {{ form.firstName.value }} {{ form.lastName.value }}
+    {% else %}
+        - New Employee
+    {% endif %}
+{% endblock %}
+{% block  content %}
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6 page-title">
+            <h1>
+                {% if edit %}
+                    Edit {{ form.firstName.value }} {{ form.lastName.value }}
+                {% else %}
+                    Add a Employee
+                {% endif %}
+            </h1>
+        </div>
+    </div>
+    <div class="menu">
+        <ul>
+            <li>
+                <a onclick="window.history.back(); return false;" >
+                    <div class="menu-icon"><i class="fas fa-arrow-left"></i></div>
+                    <div class="menu-text">Back</div>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <label for="submit-form">
+                        <div class="menu-icon"><i class="far fa-save" aria-hidden="true"></i></div>
+                        <div class="menu-text">Save</div>
+                    </label>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+
+    <div class="row"></div>
+    <div class="row">
+    <div class="col-lg-2"></div>
+        <form class="new-client-form" action="" method="POST">
+            {% csrf_token %}
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span>{{ form.firstName.label_tag }}</span>
+                    {{ form.firstName }}
+
+                </div>
+                <div class="input-group">
+                    <span>{{ form.lastName.label_tag }}</span>
+                    {{ form.lastName }}
+                </div>
+                <div class="input-group">
+                    <span>{{ form.address.label_tag }}</span>
+                    {{ form.address }}
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span>{{ form.email.label_tag }}</span>
+                    {{ form.email }}
+                </div>
+                <span class="form-error">{{ form.email.errors }}</span>
+                <div class="input-group">
+                    <span>{{ form.phone.label_tag }}</span>
+                    {{ form.phone }}
+                </div>
+                <div class="input-group">
+                    <span>{{ form.skills.label_tag }}</span>
+                    {{ form.skills }}
+                </div>
+                <div class="input-group" style="display: none;">
+                    <span>{{ form.availability.label_tag }}</span>
+                    {{ form.availability }}
+                </div>
+            </div>
+                <input type="submit" id="submit-form" class="hidden">
+
+        </form>
+    </div>
+                <div class="row info table">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-5">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4>Availability</h4>
+                            </div>
+                                <table class="table table-hover table-worker">
+                                    <thead>
+                                        <tr>
+                                            <th>Shift</th>
+                                            <th>Sunday</th>
+                                            <th>Monday</th>
+                                            <th>Tuesday</th>
+                                            <th>Wednesday</th>
+                                            <th>Thursday</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr>
+                                             <td>1</td>
+                                             {% for shift in form.instance.availability %}
+                                                {% ifequal forloop.counter0|modulo:3 0 %}
+                                                    <td>
+                                                        <input type="checkbox" id="shift{{ forloop.counter0 }}" onclick="updateAvailability({{ forloop.counter0 }})" {% ifequal shift 'o' %}checked{% endifequal %}>
+                                                    </td>
+                                                 {% endifequal %}
+                                             {% endfor %}
+                                         </tr>
+                                         <tr>
+                                             <td>2</td>
+                                             {% for shift in form.instance.availability %}
+                                                {% ifequal forloop.counter0|modulo:3 1 %}
+                                                    <td>
+                                                        <input type="checkbox" id="shift{{ forloop.counter0 }}" onclick="updateAvailability({{ forloop.counter0 }})" {% ifequal shift 'o' %}checked{% endifequal %}>
+                                                    </td>
+                                                 {% endifequal %}
+                                             {% endfor %}
+                                         </tr>
+                                         <tr>
+                                             <td>3</td>
+                                             {% for shift in form.instance.availability %}
+                                                {% ifequal forloop.counter0|modulo:3 2 %}
+                                                    <td>
+                                                        <input type="checkbox" id="shift{{ forloop.counter0 }}" onclick="updateAvailability({{ forloop.counter0 }})" {% ifequal shift 'o' %}checked{% endifequal %}>
+                                                    </td>
+                                                 {% endifequal %}
+                                             {% endfor %}
+                                         </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+{% endblock %}

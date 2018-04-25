@@ -1,21 +1,87 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from .models import Worker
 from production_floor.models import Station
 import networkx as nx
+from . import forms
+import ast
 # Create your views here.
 
 
 def workers_index(request):
-    return render(request, 'worker_page.html', {'nbar': 'workers'})
+    if request.GET:
+        answer = Worker.objects.filter(id__contains=request.GET['query']) | \
+                 Worker.objects.filter(firstName__contains=request.GET['query']) | \
+                 Worker.objects.filter(lastName__contains=request.GET['query']) | \
+                 Worker.objects.filter(email__contains=request.GET['query']) | \
+                 Worker.objects.filter(phone__contains=request.GET['query'])
+        return render(request, 'worker_page.html', {'nbar': 'workers', 'workers': answer,
+                      'query': request.GET['query']})
+    answer = Worker.objects.all()
+    return render(request, 'worker_page.html', {'nbar': 'workers', 'workers': answer})
+
+
+def _not_exist_page(request):
+    return render(request, 'worker_info.html', {'nbar': 'workers',
+                                                'worker': None})
+
+
+def workers_new(request):
+    if request.method == 'POST':
+        form = forms.WorkerNew(request.POST)
+        if form.is_valid():
+            worker = form.save()
+            assign_shifts()
+            return redirect('workers:info', worker.id)
+        else:
+            return render(request, 'worker_new.html', {'nbar': 'workers', 'form': form})
+    return render(request, 'worker_new.html', {'nbar': 'workers', 'form': forms.WorkerNew()})
+
+
+def worker_info(request, worker_id):
+    try:
+        worker = Worker.objects.get(id=worker_id)
+        return render(request, 'worker_info.html', {'nbar': 'workers', 'worker': worker})
+    except ObjectDoesNotExist:
+        return _not_exist_page(request)
+
+
+def worker_edit(request, worker_id):
+    try:
+        instance = Worker.objects.get(id=worker_id)
+        if request.method == 'POST':
+            form = forms.WorkerNew(request.POST or None, instance=instance)
+            if form.is_valid():
+                form.save()
+                assign_shifts()
+                return redirect('workers:info', worker_id)
+            else:
+                return render(request, 'worker_new.html', {'nbar': 'workers',
+                                                           'form': forms.WorkerNew(request.POST), 'edit': True})
+        return render(request, 'worker_new.html', {'nbar': 'workers',
+                                                   'form': forms.WorkerNew(instance=instance), 'edit': True})
+    except ObjectDoesNotExist:
+        return _not_exist_page(request)
+
+
+def worker_delete(request):
+    if request.method == 'GET':
+        return _not_exist_page(request)
+    else:
+        try:
+            worker = Worker.objects.get(id=request.POST['id'])
+            worker.delete()
+            print('deleted')
+            return JsonResponse({'status': 'success'})
+        except:
+            return JsonResponse({'status': 'fail'})
 
 
 def workers_shifts(request):
-    workers_dict = {}
-    for worker in Worker.objects.all():
-        workers_dict[worker.id] = str(worker)
-    return render(request, 'worker_page.html', {'nbar': 'workers', 'shifts': assign_shifts()})
+    with open('./workers/utilities/shifts', 'r') as file:
+        shifts = file.read()
+    return render(request, 'worker_shifts.html', {'nbar': 'workers', 'shifts': ast.literal_eval(shifts)})
 
 
 def create_shifts_graph():
@@ -60,5 +126,7 @@ def assign_shifts():
                         shifts_dict[node[1]] = ''.join(s)
     named_shifts_dict = {}
     for key, value in shifts_dict.items():
-        named_shifts_dict[str(key) + ' - ' +str(Worker.objects.filter(pk=key)[0])] = value
-    return named_shifts_dict
+        named_shifts_dict[str(key) + ' - ' + str(Worker.objects.filter(pk=key)[0])] = value
+    with open('./workers/utilities/shifts', 'w') as file:
+        file.write(str(named_shifts_dict))
+
