@@ -1,12 +1,40 @@
-var sec1='<div class="row"><div class="col-lg-2"><select class="form-control" name="';
-var sec2='"><option style="display: none;" selected>';
-var sec2a ='</option>';
-var sec3='</select></div><div class="col-lg-10"><input name="';
-var sec4='" type="text" class="form-control" placeholder="';
-var sec4a = '"><br></div></div>';
+var sec1='<div class="row">\n' +
+    '       <div class="col-lg-1"><h4>'
+var sec1a ='.</h4></div>\n' +
+    '       <div class="col-lg-3">\n' +
+    '           <div class="input-group">\n' +
+    '               <label>Name:</label>\n' +
+    '               <input type="text" name="pname';
+var sec2='"></div>\n' +
+    '     </div>\n' +
+    '     <div class="col-lg-3">\n' +
+    '       <div class="input-group">\n' +
+    '           <label>Amount:</label>\n' +
+    '           <input type="text" name="pamount';
+var sec3 ='"></div>\n' +
+    '       </div>\n' +
+    '       <label>Processes:</label>\n' +
+    '       <input type="text" name="process';
+var sec4='"><span style="padding:0 10px 0 10px; ">+</span><select onchange="addProcess(this,this.value)">\n' +
+    '       <option style="display: none;" selected>Process</option>';
+var sec5='</select></div>';
+
 var Pindex = 0;
+var Ecounter = 0;
+var stations = [];
 $(document).ready(function () {
-    addProduct();
+    if ($("#Ecounter").val()){
+        Ecounter = Number($("#Ecounter").val());
+    }
+    else{
+        Ecounter = 0;
+    }
+    $.ajax({
+        url: "/api/stations/",
+        success: function(data){
+           stations = JSON.parse(data);
+           addProduct();
+    }});
     $("#addProduct").click(function () {
         addProduct();
         //RefreshListener();
@@ -25,15 +53,26 @@ function RefreshListener() {
     $(".form-control").on("change", handler)
 }
 function addProduct() {
-    console.log(Pindex++);
+     var final=sec1+(Ecounter+Pindex+1)+sec1a+Pindex+sec2+Pindex+sec3+Pindex+sec4;
+	    for (var i in stations){
+	        final+='<option>'+stations[i]+'</option>';
+        }
+        final+=sec5;
+    $(".fields").append(final);
+    Pindex++;
+    document.getElementById('Pcounter').value = Pindex;
 }
 
 function removeProduct() {
     if(Pindex  == 1){
         return;
     }
-    /*$(".fields > .row:last").remove();
+    $(".fields > .row:last").remove();
     Pindex--;
-    document.getElementById('Pcounter').value = Pindex;*/
-    console.log(--Pindex);
+    document.getElementById('Pcounter').value = Pindex;
+}
+
+function addProcess(obj,station){
+    $(obj).siblings()[4].value += station +',';
+    $(obj).prop('selectedIndex', 0);
 }

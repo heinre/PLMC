@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Order
 from clients.models import Client
+from production_floor.models import Product
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from . import forms
@@ -27,6 +28,10 @@ def orders_new(request):
         form = forms.OrderNew(request.POST)
         if form.is_valid():
             order = form.save()
+            for i in range(0, int(request.POST['Pcounter'])):
+                product = Product(name=request.POST['pname'+str(i)], order=order,
+                                  amount=request.POST['pamount'+str(i)], processes=request.POST['process'+str(i)][:-1])
+                product.save()
             return redirect('orders:info', order.id)
         else:
             return render(request, 'order_new.html', {'nbar': 'orders', 'form': form})
@@ -43,7 +48,8 @@ def orders_new(request):
 def order_info(request, order_id):
     try:
         order = Order.objects.get(id=order_id)
-        return render(request, 'order_info.html', {'nbar': 'orders', 'order': order})
+        products = Product.objects.filter(order=order)
+        return render(request, 'order_info.html', {'nbar': 'orders', 'order': order, 'products': products})
     except ObjectDoesNotExist:
         return _not_exist_page(request)
 
@@ -59,8 +65,10 @@ def order_edit(request, order_id):
             else:
                 return render(request, 'order_new.html', {'nbar': 'orders',
                                                            'form': forms.OrderNew(request.POST), 'edit': True})
+        products = Product.objects.filter(order=instance)
         return render(request, 'order_new.html', {'nbar': 'orders',
-                                                   'form': forms.OrderNew(instance=instance), 'edit': True})
+                                                  'form': forms.OrderNew(instance=instance), 'products': products,
+                                                  'edit': True})
     except ObjectDoesNotExist:
         return _not_exist_page(request)
 

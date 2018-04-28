@@ -15,7 +15,7 @@
         <div class="col-lg-6 page-title">
             <h1>
                 {% if edit %}
-                    Edit #{{ form.instance.id }}
+                    Edit Order #{{ form.instance.id }}
                 {% else %}
                     Add a New Order
                 {% endif %}
@@ -54,7 +54,7 @@
                     {% if edit %}
                         <span>{{ form.instance.clientID.name }}</span>
                     {% else %}
-                        <input id="autocomplete-clients">
+                        <input id="autocomplete-clients" onkeyup="resetClientID()">
 
                     {% endif %}
                 </div>
@@ -70,11 +70,59 @@
                 </div>
                 <div class="row">
                     <h3>Products</h3>
+                    {% if edit %}
+                        {% for product in products %}
+                            <div class="row">
+                                <div class="col-lg-1">
+                                    <h4>{{ forloop.counter }}.</h4>
+                                </div>
+                                <div class="col-lg-3">
+                                     <a href="" >
+                                        <div style="display: inline;" class=""><i class="fas fa-wrench"></i></div>
+                                    </a>
+                                    <div style="display: inline-block;" class="input-group">
+                                        <label>Name:</label>
+                                        <span>{{ product.name }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <label>Amount:</label>
+                                        <span>{{ product.amount }}</span>
+                                    </div>
+                                </div>
+                                <label>Processes:</label>
+                                <span>{{ product.processes }}</span>
+
+                            </div>
+                            <input type="hidden" id="Ecounter" name="Ecounter" value="{{ forloop.counter }}">
+                        {% endfor %}
+                    {% endif %}
                     <fieldset>
-                        <legend>3. Products</legend>
                         <input type="hidden" id="Pcounter" name="Pcounter" value="0">
+
                         <div class="fields">
                             <!--reserved for more menues -->
+                            <!--
+                            <div class="row">
+                                <div class="col-lg-1"></div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                    <label>Name:</label>
+                                    <input type="text" name="name#">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                    <label>Amount:</label>
+                                    <input type="text" name="amount#">
+                                    </div>
+                                </div>
+                                <label>Processes:</label>
+                                <input type="text" name="process#">
+                                <select>asdasd</select>
+                            </div>
+                            -->
                         </div>
                         <button type="button" class="btn btn-success" id="addProduct">
                             <span class="glyphicon glyphicon-plus"></span>
@@ -126,6 +174,9 @@
       jQuery.ui.autocomplete.prototype._resizeMenu = function () {
           var ul = this.menu.element;
           ul.outerWidth(this.element.outerWidth());
+        }
+        function resetClientID() {
+          $("#id_clientID").val(0);
         }
 
 </script>

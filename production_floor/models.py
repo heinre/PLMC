@@ -4,11 +4,11 @@ from django.db import models
 
 #todo: build a product model
 class Product(models.Model):
-    productName = models.CharField(max_length=200)
-    orderId = models.ForeignKey('orders.Order', on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+    order = models.ForeignKey('orders.Order', on_delete=models.CASCADE)
     amount = models.IntegerField()
     #executionTime = models.IntegerField() #list of execution times
-    machines = models.TextField() #todo: add parameters of the product to estimate executionTime should consult Itzik
+    processes = models.TextField() #todo: add parameters of the product to estimate executionTime should consult Itzik
 
     # should return a list of machines and another list machines in order
     def parse_machines(self):
@@ -19,7 +19,8 @@ class Product(models.Model):
         pass
 
     def __str__(self):
-        return str(self.productName)
+        return str(self.id) + ' - ' + self.name
+
 
 class Station(models.Model):
     type = models.CharField(max_length=30)

@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.messages import info
 from clients.models import Client
+from production_floor.models import Station
 import mimetypes
 import json
 
@@ -24,6 +25,17 @@ def get_clients(request):
             add_new['label'] = 'Add a new client'
             add_new['value'] = 0
             results.append(add_new)
+        data = json.dumps(results)
+        return HttpResponse(data)
+    return redirect('homepage')
+
+
+def get_stations(request):
+    if request.is_ajax():
+        stations = Station.objects.all().values('type').distinct()
+        results = []
+        for station in stations:
+            results.append(station['type'])
         data = json.dumps(results)
         return HttpResponse(data)
     return redirect('homepage')

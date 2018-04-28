@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^reports/', include('reports.urls', namespace='reports')),
     url(r'^workers/', include('workers.urls', namespace='workers')),
     url(r'^api/clients/', views.get_clients),
+    url(r'^api/stations/', views.get_stations),
 ]
