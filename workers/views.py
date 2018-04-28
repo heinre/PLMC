@@ -73,6 +73,7 @@ def worker_delete(request):
             worker = Worker.objects.get(id=request.POST['id'])
             worker.delete()
             print('deleted')
+            assign_shifts()
             return JsonResponse({'status': 'success'})
         except:
             return JsonResponse({'status': 'fail'})
@@ -85,7 +86,7 @@ def workers_shifts(request):
 
 
 def create_shifts_graph():
-    graph = nx.Graph()
+    graph = nx.DiGraph()
     graph.add_nodes_from(['B', 'T'])
     stations = Station.objects.all()
     # create nodes for each station at shift
@@ -105,7 +106,6 @@ def create_shifts_graph():
                         if worker.availability[day*3+i] == 'o':
                             graph.add_edge(('w', worker.id, day), ('s', station.id, day*3+i), capacity=1)
     return graph
-
 
 def assign_shifts():
     graph = create_shifts_graph()
@@ -129,4 +129,5 @@ def assign_shifts():
         named_shifts_dict[str(key) + ' - ' + str(Worker.objects.filter(pk=key)[0])] = value
     with open('./workers/utilities/shifts', 'w') as file:
         file.write(str(named_shifts_dict))
+
 

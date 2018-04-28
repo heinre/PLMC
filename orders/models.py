@@ -4,9 +4,9 @@ from django.utils import timezone
 
 
 class Order(models.Model):
-    products = models.TextField()
+    #todo: remove products = models.TextField()
     clientID = models.ForeignKey('clients.Client', on_delete=models.CASCADE)
-    processes = models.TextField()
+    # todo: remove processes = models.TextField()
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
     lastChanged = models.DateTimeField(auto_now=True, auto_now_add=False)
     dueDate = models.DateTimeField(null=True, blank=True)

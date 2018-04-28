@@ -57,7 +57,8 @@
             window.location="/workers/"+$(this).children('td')[0].innerHTML;
         });
         $(".clickable-shift-row").dblclick(function() {
-            window.location="/workers/"+$(this).children('td')[0].innerHTML.substr(0,1);
+            str=$(this).children('td')[0].innerHTML;
+            window.location="/workers/"+str.substr(0,str.indexOf('-')-1);
         });
         $("#delete").click(function() {
             $("#deleteModal").modal();
@@ -68,10 +69,11 @@
             $.post("/clients/delete/", {'csrfmiddlewaretoken': $("[name=csrfmiddlewaretoken]").val(), 'id': id},
                 function(data){
                 if (data['status'] == 'success'){
-                    window.location.href = './'
+                    window.location.href = './';
                 }
                 else{
-                    window.location.href = './delete'
+                    window.location.href = './delete';
+
                 }
             });
         }

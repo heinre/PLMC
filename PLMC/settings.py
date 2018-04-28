@@ -25,7 +25,7 @@ SECRET_KEY = '!@#n=c*zhrq721+s4_q*^%zq#i9$or&m&+xv0mc887xx)#$60e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['PLMC']
+ALLOWED_HOSTS = ['PLMC','localhost']
 
 
 # Application definition
