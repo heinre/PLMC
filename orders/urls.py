@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^(?P<order_id>[0-9]+)$', views.order_info, name='info'),
     url(r'^edit/(?P<order_id>[0-9]+)$', views.order_edit, name='edit'),
     url(r'^product/edit/(?P<product_id>[0-9]+)$', p_views.product_edit, name='pedit'),
+    url(r'^product/delete/$', p_views.product_delete, name='pdelete'),
     url(r'^delete/$', views.order_delete),
 ]

@@ -61,14 +61,11 @@ def order_edit(request, order_id):
             form = forms.OrderNew(request.POST or None, instance=instance)
             if form.is_valid():
                 form.save()
-                '''
                 for i in range(0, int(request.POST['Pcounter'])):
                     product = Product(name=request.POST['pname' + str(i)], order=instance,
                                       amount=request.POST['pamount' + str(i)],
                                       processes=request.POST['process' + str(i)][:-1])
                     product.save()
-                    '''
-                print(request.POST)
                 return redirect('orders:info', order_id)
             else:
                 return render(request, 'order_new.html', {'nbar': 'orders',

@@ -95,12 +95,11 @@
                                 <span>{{ product.processes }}</span>
 
                             </div>
-                            <input type="hidden" id="Ecounter" name="Ecounter" value="{{ forloop.counter }}">
                         {% endfor %}
                     {% endif %}
                     <fieldset>
                         <input type="hidden" id="Pcounter" name="Pcounter" value="0">
-
+                        <input type="hidden" id="Ecounter" name="Ecounter" value="{{ products|length }}">
                         <div class="fields">
                             <!--reserved for more menues -->
                             <!--
@@ -146,7 +145,11 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript">
-
+        $(document).ready(function () {
+            {% if not edit %}
+            addProduct();
+            {% endif %}
+        });
         $(function() {
             {% if client %}
                 $("#autocomplete-clients").val('{{ client.name }}');

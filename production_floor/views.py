@@ -3,6 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 #import pulp
 from .models import Product
 from . import forms
+from django.http import JsonResponse
 # Create your views here.
 
 
@@ -22,6 +23,19 @@ def product_edit(request, product_id):
                                                    'form': forms.ProductForm(instance=instance), 'edit': True})
     except ObjectDoesNotExist:
         return _not_exist_page(request)
+
+
+def product_delete(request):
+    if request.method == 'GET':
+        return _not_exist_page(request)
+    else:
+        try:
+            product = Product.objects.get(id=request.POST['id'])
+            product.delete()
+            print('deleted')
+            return JsonResponse({'status': 'success'})
+        except:
+            return JsonResponse({'status': 'fail'})
 
 
 def _not_exist_page(request):

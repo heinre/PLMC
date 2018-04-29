@@ -91,6 +91,20 @@
             });
         }
 
+        function deleteProduct(id, orderId){
+            $("#deleteModal").modal("hide");
+            $.post("/orders/product/delete/", {'csrfmiddlewaretoken': $("[name=csrfmiddlewaretoken]").val(), 'id': id},
+                function(data){
+                if (data['status'] == 'success'){
+                    window.location.href = './../../'+orderId;
+                }
+                else{
+                    window.location.href = './delete';
+
+                }
+            });
+        }
+
         function deleteWorker(id){
             $("#deleteModal").modal("hide");
             $.post("/workers/delete/", {'csrfmiddlewaretoken': $("[name=csrfmiddlewaretoken]").val(), 'id': id},

@@ -33,7 +33,6 @@ $(document).ready(function () {
         url: "/api/stations/",
         success: function(data){
            stations = JSON.parse(data);
-           addProduct();
     }});
     $("#addProduct").click(function () {
         addProduct();
@@ -64,7 +63,7 @@ function addProduct() {
 }
 
 function removeProduct() {
-    if(Pindex  == 1){
+    if(Pindex  == 0){
         return;
     }
     $(".fields > .row:last").remove();
@@ -75,4 +74,19 @@ function removeProduct() {
 function addProcess(obj,station){
     $(obj).siblings()[4].value += station +',';
     $(obj).prop('selectedIndex', 0);
+}
+
+function validateProduct(){
+    for(var i=0; i < Pindex; i++){
+        /*if ($("input[name='pname"+i+"']").val().length < 1 && $("input[name='pamount"+i+"']").val() <= 0
+        && $("input[name='process"+i+"']").val().length < 1){
+            return false;
+        }*/
+        alert($("input[name='pamount"+i+"']").val() < 1) && $("input[name='pamount"+i+"']").val().length < 1 && $.isNumeric($("input[name='pamount0']").val());
+    }
+    return true;
+}
+
+function isProcessList(){
+
 }
