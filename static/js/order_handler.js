@@ -17,7 +17,9 @@ var sec3 ='"></div>\n' +
     '       <input type="text" name="process';
 var sec4='"><span style="padding:0 10px 0 10px; ">+</span><select onchange="addProcess(this,this.value)">\n' +
     '       <option style="display: none;" selected>Process</option>';
-var sec5='</select></div>';
+var sec5='</select><br><div class="row"></div><div id="perror';
+var sec6='" class="row login-error" align="center" style="display:none; margin-bottom: 40px;"><span>Make sure you have named the product, \n' +
+    '        entered an amount bigger than 0 and using a valid processes list.</span></div></div>';
 
 var Pindex = 0;
 var Ecounter = 0;
@@ -29,11 +31,6 @@ $(document).ready(function () {
     else{
         Ecounter = 0;
     }
-    $.ajax({
-        url: "/api/stations/",
-        success: function(data){
-           stations = JSON.parse(data);
-    }});
     $("#addProduct").click(function () {
         addProduct();
         //RefreshListener();
@@ -56,7 +53,7 @@ function addProduct() {
 	    for (var i in stations){
 	        final+='<option>'+stations[i]+'</option>';
         }
-        final+=sec5;
+        final+=sec5+Pindex+sec6;
     $(".fields").append(final);
     Pindex++;
     document.getElementById('Pcounter').value = Pindex;
@@ -76,17 +73,47 @@ function addProcess(obj,station){
     $(obj).prop('selectedIndex', 0);
 }
 
+function validateAndSubmit(){
+    $("#cerror").hide()
+    var client = true;
+    if ($("#id_clientID").val() == ""){
+        $("#cerror").show()
+        client = false;
+    }
+    if (validateProduct() && client){
+        $("#form").submit();
+    }
+}
+
 function validateProduct(){
     for(var i=0; i < Pindex; i++){
-        /*if ($("input[name='pname"+i+"']").val().length < 1 && $("input[name='pamount"+i+"']").val() <= 0
-        && $("input[name='process"+i+"']").val().length < 1){
+        $("#perror"+i).hide()
+        if ($("input[name='pname"+i+"']").val().length < 1 || $("input[name='pamount"+i+"']").val() < 1 || $("input[name='pamount"+i+"']").val().length < 1 || !$.isNumeric($("input[name='pamount0']").val()) || !isProcessList(i)){
+            $("#perror"+i).show()
             return false;
-        }*/
-        alert($("input[name='pamount"+i+"']").val() < 1) && $("input[name='pamount"+i+"']").val().length < 1 && $.isNumeric($("input[name='pamount0']").val());
+        }
     }
     return true;
 }
 
-function isProcessList(){
-
+function isProcessList(index){
+    var list = $("input[name='process"+index+"']").val();
+    if (list.length < 1){
+        return false;
+    }
+    for (var i=0; i<list.length; i++){
+        if (!(i%2)) {
+            if (!stations.includes(list[i])) {
+                return false;
+            }
+        }
+        else{
+            if (list[i] != ','){
+                return false;
+            }
+        }
+    }
+    return true;
 }
+
+

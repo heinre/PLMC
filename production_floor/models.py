@@ -8,7 +8,8 @@ class Product(models.Model):
     order = models.ForeignKey('orders.Order', on_delete=models.CASCADE)
     amount = models.IntegerField()
     #executionTime = models.IntegerField() #list of execution times
-    processes = models.TextField() #todo: add parameters of the product to estimate executionTime should consult Itzik
+    done_processes = models.TextField(blank=True, null=True)
+    processes = models.TextField(blank=True, null=True) #todo: add parameters of the product to estimate executionTime should consult Itzik
 
     # should return a list of machines and another list machines in order
     def parse_machines(self):

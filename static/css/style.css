@@ -216,6 +216,7 @@ th{
 .red-x{
     color: red;
 }
+
 /*==============================================
     DASHBOARD STYLES    
     =============================================*/
@@ -323,3 +324,16 @@ th{
     margin-left: 24px;
     width: 32%;
 }
+
+
+.progress {
+    position: relative;
+}
+
+.progress span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: black;
+    font-size: 1.15em;
+ }

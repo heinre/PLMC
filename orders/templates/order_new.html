@@ -45,18 +45,22 @@
     <div class="row"></div>
     <div class="row">
     <div class="col-lg-2"></div>
-        <form class="new-client-form" action="" method="POST">
+        <form id="form" class="new-client-form" action="" method="POST">
             {% csrf_token %}
             <div class="col-lg-3">
                 <div class="input-group ui-widget">
                     <span>{{ form.clientID.label_tag }}</span>
                     <span style="display: none;">{{ form.clientID }}</span>
+
                     {% if edit %}
                         <span>{{ form.instance.clientID.name }}</span>
                     {% else %}
                         <input id="autocomplete-clients" onkeyup="resetClientID()">
 
                     {% endif %}
+                    <div class="row login-error" style="display: none; font-size: 12px; padding-left: 30%;" id="cerror">
+                        <span>Make sure to choose an existing client.</span>
+                    </div>
                 </div>
                 <div class="input-group">
                     <span>{{ form.dueDate.label_tag }}</span>
@@ -130,7 +134,7 @@
                             <span class="glyphicon glyphicon-minus"></span></button>
                     </fieldset>
                 </div>
-                <input type="submit" id="submit-form" class="hidden">
+                <input type="" onclick="validateAndSubmit()" id="submit-form" class="hidden">
 
         </form>
     </div>
@@ -146,9 +150,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript">
         $(document).ready(function () {
-            {% if not edit %}
-            addProduct();
-            {% endif %}
+                $.ajax({
+                    url: "/api/stations/",
+                    success: function(data){
+                    stations = JSON.parse(data);
+                    {% if not edit %}
+                        addProduct();
+                    {% endif %}
+                }});
+
         });
         $(function() {
             {% if client %}

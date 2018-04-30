@@ -29,8 +29,11 @@ def orders_new(request):
         if form.is_valid():
             order = form.save()
             for i in range(0, int(request.POST['Pcounter'])):
+                processes = request.POST['process'+str(i)]
+                if processes[-1] == ',':
+                    processes = processes[:-1]
                 product = Product(name=request.POST['pname'+str(i)], order=order,
-                                  amount=request.POST['pamount'+str(i)], processes=request.POST['process'+str(i)][:-1])
+                                  amount=request.POST['pamount'+str(i)], processes=processes)
                 product.save()
             return redirect('orders:info', order.id)
         else:

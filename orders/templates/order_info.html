@@ -57,14 +57,14 @@
                     <div class="col-lg-6">
                         <div class="progress">
                             <div class="progress-bar
-                                {% if not order.doneTime %}
+                                {% if not order.get_progress == 100 %}
                                     progress-bar-striped progress-bar-animated active
                                 {% else %}
                                     progress-bar-success
                                 {% endif %}
                                 " role="progressbar" aria-valuenow="{{ order.get_progress }}"
                                 aria-valuemin="0" aria-valuemax="100" style="width:{{ order.get_progress }}%">
-                                {{ order.get_progress }}%
+                                    <span>{{ order.get_progress }}% Complete</span>
                             </div>
                         </div>
                     </div>
@@ -141,7 +141,11 @@
                                                 <tr class="clickabl-order-row">
                                                     <td>{{ product.name }}</td>
                                                     <td>{{ product.amount }}</td>
-                                                    <td>{{ product.processes }}</td>
+                                                    <td>
+                                                        {% if product.done_processes %}
+                                                            <span style="color:green">{{ product.done_processes }}</span>{% endif %}{% if product.done_processes and product.processes %},{% endif %}{% if product.processes %}{{ product.processes }}
+                                                        {% endif %}
+                                                        </td>
                                                 </tr>
                                                 {% endfor %}
                                             {% else %}

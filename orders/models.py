@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.timesince import timesince, timeuntil
 from django.utils import timezone
+from production_floor.models import Product
 
 
 class Order(models.Model):
@@ -42,7 +43,16 @@ class Order(models.Model):
     def get_progress(self):
         if self.doneTime:
             return 100
-        return 50         #write algorithm
+        products = Product.objects.filter(order=self)
+        done = 0
+        undone = 0
+        for product in products:
+            try:
+                done += len(product.done_processes) - product.done_processes.count(',')
+            except:
+                done += 0
+            undone += len(product.processes) - product.processes.count(',')
+        return round(100*done/(done+undone)) if (undone > 0 or done > 0) else 0
 
     def get_cid(self):
         return self.clientID.id
