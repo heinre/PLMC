@@ -3,7 +3,7 @@
             {% if client %}
                 - {{ client.name }}
             {% else %}
-                - Clients
+                - לקוחות
             {% endif %}
 {% endblock %}
 {% block  content %}
@@ -22,27 +22,27 @@
         <ul>
             <li>
                 <a onclick="window.history.back(); return false;" >
-                    <div class="menu-icon"><i class="fas fa-arrow-left"></i></div>
-                    <div class="menu-text">Back</div>
+                    <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
+                    <div class="menu-text">חזרה</div>
                 </a>
             </li>
             {% if client %}
                 <li>
                     <a href="{% url 'clients:edit' client.id %}" >
                         <div class="menu-icon"><i class="fas fa-pencil-alt"></i></div>
-                        <div class="menu-text">Edit</div>
+                        <div class="menu-text">ערוך</div>
                     </a>
                 </li>
                 <li>
                     <a id="delete" >
                         <div class="menu-icon"><i class="fas fa-trash-alt"></i></div>
-                        <div class="menu-text">Delete</div>
+                        <div class="menu-text">מחק</div>
                     </a>
                 </li>
                 <li class="right-menu">
                 <a href="{% url 'orders:new' %}?client={{ client.id }}">
                     <div class="menu-icon"><i class="fas fa-cart-plus"></i></div>
-                    <div class="menu-text">New Order</div>
+                    <div class="menu-text">הזמנה חדשה</div>
                 </a>
             </li>
             {% endif %}
@@ -52,9 +52,13 @@
             {% if client %}
                 <div class="row"></div>
                 <div class="row info">
-                    <div class="col-lg-3"></div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4">
+                        <h3>כתובת</h3>
+                        <p>{{ client.address }}</p>
+                    </div>
                     <div class="col-lg-3">
-                        <h3>Contact Information</h3>
+                        <h3>פרטי התקשרות</h3>
                         <p>{{ client.contactName }}</p>
                         {% if client.contactPhone %}
                             <p>{{ client.contactPhone }}</p>
@@ -63,28 +67,29 @@
                             <p>{{ client.contactEmail }}</p>
                         {% endif %}
                     </div>
-                    <div class="col-lg-2">
-                        <h3>Address</h3>
-                        <p>{{ client.address }}</p>
-                    </div>
-                    <div class="">
-                        <h3>Remarks</h3>
-                        <p>{{ client.remarks }}</p>
-                    </div>
                 </div>
+                {% if client.remarks %}
+                    <div class="row">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-6">
+                            <h3>הערות</h3>
+                            <p>{{ client.remarks }}</p>
+                        </div>
+                    </div>
+                {% endif %}
                 <div class="row info table">
                     <div class="col-lg-2"></div>
                     <div class="col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4>Orders History</h4>
+                                <h4>היסטוריית הזמנות</h4>
                             </div>
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th onclick="sortTable(0,0)">Order #</th>
-                                            <th onclick="sortTable(1,0)">Received</th>
-                                            <th onclick="sortTable(2,0)">Process Time</th>
+                                            <th onclick="sortTable(0,0)"># הזמנה</th>
+                                            <th onclick="sortTable(1,0)">התקבלה לפני</th>
+                                            <th onclick="sortTable(2,0)">זמן עיבוד</th>
                                           </tr>
                                     </thead>
                                     <tbody>
@@ -92,13 +97,13 @@
                                             {% for order in done_orders %}
                                                 <tr class="clickable-order-row">
                                                     <td>{{ order.id }}</td>
-                                                    <td>{{ order.created|timesince }} ago</td>
+                                                    <td>{{ order.created|timesince }}</td>
                                                     <td>{{ order.get_process_time }}</td>
                                                 </tr>
                                                 {% endfor %}
                                             {% else %}
                                             <tr>
-                                                <td colspan="3">No Done Orders</td>
+                                                <td colspan="3">אין הזמנות שהסתיימו</td>
                                             </tr>
                                             {% endif %}
                                     </tbody>
@@ -108,15 +113,15 @@
                     <div class="col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4>Active Orders</h4>
+                                <h4>הזמנות פעילות</h4>
                             </div>
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th onclick="sortTable(0,1)">Order #</th>
-                                            <th onclick="sortTable(1,1)">Received</th>
-                                            <th onclick="sortTable(2,1)">Due In</th>
-                                            <th onclick="sortTable(3,1)">Progress</th>
+                                            <th onclick="sortTable(0,1)"># הזמנה</th>
+                                            <th onclick="sortTable(1,1)">התקבלה לפני</th>
+                                            <th onclick="sortTable(2,1)">יעד לסיום</th>
+                                            <th onclick="sortTable(3,1)">התקדמות</th>
                                           </tr>
                                     </thead>
                                     <tbody>
@@ -128,7 +133,7 @@
                                                     <td>
                                                         {% if order.dueDate %}
                                                             {% if order.late_due %}
-                                                                <span style="font-weight: bold; color:red;">LATE</span>
+                                                                <span style="font-weight: bold; color:red;">איחור</span>
                                                             {% else %}
                                                                 {{ order.get_due_date }}
                                                             {% endif %}
@@ -141,7 +146,7 @@
                                                 {% endfor %}
                                             {% else %}
                                             <tr>
-                                                <td colspan="4">No Active Orders</td>
+                                                <td colspan="4">אין הזמנות פעילות</td>
                                             </tr>
                                             {% endif %}
                                     </tbody>
@@ -158,18 +163,17 @@
                         <div class="modal-content">
                             <div class="modal-body">
                                 <h1><i class="fas fa-exclamation-circle"></i></h1>
-                                <h3>Are you sure you want to delete {{ client.name }}?</h3>
-                                <p>This process will delete any data related to {{ client.name }}, including past
-                                    orders.</p>
-                                <p style="font-weight: bold">This process cannot be undone.</p>
+                                <h3>האם אתה בטוח שברצונך למחוק את הלקוח {{ client.name }}?</h3>
+                                <p>תהליך זה ימחק את כל המידע הקשור ללקוח {{ client.name }}, כולל הזמנות.</p>
+                                <p style="font-weight: bold">לא ניתן לשחזר מידע שנמחק.</p>
                             </div>
                             <div class="modal-footer">
                                 {% csrf_token %}
                                 <button type="button" class="btn btn-danger" onclick="deleteClient({{ client.id }})">
-                                    <i class="fas fa-check"></i> Delete
+                                    <i class="fas fa-check"></i> מחק
                                 </button>
                                 <button type="button" class="btn btn-info" data-dismiss="modal">
-                                    <i class="fas fa-times"></i> Cancel
+                                    <i class="fas fa-times"></i> בטל
                                 </button>
                             </div>
                         </div>
@@ -183,7 +187,7 @@
                     <div class="col-lg-6">
                         <div class="not-exist">
                             <i class="fas fa-ban"></i>
-                            <p>Item Does Not Exist</p>
+                            <p>הלקוח אינו קיים</p>
                         </div>
                     </div>
                 </div>

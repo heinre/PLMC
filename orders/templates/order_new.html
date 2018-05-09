@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}
     {% if edit %}
-        - Edit Order #{{ form.instance.id }}
+        - ערוך את הזמנה #{{ form.instance.id }}
     {% else %}
-        - New Order
+        - הזמנה חדשה
     {% endif %}
 {% endblock %}
 {% block  content %}
@@ -15,9 +15,9 @@
         <div class="col-lg-6 page-title">
             <h1>
                 {% if edit %}
-                    Edit Order #{{ form.instance.id }}
+                    ערוך את הזמנה #{{ form.instance.id }}
                 {% else %}
-                    Add a New Order
+                    הוסף הזמנה חדשה
                 {% endif %}
             </h1>
         </div>
@@ -26,15 +26,15 @@
         <ul>
             <li>
                 <a onclick="window.history.back(); return false;" >
-                    <div class="menu-icon"><i class="fas fa-arrow-left"></i></div>
-                    <div class="menu-text">Back</div>
+                    <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
+                    <div class="menu-text">חזרה</div>
                 </a>
             </li>
             <li>
                 <a href="">
                     <label for="submit-form">
                         <div class="menu-icon"><i class="far fa-save" aria-hidden="true"></i></div>
-                        <div class="menu-text">Save</div>
+                        <div class="menu-text">שמור</div>
                     </label>
                 </a>
             </li>
@@ -44,12 +44,19 @@
 
     <div class="row"></div>
     <div class="row">
-    <div class="col-lg-2"></div>
+    <div class="col-lg-3"></div>
         <form id="form" class="new-client-form" action="" method="POST">
             {% csrf_token %}
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="rtlform">{{ form.remarks.label_tag }}</span>
+                    {{ form.remarks }}
+                </div>
+            </div>
             <div class="col-lg-3">
                 <div class="input-group ui-widget">
-                    <span>{{ form.clientID.label_tag }}</span>
+                    <span class="rtlform"> {{ form.clientID.label_tag }}</span>
                     <span style="display: none;">{{ form.clientID }}</span>
 
                     {% if edit %}
@@ -59,44 +66,50 @@
 
                     {% endif %}
                     <div class="row login-error" style="display: none; font-size: 12px; padding-left: 30%;" id="cerror">
-                        <span>Make sure to choose an existing client.</span>
+                        <span>אנא בחר לקוח הקיים במערכת.</span>
                     </div>
                 </div>
                 <div class="input-group">
-                    <span>{{ form.dueDate.label_tag }}</span>
+                    <span class="rtlform">{{ form.dueDate.label_tag }}</span>
                     {{ form.dueDate }}
 
                 </div>
-            </div>
-                <div class="input-group">
-                    <span>{{ form.remarks.label_tag }}</span>
-                    {{ form.remarks }}
                 </div>
+        </div>
                 <div class="row">
-                    <h3>Products</h3>
+                    <h3 style="padding-right: 10%;">מוצרים</h3>
                     {% if edit %}
                         {% for product in products %}
                             <div class="row">
-                                <div class="col-lg-1">
-                                    <h4>{{ forloop.counter }}.</h4>
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-2">
+                                    <label>תהליכים:</label>
+                                <span>{{ product.processes }}</span>
                                 </div>
-                                <div class="col-lg-3">
-                                     <a href="{% url 'orders:pedit' product.id %}" >
-                                        <div style="display: inline;" class=""><i class="fas fa-wrench"></i></div>
-                                    </a>
-                                    <div style="display: inline-block;" class="input-group">
-                                        <label>Name:</label>
-                                        <span>{{ product.name }}</span>
-                                    </div>
-                                </div>
+
                                 <div class="col-lg-3">
                                     <div class="input-group">
-                                        <label>Amount:</label>
+                                        <span class="rtlform"><label>כמות:</label></span>
                                         <span>{{ product.amount }}</span>
                                     </div>
                                 </div>
-                                <label>Processes:</label>
-                                <span>{{ product.processes }}</span>
+                                <div class="col-lg-3">
+                                    <div style="display: inline-block;" class="input-group">
+                                        <span class="rtlform"><label>שם:</label></span>
+                                        <span>{{ product.name }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1">
+                                    <a href="{% url 'orders:pedit' product.id %}" >
+                                        <div style="display: inline;"><i class="fas fa-wrench"></i></div>
+                                    </a>
+                                    <h4  style="display: inline; margin-right: 10px;">{{ forloop.counter }}.</h4>
+                                </div>
+                                <div class="col-lg-1">
+
+                                </div>
+
+
 
                             </div>
                         {% endfor %}
@@ -105,27 +118,7 @@
                         <input type="hidden" id="Pcounter" name="Pcounter" value="0">
                         <input type="hidden" id="Ecounter" name="Ecounter" value="{{ products|length }}">
                         <div class="fields">
-                            <!--reserved for more menues -->
-                            <!--
-                            <div class="row">
-                                <div class="col-lg-1"></div>
-                                <div class="col-lg-3">
-                                    <div class="input-group">
-                                    <label>Name:</label>
-                                    <input type="text" name="name#">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="input-group">
-                                    <label>Amount:</label>
-                                    <input type="text" name="amount#">
-                                    </div>
-                                </div>
-                                <label>Processes:</label>
-                                <input type="text" name="process#">
-                                <select>asdasd</select>
-                            </div>
-                            -->
+                            <!--reserved for more menus -->
                         </div>
                         <button type="button" class="btn btn-success" id="addProduct">
                             <span class="glyphicon glyphicon-plus"></span>

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-- Orders
+- הזמנות
 {% endblock %}
 {% block  content %}
     <div class="row">
@@ -13,15 +13,15 @@
             {% if query %}
                 <li>
                     <a onclick="window.history.back(); return false;" >
-                        <div class="menu-icon"><i class="fas fa-arrow-left"></i></div>
-                        <div class="menu-text">Back</div>
+                        <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
+                        <div class="menu-text">חזרה</div>
                     </a>
                 </li>
             {% endif %}
             <li>
                 <a href="{% url 'orders:new' %}">
                     <div class="menu-icon"><i class="fas fa-cart-plus"></i></div>
-                    <div class="menu-text">New Order</div>
+                    <div class="menu-text">הזמנה חדשה</div>
                 </a>
             </li>
         </ul>
@@ -36,10 +36,10 @@
                     </span>
                     {% if query %}
                     <input type="text" class="form-control" name='query'
-                        placeholder="Search for Order by Client's name, Client's ID# or order ID#..." value={{ query }}>
+                        placeholder="חפש הזמנה בעזרת שם הלקוח, מספר הלקוח או מספר ההזמנה..." value={{ query }}>
                     {% else %}
                     <input type="text" class="form-control" name='query'
-                           placeholder="Search for Order by Client's name, Client's ID# or order ID#...">
+                           placeholder="חפש הזמנה בעזרת שם הלקוח, מספר הלקוח או מספר ההזמנה...">
                     {% endif %}
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="submit">
@@ -55,29 +55,29 @@
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
             {% if not orders and query %}
-                Nothing found
+                    אין תוצאות
             {% else %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>
                             {{ orders.count }}
                             {% if query %}
-                                Results For Searching '{{ query }}'
+                                תוצאות עבור '{{ query }}'
                             {% else %}
-                                 Active Orders
+                                 הזמנות פעילות
                             {% endif %}
                         </h4>
                     </div>
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th onclick="sortTable(0,0)">ID #</th>
-                                <th onclick="sortTable(1,0)">Client's Name</th>
-                                <th onclick="sortTable(2,0)">Received</th>
+                                <th onclick="sortTable(0,0)"># הזמנה</th>
+                                <th onclick="sortTable(1,0)">שם לקוח</th>
+                                <th onclick="sortTable(2,0)">התקבלה לפני</th>
                                 {% if query %}
-                                    <th onclick="sortTable(3,0)">Process Time</th>
+                                    <th onclick="sortTable(3,0)">זמן עיבוד</th>
                                 {% else %}
-                                    <th onclick="sortTable(3,0)">Due In</th>
+                                    <th onclick="sortTable(3,0)">יעד לסיום</th>
                                 {% endif %}
 
                               </tr>
@@ -87,16 +87,16 @@
                                 <tr class="clickable-order-row">
                                     <td>{{ order.id }}</td>
                                     <td>{{ order.clientID.name }}</td>
-                                    <td>{{ order.created|timesince }} ago</td>
+                                    <td><span >{{ order.created|timesince }}</span></td>
                                     <td>
                                         {% if order.dueDate %}
                                             {% if order.late_due %}
-                                                <span style="font-weight: bold; color:red;">LATE</span>
+                                                <span style="font-weight: bold; color:red;">איחור</span>
                                             {% else %}
-                                                {{ order.get_due_date }}
+                                                <span >{{ order.get_due_date }}</span>
                                             {% endif %}
                                         {% else %}
-                                            {{ order.get_due_date }}
+                                            <span >{{ order.get_due_date }}</span>
                                         {% endif %}
                                     </td>
                                 </tr>

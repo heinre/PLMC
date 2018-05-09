@@ -2,9 +2,9 @@
 {% load PLMC_extras %}
 {% block title %}
     {% if edit %}
-        - Edit {{ form.firstName.value }} {{ form.lastName.value }}
+        - ערוך את העובד {{ form.firstName.value }} {{ form.lastName.value }}
     {% else %}
-        - New Employee
+        - עובד חדש
     {% endif %}
 {% endblock %}
 {% block  content %}
@@ -13,9 +13,9 @@
         <div class="col-lg-6 page-title">
             <h1>
                 {% if edit %}
-                    Edit {{ form.firstName.value }} {{ form.lastName.value }}
+                    ערוך את העובד {{ form.firstName.value }} {{ form.lastName.value }}
                 {% else %}
-                    Add a Employee
+                    הוסף עובד חדש
                 {% endif %}
             </h1>
         </div>
@@ -24,15 +24,15 @@
         <ul>
             <li>
                 <a onclick="window.history.back(); return false;" >
-                    <div class="menu-icon"><i class="fas fa-arrow-left"></i></div>
-                    <div class="menu-text">Back</div>
+                    <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
+                    <div class="menu-text">חזרה</div>
                 </a>
             </li>
             <li>
                 <a href="">
                     <label for="submit-form">
                         <div class="menu-icon"><i class="far fa-save" aria-hidden="true"></i></div>
-                        <div class="menu-text">Save</div>
+                        <div class="menu-text">שמור</div>
                     </label>
                 </a>
             </li>
@@ -47,36 +47,36 @@
             {% csrf_token %}
             <div class="col-lg-3">
                 <div class="input-group">
-                    <span>{{ form.firstName.label_tag }}</span>
-                    {{ form.firstName }}
-
-                </div>
-                <div class="input-group">
-                    <span>{{ form.lastName.label_tag }}</span>
-                    {{ form.lastName }}
-                </div>
-                <div class="input-group">
-                    <span>{{ form.address.label_tag }}</span>
-                    {{ form.address }}
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="input-group">
-                    <span>{{ form.email.label_tag }}</span>
+                    <span class="rtlform">{{ form.email.label_tag }}</span>
                     {{ form.email }}
                 </div>
                 <span class="form-error">{{ form.email.errors }}</span>
                 <div class="input-group">
-                    <span>{{ form.phone.label_tag }}</span>
+                    <span class="rtlform">{{ form.phone.label_tag }}</span>
                     {{ form.phone }}
                 </div>
                 <div class="input-group">
-                    <span>{{ form.skills.label_tag }}</span>
+                    <span class="rtlform">{{ form.skills.label_tag }}</span>
                     {{ form.skills }}
                 </div>
                 <div class="input-group" style="display: none;">
-                    <span>{{ form.availability.label_tag }}</span>
+                    <span class="rtlform">{{ form.availability.label_tag }}</span>
                     {{ form.availability }}
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span class="rtlform">{{ form.firstName.label_tag }}</span>
+                    {{ form.firstName }}
+
+                </div>
+                <div class="input-group">
+                    <span class="rtlform">{{ form.lastName.label_tag }}</span>
+                    {{ form.lastName }}
+                </div>
+                <div class="input-group">
+                    <span class="rtlform">{{ form.address.label_tag }}</span>
+                    {{ form.address }}
                 </div>
             </div>
                 <input type="submit" id="submit-form" class="hidden">
@@ -88,17 +88,17 @@
                     <div class="col-lg-5">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4>Availability</h4>
+                                <h4>זמינות</h4>
                             </div>
                                 <table class="table table-hover table-worker">
                                     <thead>
                                         <tr>
-                                            <th>Shift</th>
-                                            <th>Sunday</th>
-                                            <th>Monday</th>
-                                            <th>Tuesday</th>
-                                            <th>Wednesday</th>
-                                            <th>Thursday</th>
+                                            <th>משמרת</th>
+                                            <th>ראשון</th>
+                                            <th>שני</th>
+                                            <th>שלישי</th>
+                                            <th>רביעי</th>
+                                            <th>חמישי</th>
                                           </tr>
                                     </thead>
                                     <tbody>

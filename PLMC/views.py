@@ -22,7 +22,7 @@ def get_clients(request):
             results.append(client_json)
         if not results:
             add_new = {}
-            add_new['label'] = 'Add a new client'
+            add_new['label'] = 'הוסף לקוח חדש'
             add_new['value'] = 0
             results.append(add_new)
         data = json.dumps(results)

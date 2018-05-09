@@ -28,6 +28,9 @@ body {
     background:#F3F3F3;
    
 }
+.nav-text{
+    margin-right: 15px;
+}
 #page-inner {
     width:100%;
     margin:10px 20px 10px 0px;
@@ -69,6 +72,7 @@ font-size: 16px;
 }
 
 .navbar-side {
+    position: fixed;
 	border:none;
 	background-color: #fff;
 	
@@ -96,7 +100,7 @@ min-height: 80px;
     }
 .user-info{
     color: #214761;
-    float: right;
+    float: left;
     font-size:1.5em;
     font-weight:800;
     margin: 30px 40px 10px 50px;
@@ -106,10 +110,11 @@ min-height: 80px;
 }
 .menu{
     margin-top: 10px;
+    float: right;
 }
 .menu li{
     list-style-type: none;
-    float: left;
+    float: right;
     margin: 0 15px;
 }
 .menu:after{
@@ -185,6 +190,11 @@ th{
   display: inline-block;
   float: left;
 }
+
+.rtlform {
+    float: right;
+    margin-left: -50px;
+}
 .menu label{
     font-weight: normal;
 }
@@ -203,8 +213,16 @@ th{
     text-align: center;
 }
 .right-menu{
-    float: right !important;
-    margin-right: 100px !important;
+    float: left !important;
+    position: absolute;
+    left: 5%;
+    margin-right: 00px !important;
+}
+.input-group-addon, .input-group-btn{
+    transform: scaleX(-1);
+}
+.input-group-addon > i, .input-group-btn > .btn.btn-default > i{
+    transform: scaleX(-1);
 }
 .ui-widget label{
     font-family: 'Open Sans', sans-serif;
@@ -257,7 +275,7 @@ th{
  
  @media(min-width:768px) {
      #page-wrapper{
-               margin: 0 0 0 260px;
+               margin: 0 260px 0 0;
         padding: 15px 30px;
         min-height: 500px;
 		
@@ -269,6 +287,10 @@ th{
         position: absolute;
         width: 260px;
        
+    }
+
+    .navbar-header{
+        float: right;
     }
 
 }
@@ -337,3 +359,15 @@ th{
     color: black;
     font-size: 1.15em;
  }
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5%;
+    color: #214761;
+    background-color: #F3F3F3;
+    text-align: center;
+    padding: 0;
+}

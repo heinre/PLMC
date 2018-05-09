@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-- Workers Shifts
+- משמרות עובדים
 {% endblock %}
 {% block  content %}
     <div class="row">
@@ -12,35 +12,32 @@
         <ul>
             <li>
                 <a onclick="window.history.back(); return false;" >
-                    <div class="menu-icon"><i class="fas fa-arrow-left"></i></div>
-                    <div class="menu-text">Back</div>
+                    <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
+                    <div class="menu-text">חזרה</div>
                 </a>
         </ul>
     </div>
     <div class="row table">
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
-            {% if not orders and query %}
-                Nothing found
-            {% else %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>
-                                 Shifts Assignment
+                                 הקצאת משמרות
                         </h4>
                     </div>
                     <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th colspan="3"></th>
-                                 <th colspan="3" onclick="sortTable(1,0)">Sunday</th>
-                                 <th colspan="3" onclick="sortTable(2,0)">Monday</th>
-                                 <th colspan="3" onclick="sortTable(3,0)">Tuesday</th>
-                                 <th colspan="3" onclick="sortTable(4,0)">Wednesday</th>
-                                 <th colspan="3" onclick="sortTable(5,0)">Thursday</th>
+                                 <th colspan="3" onclick="sortTable(1,0)">ראשון</th>
+                                 <th colspan="3" onclick="sortTable(2,0)">שני</th>
+                                 <th colspan="3" onclick="sortTable(3,0)">שלישי</th>
+                                 <th colspan="3" onclick="sortTable(4,0)">רביעי</th>
+                                 <th colspan="3" onclick="sortTable(5,0)">חמישי</th>
                               </tr>
                             <tr>
-                                <th colspan="3">Employee/Shift</th>
+                                <th colspan="3">עובד/משמרת</th>
                                 {% for i in 'xxxxx'%}
                                     <th>1</th>
                                     <th>2</th>
@@ -66,7 +63,6 @@
                         </tbody>
                     </table>
                 </div>
-            {% endif %}
 
 
 {% endblock %}

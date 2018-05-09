@@ -8,7 +8,7 @@ class OrderNew(forms.ModelForm):
     class Meta:
         model = models.Order
         fields = "__all__"
-        labels = {'clientID': _("Client"), 'dueDate': _("Due Time")}
+        labels = {'clientID': _("לקוח"), 'dueDate': _("יעד לסיום"), 'remarks': _("הערות")}
         widgets = {
             'remarks': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
             'processes': forms.Textarea(attrs={'rows': 4, 'cols': 20}),

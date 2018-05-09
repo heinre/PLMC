@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html dir="rtl">
 <head>
     <meta charset="utf-8" />
     {% load static %}
@@ -37,7 +37,7 @@
                             {{ user.get_username }}
                         {% endif %}
                     <div class="logout-spn" >
-                        <a href="{% url 'logout' %}"><i class="fa fa-power-off"></i> LOGOUT</a>
+                        <a href="{% url 'logout' %}"><i class="fa fa-power-off"></i> התנתק</a>
                     </div>
                 </div>
             </div>
@@ -46,22 +46,22 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
-                        <a {% if nbar == 'orders' %}class="active"{% endif %} href="{% url 'orders:index' %}"><i class="fa fa-edit "></i>Orders <span class="badge"></span></a>
+                        <a {% if nbar == 'orders' %}class="active"{% endif %} href="{% url 'orders:index' %}"><i class="fa fa-edit "></i><span class="nav-text">הזמנות</span></a>
                     </li>
                    
 
                     <li>
-                        <a {% if nbar == 'clients' %}class="active"{% endif %} href="{% url 'clients:index' %}"><i class="fas fa-address-card"></i>Clients  <span class="badge"></span></a>
+                        <a {% if nbar == 'clients' %}class="active"{% endif %} href="{% url 'clients:index' %}"><i class="fas fa-address-card"></i><span class="nav-text">לקוחות</span></a>
                     </li>
                     <li>
-                        <a><i class="fab fa-whmcs "></i>Floor Management  <span class="badge"></span></a>
+                        <a><i class="fab fa-whmcs "></i><span class="nav-text">רצפת יצור</span></a>
                     </li>
                     <li>
-                        <a {% if nbar == 'reports' %}class="active"{% endif %} href="{% url 'reports:index' %}"><i class="fas fa-bar-chart"></i>Reports <span class="badge"></span></a>
+                        <a {% if nbar == 'reports' %}class="active"{% endif %} href="{% url 'reports:index' %}"><i class="fas fa-bar-chart"></i><span class="nav-text">דוחות</span></a>
                     </li>
                     {% if request.user|has_group:"Manager" %}
                         <li>
-                            <a {% if nbar == 'workers' %}class="active"{% endif %} href="{% url 'workers:index' %}"><i class="fa fa-users "></i>Workers <span class="badge"></span></a>
+                            <a {% if nbar == 'workers' %}class="active"{% endif %} href="{% url 'workers:index' %}"><i class="fa fa-users "></i><span class="nav-text">עובדים</span></a>
                         </li>
                     {% endif %}
 
@@ -75,6 +75,9 @@
 
                 {% endblock %}
             </div>
+        </div>
+        <div class="footer">
+            <span>Some text to enter here.......</span>
         </div>
     <!-- JQUERY SCRIPTS -->
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />

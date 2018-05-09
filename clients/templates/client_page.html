@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-- Clients
+- לקוחות
 {% endblock %}
 {% block  content %}
     <div class="row">
@@ -13,15 +13,15 @@
             {% if query %}
                 <li>
                     <a onclick="window.history.back(); return false;" >
-                        <div class="menu-icon"><i class="fas fa-arrow-left"></i></div>
-                        <div class="menu-text">Back</div>
+                        <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
+                        <div class="menu-text">חזרה</div>
                     </a>
                 </li>
             {% endif %}
             <li>
                 <a href="{% url 'clients:new' %}">
                     <div class="menu-icon"><i class="fas fa-user-plus"></i></div>
-                    <div class="menu-text">New Client</div>
+                    <div class="menu-text">לקוח חדש</div>
                 </a>
             </li>
         </ul>
@@ -36,10 +36,10 @@
                     </span>
                     {% if query %}
                     <input type="text" class="form-control" name='query'
-                        placeholder="Search for Client by name, ID or contact information..." value={{ query }}>
+                        placeholder="חפש לקוח בעזרת שם, מספר הלקוח או פרטי התקשרות..." value={{ query }}>
                     {% else %}
                     <input type="text" class="form-control" name='query'
-                           placeholder="Search for Client by name, ID or contact information...">
+                           placeholder="חפש לקוח בעזרת שם, מספר הלקוח או פרטי התקשרות...">
                     {% endif %}
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="submit">
@@ -55,26 +55,26 @@
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
             {% if not clients and query %}
-                Nothing found
+                אין תוצאות
             {% else %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>
                             {{ clients|length }}
                             {% if query %}
-                                Results For Searching '{{ query }}'
+                                תוצאות עבור '{{ query }}'
                             {% else %}
-                                Clients With Active Orders
+                                לקוחות עם הזמנות פעילות
                             {% endif %}
                         </h4>
                     </div>
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th onclick="sortTable(0,0)">ID #</th>
-                                <th onclick="sortTable(1,0)">Name</th>
-                                <th onclick="sortTable(2,0)">Total Orders</th>
-                                <th onclick="sortTable(3,0)">Active Orders</th>
+                                <th onclick="sortTable(0,0)"># לקוח</th>
+                                <th onclick="sortTable(1,0)">שם</th>
+                                <th onclick="sortTable(2,0)">סה"כ הזמנות</th>
+                                <th onclick="sortTable(3,0)">הזמנות פעילות</th>
                               </tr>
                         </thead>
                         <tbody>

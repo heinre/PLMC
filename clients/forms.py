@@ -17,8 +17,8 @@ class ClientNew(forms.ModelForm):
     class Meta:
         model = models.Client
         fields = "__all__"
-        labels = {'contactName': _("Contact Name"), 'contactEmail': _("Contact Email"),
-                  'contactPhone': _("Contact Phone")}
+        labels = {'name': _("שם"), 'address': _("כתובת"), 'contactName': _("שם איש הקשר"), 'contactEmail': _('דוא"ל'),
+                  'contactPhone': _("טלפון איש הקשר"), 'remarks': _("הערות")}
         widgets = {
             'remarks': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
         }

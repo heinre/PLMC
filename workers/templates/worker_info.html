@@ -4,7 +4,7 @@
             {% if worker %}
                 - {{ worker.firstName }} {{ worker.lastName }}
             {% else %}
-                - Workers
+                - עובדים
             {% endif %}
 {% endblock %}
 {% block  content %}
@@ -23,27 +23,27 @@
         <ul>
             <li>
                 <a onclick="window.history.back(); return false;" >
-                    <div class="menu-icon"><i class="fas fa-arrow-left"></i></div>
-                    <div class="menu-text">Back</div>
+                    <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
+                    <div class="menu-text">חזרה</div>
                 </a>
             </li>
             {% if worker %}
                 <li>
                     <a href="{% url 'workers:edit' worker.id %}" >
                         <div class="menu-icon"><i class="fas fa-pencil-alt"></i></div>
-                        <div class="menu-text">Edit</div>
+                        <div class="menu-text">ערוך</div>
                     </a>
                 </li>
                 <li>
                     <a id="delete" >
                         <div class="menu-icon"><i class="fas fa-trash-alt"></i></div>
-                        <div class="menu-text">Delete</div>
+                        <div class="menu-text">מחק</div>
                     </a>
                 </li>
                 <li class="right-menu">
                 <a href="{% url 'workers:shifts' %}">
                     <div class="menu-icon"><i class="far fa-calendar-alt"></i></div>
-                    <div class="menu-text">Shifts</div>
+                    <div class="menu-text">משמרות</div>
                 </a>
             </li>
             {% endif %}
@@ -53,9 +53,15 @@
             {% if worker %}
                 <div class="row"></div>
                 <div class="row info">
-                    <div class="col-lg-3"></div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4">
+                        {% if worker.address %}
+                                <h3>כתובת</h3>
+                                <p>{{ worker.address }}</p>
+                        {% endif %}
+                    </div>
                     <div class="col-lg-3">
-                        <h3>Contact Information</h3>
+                        <h3>פרטי התקשרות</h3>
                         {% if worker.phone %}
                             <p>{{ worker.phone }}</p>
                         {% endif %}
@@ -63,33 +69,32 @@
                             <p>{{ worker.email }}</p>
                         {% endif %}
                     </div>
-                    <div class="col-lg-2">
-                        <h3>Address</h3>
-                            {% if worker.address %}
-                                <p>{{ worker.address }}</p>
-                            {% endif %}
-                    </div>
-                    <div class="col-lg-2">
-                        <h3>Skills</h3>
-                        <p>{{ worker.skills }}</p>
-                    </div>
                 </div>
+                {% if worker.skills %}
+                    <div class="row">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-6">
+                            <h3>כישורים</h3>
+                            <p>{{ worker.skills }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
                 <div class="row info table">
                     <div class="col-lg-3"></div>
                     <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4>Availability</h4>
+                                <h4>זמינות</h4>
                             </div>
                                 <table class="table table-hover table-worker">
                                     <thead>
                                         <tr>
-                                            <th>Shift</th>
-                                            <th>Sunday</th>
-                                            <th>Monday</th>
-                                            <th>Tuesday</th>
-                                            <th>Wednesday</th>
-                                            <th>Thursday</th>
+                                            <th>משמרת</th>
+                                            <th>ראשון</th>
+                                            <th>שני</th>
+                                            <th>שלישי</th>
+                                            <th>רביעי</th>
+                                            <th>חמישי</th>
                                           </tr>
                                     </thead>
                                     <tbody>
@@ -149,17 +154,17 @@
                         <div class="modal-content">
                             <div class="modal-body">
                                 <h1><i class="fas fa-exclamation-circle"></i></h1>
-                                <h3>Are you sure you want to delete {{ worker.firstName }} {{ worker.lastName }}(#{{ worker.id }})?</h3>
-                                <p>This process will delete any data related to {{ worker.firstName }}.</p>
-                                <p style="font-weight: bold">This process cannot be undone.</p>
+                                <h3>האם אתה בטוח שברצונך למחוק את העובד {{ worker.firstName }} {{ worker.lastName }}(#{{ worker.id }})?</h3>
+                                <p>תהליך זה ימחק את כל המידע הקשור לעובד {{ worker.firstName }}.</p>
+                                <p style="font-weight: bold">לא ניתן לשחזר מידע שנמחק.</p>
                             </div>
                             <div class="modal-footer">
                                 {% csrf_token %}
                                 <button type="button" class="btn btn-danger" onclick="deleteWorker({{ worker.id }})">
-                                    <i class="fas fa-check"></i> Delete
+                                    <i class="fas fa-check"></i> מחק
                                 </button>
                                 <button type="button" class="btn btn-info" data-dismiss="modal">
-                                    <i class="fas fa-times"></i> Cancel
+                                    <i class="fas fa-times"></i> בטל
                                 </button>
                             </div>
                         </div>
@@ -173,7 +178,7 @@
                     <div class="col-lg-6">
                         <div class="not-exist">
                             <i class="fas fa-ban"></i>
-                            <p>Item Does Not Exist</p>
+                            <p>העובד אינו קיים</p>
                         </div>
                     </div>
                 </div>

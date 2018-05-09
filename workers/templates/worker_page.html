@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-- Workers
+- עובדים
 {% endblock %}
 {% block  content %}
     <div class="row">
@@ -13,21 +13,21 @@
             {% if query %}
                 <li>
                     <a onclick="window.history.back(); return false;" >
-                        <div class="menu-icon"><i class="fas fa-arrow-left"></i></div>
-                        <div class="menu-text">Back</div>
+                        <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
+                        <div class="menu-text">חזרה</div>
                     </a>
                 </li>
             {% endif %}
             <li>
-                <a href="{% url 'workers:new' %}">
-                    <div class="menu-icon"><i class="fas fa-user-plus"></i></div>
-                    <div class="menu-text">New Employee</div>
+                <a href="{% url 'workers:shifts' %}">
+                    <div class="menu-icon" style=""><i class="far fa-calendar-alt"></i></div>
+                    <div class="menu-text">משמרות</div>
                 </a>
             </li>
             <li>
-                <a href="{% url 'workers:shifts' %}">
-                    <div class="menu-icon" style=""><i class="far fa-calendar-alt"></i></div>
-                    <div class="menu-text">Shifts</div>
+                <a href="{% url 'workers:new' %}">
+                    <div class="menu-icon"><i class="fas fa-user-plus"></i></div>
+                    <div class="menu-text">עובד חדש</div>
                 </a>
             </li>
         </ul>
@@ -38,14 +38,14 @@
              <form class="order-search" action="." method="GET">
                 <div class="input-group">
                     <span class="input-group-addon" id="sizing-addon1">
-                        <i class="fas fa-edit"></i>
+                        <i class="fa fa-users"></i>
                     </span>
                     {% if query %}
                     <input type="text" class="form-control" name='query'
-                        placeholder="Search for Employee by name, ID# or contact details..." value={{ query }}>
+                        placeholder="חפש עובד בעזרת שם, מספר עובד או פרטי התקשרות..." value={{ query }}>
                     {% else %}
                     <input type="text" class="form-control" name='query'
-                           placeholder="Search for Employee by name, ID# or contact details...">
+                           placeholder="חפש עובד בעזרת שם, מספר עובד או פרטי התקשרות...">
                     {% endif %}
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="submit">
@@ -61,25 +61,25 @@
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
             {% if not workers and query %}
-                Nothing found
+                אין תוצאות
             {% else %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>
                             {% if query %}
                             {{ workers.count }}
-                                Results For Searching '{{ query }}'
+                                תוצאות עבור '{{ query }}'
                             {% else %}
-                                 Workers
+                                 עובדים
                             {% endif %}
                         </h4>
                     </div>
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th onclick="sortTable(0,0)">ID #</th>
-                                <th onclick="sortTable(1,0)">Name</th>
-                                <th onclick="sortTable(2,0)">Phone Number</th>
+                                <th onclick="sortTable(0,0)"># עובד</th>
+                                <th onclick="sortTable(1,0)">שם</th>
+                                <th onclick="sortTable(2,0)">טלפון</th>
                               </tr>
                         </thead>
                         <tbody>

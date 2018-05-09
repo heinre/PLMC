@@ -17,7 +17,8 @@ class WorkerNew(forms.ModelForm):
     class Meta:
         model = models.Worker
         fields = "__all__"
-        labels = {'firstName': _("First Name"), 'lastName': _("Last Name")}
+        labels = {'firstName': _("שם פרטי"), 'lastName': _("שם משפחה"), 'address': _("כתובת"), 'email': _('דוא"ל'),
+                  'phone': _("טלפון"), 'skills': _("כישורים")}
         widgets = {
             'skills': forms.TextInput,
         }
