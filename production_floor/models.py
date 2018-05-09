@@ -13,7 +13,8 @@ class Product(models.Model):
 
     # should return a list of machines and another list machines in order
     def parse_machines(self):
-        pass
+        processes_list = self.processes.split(',')
+        return processes_list
 
     # should initialize executionTime field
     def estimate_execution_time(self):
