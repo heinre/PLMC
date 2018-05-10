@@ -2,7 +2,7 @@
 {% load PLMC_extras %}
 {% block title %}
     {% if edit %}
-        - Edit  {{ form.instance.name }}
+        - ערוך את המוצר  {{ form.instance.name }}
     {% else %}
 
     {% endif %}
@@ -13,7 +13,7 @@
         <div class="col-lg-6 page-title">
             <h1>
                 {% if edit %}
-                    Edit {{ form.instance.id }} - {{ form.instance.name }}
+                    ערוך את מוצר #{{ form.instance.id }} - {{ form.instance.name }}
                 {% else %}
 
                 {% endif %}
@@ -24,22 +24,22 @@
         <ul>
             <li>
                 <a onclick="window.history.back(); return false;" >
-                    <div class="menu-icon"><i class="fas fa-arrow-left"></i></div>
-                    <div class="menu-text">Back</div>
+                    <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
+                    <div class="menu-text">חזרה</div>
                 </a>
             </li>
             <li>
                 <a href="">
                     <label for="submit-form">
                         <div class="menu-icon"><i class="far fa-save" aria-hidden="true"></i></div>
-                        <div class="menu-text">Save</div>
+                        <div class="menu-text">שמור</div>
                     </label>
                 </a>
             </li>
             <li>
                 <a id="delete" >
                     <div class="menu-icon"><i class="fas fa-trash-alt"></i></div>
-                    <div class="menu-text">Delete</div>
+                    <div class="menu-text">מחק</div>
                 </a>
             </li>
         </ul>
@@ -47,23 +47,25 @@
     </div>
     <div class="row"></div>
     <div class="row">
-    <div class="col-lg-2"></div>
+    <div class="col-lg-3"></div>
         <form class="new-client-form" action="" method="POST">
             {% csrf_token %}
             <div class="col-lg-3">
                 <div class="input-group">
+                    <span class="rtlform">{{ form.processes.label_tag }}</span>
+                    {{ form.processes }}
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="input-group">
                     <span style="display: none;">{{ form.order }}</span>
-                    <span>{{ form.name.label_tag }}</span>
+                    <span class="rtlform">{{ form.name.label_tag }}</span>
                     {{ form.name }}
 
                 </div>
                 <div class="input-group">
-                    <span>{{ form.amount.label_tag }}</span>
+                    <span class="rtlform">{{ form.amount.label_tag }}</span>
                     {{ form.amount }}
-                </div>
-                <div class="input-group">
-                    <span>{{ form.processes.label_tag }}</span>
-                    {{ form.processes }}
                 </div>
             </div>
                 <input type="submit" id="submit-form" class="hidden">
@@ -75,16 +77,16 @@
         <div class="modal-content">
             <div class="modal-body">
                 <h1><i class="fas fa-exclamation-circle"></i></h1>
-                <h3>Are you sure you want to delete product #{{ form.instance.id }}?</h3>
-                <p style="font-weight: bold">This process cannot be undone.</p>
+                <h3>האם אתה בטוח שברצונך למחוק את מוצר #{{ form.instance.id }}?</h3>
+                <p style="font-weight: bold">לא ניתן לשחזר מידע שנמחק.</p>
             </div>
             <div class="modal-footer">
                 {% csrf_token %}
                 <button type="button" class="btn btn-danger" onclick="deleteProduct({{ form.instance.id }}, {{ form.instance.order.id }})">
-                    <i class="fas fa-check"></i> Delete
+                    <i class="fas fa-check"></i> מחק
                 </button>
                 <button type="button" class="btn btn-info" data-dismiss="modal">
-                    <i class="fas fa-times"></i> Cancel
+                    <i class="fas fa-times"></i> בטל
                 </button>
             </div>
         </div>

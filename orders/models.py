@@ -48,10 +48,10 @@ class Order(models.Model):
         undone = 0
         for product in products:
             try:
-                done += len(product.done_processes) - product.done_processes.count(',')
+                done += (len(product.done_processes) - product.done_processes.count(',')) * product.amount
             except:
                 done += 0
-            undone += len(product.processes) - product.processes.count(',')
+            undone += (len(product.processes) - product.processes.count(',')) * product.amount
         return round(100*done/(done+undone)) if (undone > 0 or done > 0) else 0
 
     def get_cid(self):
