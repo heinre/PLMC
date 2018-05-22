@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}
+                - רצפת ייצור
+{% endblock %}
+{% block  content %}
+    <!-- MENU -->
+    <div class="menu">
+        <ul>
+            <li>
+                <a onclick="window.history.back(); return false;" >
+                    <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
+                    <div class="menu-text">חזרה</div>
+                </a>
+            </li>
+        </ul>
+
+<div class="row"></div>
+<!-- CONTENT -->
+        {% if station %}
+        {% else %}
+                <div class="row"></div>
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-6">
+                        <div class="not-exist">
+                            <i class="fas fa-ban"></i>
+                            <p>התחנה אינה קיימת</p>
+                        </div>
+                    </div>
+                </div>
+        {% endif %}
+
+
+
+{% endblock %}

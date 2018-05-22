@@ -15,9 +15,20 @@ var sec4='"></div></div> \n'+
     '       <input type="text" name="pname';
 var sec5='"></div></div> \n' +
     '<div class="col-lg-1"><h4>';
-var sec6='.</h4></div><div class="row"></div><div id="perror';
-var sec7='" class="row login-error" align="center" style="display:none; margin-bottom: 40px;"> \n' +
+var sec6='.</h4></div><div class="row"><div class="col-lg-3"></div>' +
+    '<div class="col-lg-1"><input type="checkbox" name="packed" onclick="updateParameters(this,4)"><label>ארוז</label></div>' +
+    '<div class="col-lg-1"><input type="checkbox" name="oilled" onclick="updateParameters(this,3)"><label>משומן</label></div>' +
+    '<div class="col-lg-2"><label>קושי עבודה</label><select onchange="updateParameters(this,2)">' +
+    '<option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>' +
+    '</div>' +
+    '<div class="col-lg-2"><label>שטח ריתוך/סימון (סמ"ר)</label><input type="text" style="width: 80px;" onkeyup="updateParameters(this,1)"></div>' +
+    '<div class="col-lg-2"><label>חומר</label><select onchange="updateParameters(this,0)">' +
+    '<option value="0">PVC</option><option value="1">Aluminum</option><option value="3">Copper</option></select></div>' +
+    '<input type="text" name="parameters';
+var sec7='" value="0,0,1,0,0"></div><div id="perror';
+var sec8='" class="row login-error" align="center" style="display:none; margin-bottom: 40px;"> \n' +
     '<span>אנא וודא שנתת למוצר שם, כמות גדולה מ-0 ורשימת תהליכים חוקית.</span></div></div>';
+
 /*
 var sec1='<div class="row">\n' +
     '       <div class="col-lg-1"></div><div class="col-lg-3"><label>תהליכים:</label><input type="text" name="process';
@@ -78,7 +89,7 @@ function addProduct() {
         for (var i in stations){
 	        final+='<option>'+stations[i]+'</option>';
         }
-        final+=sec3+Pindex+sec4+Pindex+sec5+(Ecounter+Pindex+1)+sec6+Pindex+sec7;
+        final+=sec3+Pindex+sec4+Pindex+sec5+(Ecounter+Pindex+1)+sec6+Pindex+sec7+Pindex+sec8;
     $(".fields").append(final);
     Pindex++;
     document.getElementById('Pcounter').value = Pindex;
@@ -142,4 +153,26 @@ function isProcessList(index){
     return true;
 }
 
+function updateParameters(obj,index){
+    $element = $(obj)
+    var params = $element.closest(".row").find("input[name*='parameters']");
+    var parametersField = params.val().split(',');
+    switch (index){
+        case 4:
+        case 3:
+            if ($element.is(':checked')){
+                parametersField[index] = 1;
+            }
+            else{
+             parametersField[index] = 0;
+            }
+            break;
+        default:
+
+            parametersField[index] = obj.value ? obj.value : 0;
+    }
+    a = parametersField.join(',');
+    params.val(a);
+    console.log(a);
+}
 

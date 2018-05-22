@@ -105,6 +105,19 @@
             });
         }
 
+        function deleteStation(id){
+            $("#deleteModal").modal("hide");
+            $.post("/productionFloor/stations/delete/", {'csrfmiddlewaretoken': $("[name=csrfmiddlewaretoken]").val(), 'id': id},
+                function(data){
+                if (data['status'] == 'success'){
+                    window.location.href = '../'
+                }
+                else{
+                    window.location.href = './delete'
+                }
+            });
+        }
+
         function deleteWorker(id){
             $("#deleteModal").modal("hide");
             $.post("/workers/delete/", {'csrfmiddlewaretoken': $("[name=csrfmiddlewaretoken]").val(), 'id': id},

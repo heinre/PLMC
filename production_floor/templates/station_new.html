@@ -2,9 +2,9 @@
 {% load PLMC_extras %}
 {% block title %}
     {% if edit %}
-        - ערוך את המוצר  {{ form.instance.name }}
+        - ערוך את תחנה  {{ form.instance.id }}
     {% else %}
-
+הוספת תחנה חדשה
     {% endif %}
 {% endblock %}
 {% block  content %}
@@ -13,9 +13,9 @@
         <div class="col-lg-6 page-title">
             <h1>
                 {% if edit %}
-                    ערוך את מוצר #{{ form.instance.id }} - {{ form.instance.name }}
+                    ערוך את תחנה #{{ form.instance.id }}
                 {% else %}
-
+הוספת תחנה חדשה
                 {% endif %}
             </h1>
         </div>
@@ -36,12 +36,14 @@
                     </label>
                 </a>
             </li>
+            {% if edit %}
             <li>
                 <a id="delete" >
                     <div class="menu-icon"><i class="fas fa-trash-alt"></i></div>
                     <div class="menu-text">מחק</div>
                 </a>
             </li>
+            {% endif %}
         </ul>
 
     </div>
@@ -52,30 +54,11 @@
             {% csrf_token %}
             <div class="col-lg-3">
                 <div class="input-group">
-                    <span class="rtlform">{{ form.done_processes.label_tag }}</span>
-                    {{ form.done_processes }}
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="input-group">
-                    <span class="rtlform">{{ form.processes.label_tag }}</span>
-                    {{ form.processes }}
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="input-group">
-                    <span style="display: none;">{{ form.order }}</span>
-                    <span class="rtlform">{{ form.name.label_tag }}</span>
-                    {{ form.name }}
-
-                </div>
-                <div class="input-group">
-                    <span class="rtlform">{{ form.amount.label_tag }}</span>
-                    {{ form.amount }}
+                    <span class="rtlform">{{ form.type.label_tag }}</span>
+                    {{ form.type }}
                 </div>
             </div>
                 <input type="submit" id="submit-form" class="hidden">
-
         </form>
     </div>
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -83,12 +66,12 @@
         <div class="modal-content">
             <div class="modal-body">
                 <h1><i class="fas fa-exclamation-circle"></i></h1>
-                <h3>האם אתה בטוח שברצונך למחוק את מוצר #{{ form.instance.id }}?</h3>
+                <h3>האם אתה בטוח שברצונך למחוק את תחנה #{{ form.instance.id }}?</h3>
                 <p style="font-weight: bold">לא ניתן לשחזר מידע שנמחק.</p>
             </div>
             <div class="modal-footer">
                 {% csrf_token %}
-                <button type="button" class="btn btn-danger" onclick="deleteProduct({{ form.instance.id }}, {{ form.instance.order.id }})">
+                <button type="button" class="btn btn-danger" onclick="deleteStation({{ form.instance.id }})">
                     <i class="fas fa-check"></i> מחק
                 </button>
                 <button type="button" class="btn btn-info" data-dismiss="modal">
