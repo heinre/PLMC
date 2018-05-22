@@ -226,8 +226,13 @@ th{
 }
 .right-menu{
     float: left !important;
-    margin-left: 7% !important;
 }
+
+.right-menu.first-item{
+    float: left !important;
+    margin-left: 5% !important;
+}
+
 .input-group-addon, .input-group-btn{
     transform: scaleX(-1);
 }

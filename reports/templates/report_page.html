@@ -1,8 +1,75 @@
 {% extends 'base.html' %}
 {% block title %}
-- Reports
+- טפסים
 {% endblock %}
-{% block  content%}
-<h1>Reports</h1>
+{% block  content %}
+    <div class="row">
+        <div class="col-lg-6 page-title">
+            <h1></h1>
+        </div>
+    </div>
+    <div class="row search">
+    </div><!-- /.row -->
+
+    {% if not error %}
+        <div class="row table">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4>
+                                {% if not orders %}
+                                            תור טפסי C.O.C
+                                {% else %}
+                                    {{ orders|length }} הזמנות בתור ליצירת C.O.C
+                                {% endif %}
+                            </h4>
+                        </div>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable(0,0)"># הזמנה</th>
+                                    <th onclick="sortTable(1,0)">לקוח</th>
+                                    <th onclick="sortTable(2,0)">הסתיימה לפני</th>
+                                  </tr>
+                            </thead>
+                            <tbody>
+                            {% if orders %}
+                                {% for order in orders %}
+                                    <tr class="clickable-coc-row">
+                                        <td>{{ order.id }}</td>
+                                        <td>{{ order.clientID.name }}</td>
+                                        <td>{{  order.doneTime|timesince }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="4">אין הזמנות בתור</td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+
+            </div>
+        </div>
+    {% else %}
+        <!-- NOT EXISTS MESSAGE -->
+        <div class="row"></div>
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <div class="not-exist">
+                    <i class="fas fa-ban"></i>
+                    {% ifequal error 'notFinished' %}
+                        <p>ההזמנה עוד לא הסתיימה</p>
+                    {% else %}
+                        <p>ההזמנה לא קיימת</p>
+                    {% endifequal %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
 {% endblock %}

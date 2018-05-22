@@ -4,12 +4,10 @@
 /*=============================================================
     Authour URI: www.binarytheme.com
     License: Commons Attribution 3.0
-
     http://creativecommons.org/licenses/by/3.0/
-
     100% To use For Personal And Commercial Use.
     IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
-   
+
     ========================================================  */
 
 
@@ -18,7 +16,7 @@
     var mainApp = {
 
         main_fun: function () {
-           
+
             /*====================================
               LOAD APPROPRIATE MENU BAR
            ======================================*/
@@ -30,8 +28,8 @@
                 }
             });
 
-          
-     
+
+
         },
 
         initialization: function () {
@@ -52,6 +50,9 @@
         });
         $(".clickable-order-row").dblclick(function() {
             window.location="/orders/"+$(this).children('td')[0].innerHTML;
+        });
+        $(".clickable-coc-row").dblclick(function() {
+        window.location = "/reports/coc/" +$(this).children('td')[0].innerHTML;
         });
         $(".clickable-worker-row").dblclick(function() {
             window.location="/workers/"+$(this).children('td')[0].innerHTML;

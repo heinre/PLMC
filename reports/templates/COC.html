@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="hw" >
+{% load staticfiles %}
+
+<head>
+
+  <meta charset="UTF-8">
+  <title>COC</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+
+      <link rel="stylesheet" href="{% static 'css/coc.css' %}">
+
+
+</head>
+
+<body>
+
+<div class="container">
+  <form id="myForm" action="/action_page.php">
+    <div class="row">
+
+      <h4><img src="file:\\\{{ s }}\img\topShoham.jpg" align = "center" style="width: 100%;" alt="top"></h4>
+
+      <div class="col-To"> <h4>
+      	<div align="right"></div>
+          {{ s }}
+          {{ order.clientID.name }}
+        <div align="right"></div>
+      </div></h4>
+
+      <div class="col-date"> <h4>
+        <input/>
+        <div align="center">תאריך</div>
+      </div></h4>
+
+      <h4 align="center"><div><u>COC אישור התאמה</u></div>
+      <div>CERTIFICAL OF COMPLIANCE</div></h4>
+
+
+
+      <div align="right" style="color:#1B4F72"><b>:מספר הזמנה</b></div>
+      <div class="input-group input-group-icon">
+        {{ order.id }}
+        <div class="input-icon" align="right"><i class="fa fa-barcode"></i></div>
+      </div>
+      <div align="right" style="color:#1B4F72"><b>:מספר שרטוט וגרסא</b></div>
+      <div class="input-group input-group-icon">
+        <input type="text" name="version_number" placeholder="מספר שרטוט וגרסא"/>
+        <div class="input-icon"><i class="fa fa-folder-open-o "></i></div>
+      </div>
+      <div align="right" style="color:#1B4F72"><b>:מקט מוצר\ מקט לקוח</b></div>
+      <div class="input-group input-group-icon">
+        <input type="text" name="product_number" placeholder="מקט מוצר\ מקט לקוח"/>
+        <div class="input-icon"><i class="fa fa-user"></i></div>
+      </div>
+      <div align="right" style="color:#1B4F72"><b>:תיאור מוצר \ תהליך</b></div>
+      <div class="input-group input-group-icon">
+        <input type="text" list="proc" placeholder="תיאור מוצר \ תהליך"/>
+        <datalist id="proc">
+          <select style="text-align:right; font-size:8px;">
+          <option value="ליזר"> </option>
+          <option value="ריתוך"> </option>
+          <option value="שטיפה"> </option>
+          </select>
+  </datalist>
+        <div class="input-icon"><i class="fa fa-pencil"></i></div>
+      </div>
+      <div align="right" style="color:#1B4F72"><b>:חשבונית \ תעודת משלוח</b></div>
+      <div class="input-group input-group-icon" align="right">
+        <input type="text" name="shipping" placeholder="חשבונית \ תעודת משלוח"/>
+        <div class="input-icon"><i class="fa fa-file-text-o "></i></div>
+      </div>
+      <div align="right" style="color:#1B4F72"><b>:כמות</b></div>
+      <div class="input-group input-group-icon">
+        <input type="text" mane="count" placeholder="כמות"/>
+        <div class="input-icon"><i class="fa fa-database"></i></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-half">
+        <h4 align="right" style="color:#1B4F72">תאריך פג תוקף</h4>
+        <div class="input-group">
+          <div class="col-third">
+            <input name="DDexp" type="text" placeholder="DD"/>
+          </div>
+          <div class="col-third" >
+            <input name="MMexp" type="text" placeholder="MM"/>
+          </div>
+          <div class="col-third">
+            <input name="YYexp" type="text" placeholder="YYYY"/>
+          </div>
+        </div>
+      </div>
+      <div class="col-half">
+        <h4 align="right" style="color:#1B4F72">תהליך ייצור \ ביצוע תהליך</h4>
+                <div class="input-group">
+          <div class="col-third">
+            <input name="DDpro" type="text" placeholder="DD"/>
+          </div>
+          <div class="col-third">
+            <input name="MMpro" type="text" placeholder="MM"/>
+          </div>
+          <div class="col-third">
+            <input name="YYpro" type="text" placeholder="YYYY"/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <h4 align="right">הערות</h4>
+           <div class="input-group">
+        <input name="remark" type="textbox"/>
+      </div>
+    <div class="row">
+      <div class="input-group">
+        <div for="terms" align="center">.תנאי האחסון לכימיקלים בלבד</div>
+        <div for="terms" align="center">.מחסן מאורר , טמפרטורת אחסנה עד 25 מעלות</div>
+        <div for="terms" align="center">.אנא שימו לב - זהירות חומר דליק</div>
+        <div for="terms" align="center">.מוצר זה עומד בדרישות הלקוח או הלקוח ונבדק לפני שיגורו</div>
+         <h4><img src="{% static 'img/Shoham.jpg' %}" align = "center" style="width: 100%;" alt="top"></h4>
+      </div>
+    </div>
+    <div align="center">
+  </form>
+</div>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+</div>
+    <script  src="js/index.js">
+    </script>
+
+</body>
+
+</html>
