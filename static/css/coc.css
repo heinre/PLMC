@@ -19,7 +19,7 @@ input[type="checkbox"] + label:before,
 select option,
 select {
   width: 100%;
-  padding: 1em;
+  padding: 0.8em;
   line-height: 1.4;
   background-color: #f9f9f9;
   border: 1px solid #1B4F72;

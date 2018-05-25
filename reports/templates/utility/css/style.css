@@ -1,0 +1,64 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 15px;
+}
+h4 {
+  color: #1B4F72;
+  font-size: 15px;
+}
+
+
+
+select:focus,
+select:active {
+  outline: 0;
+}
+
+
+.input-group {
+  margin-bottom: 2.5em;
+  zoom: 1;
+  text-align: right;
+}
+.input-group:before,
+.input-group:after {
+  content: "";
+  display: table;
+}
+.input-group:after {
+  clear: both;
+}
+.input-group-icon {
+  position: relative;
+}
+
+
+.container {
+  background: white;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 0.5cm;
+  width: 21cm;
+  height: 34cm; 
+  position: relative;
+}
+
+.col-To {
+  padding-right: 10px;
+  float: right;
+  width: 50%;
+}
+.col-date {
+  padding-right: 10px;
+  float: right;
+  width: 50%;
+}
+
+@media only screen and (max-width: 540px) {
+
+}

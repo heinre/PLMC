@@ -52,7 +52,7 @@
             window.location="/orders/"+$(this).children('td')[0].innerHTML;
         });
         $(".clickable-coc-row").dblclick(function() {
-        window.location = "/reports/coc/" +$(this).children('td')[0].innerHTML;
+        window.open("/reports/coc/" +$(this).children('td')[0].innerHTML);
         });
         $(".clickable-worker-row").dblclick(function() {
             window.location="/workers/"+$(this).children('td')[0].innerHTML;

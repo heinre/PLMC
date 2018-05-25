@@ -207,6 +207,11 @@ th{
     float: right;
     margin-left: -50px;
 }
+.rtlform:after{
+    content: '';
+    display: block;
+    clear: both;
+}
 .menu label{
     font-weight: normal;
 }

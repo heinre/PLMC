@@ -19,28 +19,30 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4>
-                                {% if not orders %}
+                                {% if not products %}
                                             תור טפסי C.O.C
                                 {% else %}
-                                    {{ orders|length }} הזמנות בתור ליצירת C.O.C
+                                    {{ products|length }} מוצרים בתור ליצירת C.O.C
                                 {% endif %}
                             </h4>
                         </div>
                         <table class="table table-hover">
                             <thead>
                                 <tr>
+                                    <th onclick="sortTable(0,0)"># מוצר</th>
+                                    <th onclick="sortTable(2,0)">מוצר</th>
                                     <th onclick="sortTable(0,0)"># הזמנה</th>
                                     <th onclick="sortTable(1,0)">לקוח</th>
-                                    <th onclick="sortTable(2,0)">הסתיימה לפני</th>
                                   </tr>
                             </thead>
                             <tbody>
-                            {% if orders %}
-                                {% for order in orders %}
+                            {% if products %}
+                                {% for product in products %}
                                     <tr class="clickable-coc-row">
-                                        <td>{{ order.id }}</td>
-                                        <td>{{ order.clientID.name }}</td>
-                                        <td>{{  order.doneTime|timesince }}</td>
+                                        <td>{{ product.id }}</td>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.order.id }}</td>
+                                        <td>{{ product.order.clientID.name }}</td>
                                     </tr>
                                 {% endfor %}
                             {% else %}
@@ -63,9 +65,9 @@
                 <div class="not-exist">
                     <i class="fas fa-ban"></i>
                     {% ifequal error 'notFinished' %}
-                        <p>ההזמנה עוד לא הסתיימה</p>
+                        <p>המוצר לא סיים עיבוד בכל התחנות</p>
                     {% else %}
-                        <p>ההזמנה לא קיימת</p>
+                        <p>המוצר אינו קיים</p>
                     {% endifequal %}
                 </div>
             </div>

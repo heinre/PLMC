@@ -22,6 +22,7 @@ class Product(models.Model):
     amount = models.IntegerField()
     parameters = models.TextField(blank=True, null=True)
     done_processes = models.TextField(blank=True, null=True)
+    coc = models.FileField(upload_to='media/coc', null=True, blank=True)
     processes = models.TextField(blank=True, null=True)
 
     # should return a list of machines and another list machines in order

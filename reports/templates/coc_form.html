@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="hw" >
+{% load static %}
+<head>
+
+  <meta charset="UTF-8">
+  <title>Shoham PLMC - C.O.C יצירת</title>
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+
+      <link rel="stylesheet" href="{% static 'css/coc.css' %}">
+
+  
+</head>
+
+<body>
+
+<div class="container">
+  <form id="cocForm" action="./{{ product.id }}" method="POST">
+      {% csrf_token %}
+    <div class="row">
+        <h4 align="center" dir="rtl">יצירת טופס C.O.C עבור {{ product.name }}</h4>
+        <div align="right" style="color:#1B4F72"><b>:מספר הזמנה</b></div>
+        <div class="input-group input-group-icon">
+            <input style="background-color: #e6ffcc;" align="right" name="order_number" type="text" value="{{ product.order.id }}" disabled />
+            <input style="display: none" name="product" type="text" value="{{ product.id }}" />
+            <div class="input-icon" align="right"><i class="fa fa-barcode"></i></div>
+        </div>
+        <div align="right" style="color:#1B4F72"><b>:לקוח</b></div>
+        <div class="input-group input-group-icon">
+            <input style="background-color: #e6ffcc;" align="right" name="client" type="text" value="{{ product.order.clientID.name }}" disabled />
+            <div class="input-icon" align="right"><i class="fa fa-user"></i></div>
+        </div>
+        <div align="right" style="color:#1B4F72"><b>:מספר שרטוט וגרסא</b></div>
+        <div class="input-group input-group-icon">
+            <input dir="auto" type="text" name="version_number" placeholder="מספר שרטוט וגרסא"/>
+            <div class="input-icon"><i class="fa fa-folder-open-o "></i></div>
+        </div>
+        <div align="right" style="color:#1B4F72"><b>:מקט מוצר / מקט לקוח</b></div>
+        <div class="input-group input-group-icon">
+            <input type="text" name="product_number" placeholder="מקט מוצר / מקט לקוח"/>
+            <div class="input-icon"><i class="fa fa-barcode"></i></div>
+        </div>
+        <div align="right" style="color:#1B4F72"><b>:תיאור מוצר / תהליך</b></div>
+        <div class="input-group input-group-icon">
+            <input dir="auto" type="text" name="processes" value="{{ product.done_processes }}"/>
+            <div class="input-icon"><i class="fa fa-pencil"></i></div>
+        </div>
+        <div align="right" style="color:#1B4F72"><b>:חשבונית / תעודת משלוח</b></div>
+        <div class="input-group input-group-icon" align="right">
+            <input type="text" name="shipping" placeholder="חשבונית / תעודת משלוח"/>
+            <div class="input-icon"><i class="fa fa-file-text-o "></i></div>
+        </div>
+        <div align="right" style="color:#1B4F72"><b>:כמות</b></div>
+        <div class="input-group input-group-icon">
+            <input type="text" name="amount" value="{{ product.amount }}"/>
+            <div class="input-icon"><i class="fa fa-database"></i></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-half">
+            <h4 align="right" style="color:#1B4F72">תאריך פג תוקף</h4>
+            <div class="input-group">
+                <div class="col-third">
+                    <input name="DDexp" type="text" placeholder="DD" onkeyup="checkDateValidity()"/>
+                </div>
+                <div class="col-third" >
+                    <input name="MMexp" type="text" placeholder="MM" onkeyup="checkDateValidity()"/>
+                </div>
+                <div class="col-third">
+                    <input name="YYexp" type="text" placeholder="YYYY" onkeyup="checkDateValidity()"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-half">
+            <h4 align="right" style="color:#1B4F72">תאריך ייצור / ביצוע תהליך</h4>
+            <div class="input-group">
+                <div class="col-third">
+                    <input name="DDpro" type="text" placeholder="DD" onkeyup="checkDateValidity()"/>
+                </div>
+                <div class="col-third">
+                    <input name="MMpro" type="text" placeholder="MM" onkeyup="checkDateValidity()"/>
+                </div>
+                <div class="col-third">
+                    <input name="YYpro" type="text" placeholder="YYYY" onkeyup="checkDateValidity()"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h4 align="right">הערות</h4>
+        <div class="input-group">
+            <textarea name="remarks" form="cocForm" dir="rtl" style="width: 100%; height: 100px; resize: none;"></textarea>
+        </div>
+    </div>
+      <div style="color: red; font-weight: bold;" align="center" dir="rtl">שדות ריקים לא יופיעו בטופס שיווצר.</div>
+      <div  style="width: 50%; margin: 0 auto; margin-top:30px;">
+        <input style="text-align: center; background-color: #4CAF50" type="submit" value="צור טופס" id="submit">
+      </div>
+  </form>
+</div>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script>
+        function checkDateValidity(){
+            var day,month,year;
+            day = document.getElementsByName('DDexp')[0].value;
+            month= document.getElementsByName('MMexp')[0].value;
+            year = document.getElementsByName('YYexp')[0].value;
+            var exp = checkDate(day,month,year);
+            day = document.getElementsByName('DDpro')[0].value;
+            month= document.getElementsByName('MMpro')[0].value;
+            year = document.getElementsByName('YYpro')[0].value;
+            var pro = checkDate(day,month,year);
+            if(exp && pro){
+                $('#submit').attr("disabled", false);
+                $('#submit').css("background-color", '#4CAF50');
+            }
+            else{
+                $('#submit').attr("disabled", true);
+                $('#submit').css("background-color", 'lightgray');
+            }
+        }
+        function checkDate(day,month,year){
+            if ((0 < day && day < 32) && (0 < month && month < 13) && (2000 < year && year < 2100)){
+                return true;
+            }
+            if (!day && !month && !year){
+                return true;
+            }
+            return false;
+        }
+
+    </script>
+</body>
+
+</html>

@@ -10,11 +10,11 @@
     <div class="row">
         <div class="col-lg-3"></div>
         <div class="col-lg-6 page-title">
-        <h1>
-            {% if order %}
+            <h1>
+                {% if order %}
                 הזמנה #{{ order.id }}
-            {% endif %}
-        </h1>
+                {% endif %}
+            </h1>
         </div>
     </div>
     <!-- MENU -->
@@ -33,14 +33,6 @@
                             <div class="menu-text">צפה בלקוח {{ order.clientID.name }}</div>
                         </a>
                 </li>
-                {% if order.coc %}
-                    <li class="right-menu">
-                            <a href="{% url 'reports:coc' order.id %}" target="_blank">
-                                <div class="menu-icon"><i class="fa fa-certificate"></i></div>
-                                <div class="menu-text">תעודת C.O.C</div>
-                            </a>
-                    </li>
-                {% endif %}
                 <li>
                     <a href="{% url 'orders:edit' order.id %}" >
                         <div class="menu-icon"><i class="fas fa-pencil-alt"></i></div>
@@ -59,7 +51,6 @@
 <div class="row"></div>
 <!-- CONTENT -->
             {% if order %}
-
                 <div class="row info">
                     <div class="col-lg-3"></div>
                     <div class="col-lg-6">
@@ -77,8 +68,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="row info">
                     <div class="col-lg-2"></div>
                     <div class="col-lg-4">
@@ -95,7 +84,7 @@
                                         <span style="color:green;">  הסתיים <span>{{ order.get_duedone_difference }}</span> לפני הזמן</span>.
                                     {% endif %}
                                </p>
-                                {% endif %}
+                            {% endif %}
                         {% else %}
                             {% if order.dueDate %}
                                <p>
@@ -103,10 +92,10 @@
                                     {% if order.late_due %}
                                         <span style="font-weight: bold; color:red;">לפני <span>{{ order.dueDate|timesince }}</span></span>.
                                     {% else %}
-                                        <span>בעוד <span >{{ order.dueDate|timeuntil }}</span>.
+                                        <span>בעוד <span >{{ order.dueDate|timeuntil }}</span>.</span>
                                     {% endif %}
                                </p>
-                                {% endif %}
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="col-lg-3">
@@ -143,6 +132,7 @@
                                             <th onclick="sortTable(0,0)">שם</th>
                                             <th onclick="sortTable(1,0)">כמות</th>
                                             <th onclick="sortTable(2,0)">תהליכים</th>
+                                            <th onclick="sortTable(2,0)">C.O.C</th>
                                           </tr>
                                     </thead>
                                     <tbody>
@@ -156,17 +146,27 @@
                                                             <span style="color:green">{{ product.done_processes }}</span>{% endif %}{% if product.done_processes and product.processes %},{% endif %}{% if product.processes %}{{ product.processes }}
                                                         {% endif %}
                                                         </td>
+                                                    <td>
+                                                        {% ifequal product.coc '' %}
+                                                            <i class="fa fa-certificate" style="color:darkgray;"></i>
+                                                        {% else %}
+                                                            <a href="{% url 'reports:coc' product.id %}" target="_blank">
+                                                                <i class="fa fa-certificate"></i>
+                                                            </a>
+                                                        {% endifequal %}
+                                                    </td>
                                                 </tr>
-                                                {% endfor %}
-                                            {% else %}
+                                            {% endfor %}
+                                        {% else %}
                                             <tr>
                                                 <td colspan="3">לא הוספו מוצרים</td>
                                             </tr>
-                                            {% endif %}
+                                        {% endif %}
                                     </tbody>
                                 </table>
                         </div>
                     </div>
+                </div>
 
                 <!-- DELETE MODAL -->
                 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="hw" >
-{% load staticfiles %}
-
+{% load static %}
 <head>
 
   <meta charset="UTF-8">
@@ -10,8 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
   <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
-
-      <link rel="stylesheet" href="{% static 'css/coc.css' %}">
+      <link rel="stylesheet" href="css/style.css">
 
 
 </head>
@@ -19,118 +17,112 @@
 <body>
 
 <div class="container">
-  <form id="myForm" action="/action_page.php">
-    <div class="row">
-
-      <h4><img src="file:\\\{{ s }}\img\topShoham.jpg" align = "center" style="width: 100%;" alt="top"></h4>
-
-      <div class="col-To"> <h4>
-      	<div align="right"></div>
-          {{ s }}
-          {{ order.clientID.name }}
-        <div align="right"></div>
-      </div></h4>
-
-      <div class="col-date"> <h4>
-        <input/>
-        <div align="center">תאריך</div>
-      </div></h4>
-
-      <h4 align="center"><div><u>COC אישור התאמה</u></div>
-      <div>CERTIFICAL OF COMPLIANCE</div></h4>
-
-
-
-      <div align="right" style="color:#1B4F72"><b>:מספר הזמנה</b></div>
-      <div class="input-group input-group-icon">
-        {{ order.id }}
-        <div class="input-icon" align="right"><i class="fa fa-barcode"></i></div>
+      <div class="row">
+            <h4><img src="image/topShoham.jpg" align = "center" style="width: 100%; padding-top: 15px; padding-left: 10px" alt="top"></h4>
       </div>
-      <div align="right" style="color:#1B4F72"><b>:מספר שרטוט וגרסא</b></div>
-      <div class="input-group input-group-icon">
-        <input type="text" name="version_number" placeholder="מספר שרטוט וגרסא"/>
-        <div class="input-icon"><i class="fa fa-folder-open-o "></i></div>
-      </div>
-      <div align="right" style="color:#1B4F72"><b>:מקט מוצר\ מקט לקוח</b></div>
-      <div class="input-group input-group-icon">
-        <input type="text" name="product_number" placeholder="מקט מוצר\ מקט לקוח"/>
-        <div class="input-icon"><i class="fa fa-user"></i></div>
-      </div>
-      <div align="right" style="color:#1B4F72"><b>:תיאור מוצר \ תהליך</b></div>
-      <div class="input-group input-group-icon">
-        <input type="text" list="proc" placeholder="תיאור מוצר \ תהליך"/>
-        <datalist id="proc">
-          <select style="text-align:right; font-size:8px;">
-          <option value="ליזר"> </option>
-          <option value="ריתוך"> </option>
-          <option value="שטיפה"> </option>
-          </select>
-  </datalist>
-        <div class="input-icon"><i class="fa fa-pencil"></i></div>
-      </div>
-      <div align="right" style="color:#1B4F72"><b>:חשבונית \ תעודת משלוח</b></div>
-      <div class="input-group input-group-icon" align="right">
-        <input type="text" name="shipping" placeholder="חשבונית \ תעודת משלוח"/>
-        <div class="input-icon"><i class="fa fa-file-text-o "></i></div>
-      </div>
-      <div align="right" style="color:#1B4F72"><b>:כמות</b></div>
-      <div class="input-group input-group-icon">
-        <input type="text" mane="count" placeholder="כמות"/>
-        <div class="input-icon"><i class="fa fa-database"></i></div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-half">
-        <h4 align="right" style="color:#1B4F72">תאריך פג תוקף</h4>
-        <div class="input-group">
-          <div class="col-third">
-            <input name="DDexp" type="text" placeholder="DD"/>
+      <div class="row" style="padding: 4% 3% 10% 3%; font-size: 1.3em">
+          <div style="float:right;" dir="rtl">
+              <span>לכבוד</span>
+              <br/>
+              <span style="font-size: 1em">
+                  {{ data.client_name }}
+                  <br/>
+                  {{ data.client_address }}
+              </span>
           </div>
-          <div class="col-third" >
-            <input name="MMexp" type="text" placeholder="MM"/>
-          </div>
-          <div class="col-third">
-            <input name="YYexp" type="text" placeholder="YYYY"/>
-          </div>
-        </div>
+          <div>{% now 'j/n/Y' %}</div>
+
       </div>
-      <div class="col-half">
-        <h4 align="right" style="color:#1B4F72">תהליך ייצור \ ביצוע תהליך</h4>
-                <div class="input-group">
-          <div class="col-third">
-            <input name="DDpro" type="text" placeholder="DD"/>
-          </div>
-          <div class="col-third">
-            <input name="MMpro" type="text" placeholder="MM"/>
-          </div>
-          <div class="col-third">
-            <input name="YYpro" type="text" placeholder="YYYY"/>
-          </div>
-        </div>
+      <div class="row">
+            <h4 align="center">
+                <div><font size="5"><u>C.O.C אישור התאמה</u></font></div>
+                <div><font size="5">CERTIFICATE OF COMPLIANCE</font></div>
+            </h4>
+            <div align="right" style="color:#1B4F72; padding-right: 20px" dir="rtl"><font size="3">
+                <b>מספר הזמנה:</b>
+                <span>{{ data.order }}</span>
+            </font></div>
+          {% if data.version_number %}
+                <div class="input-group input-group-icon"></div>
+                <div align="right" style="color:#1B4F72; padding-right: 20px" dir="rtl"><font size="3">
+                    <b>מספר שרטוט וגירסא:</b>
+                    <span>{{ data.version_number }}</span>
+                </font></div>
+          {% endif %}
+          {% if data.product_number  %}
+                <div class="input-group input-group-icon"></div>
+                <div align="right" style="color:#1B4F72; padding-right: 20px" dir="rtl"><font size="3">
+                    <b>מקט מוצר / מקט לקוח:</b>
+                    <span>{{ data.product_number }}</span>
+                </font></div>
+          {% endif %}
+          {% if data.processes %}
+            <div class="input-group input-group-icon"></div>
+            <div align="right" style="color:#1B4F72; padding-right: 20px" dir="rtl"><font size="3">
+                <b>תיאור מוצר / תהליך:</b>
+                <span>{{ data.processes }}</span>
+            </font></div>
+          {% endif %}
+          {% if data.shipping %}
+            <div class="input-group input-group-icon"></div>
+            <div align="right" style="color:#1B4F72; padding-right: 20px" dir="rtl"><font size="3">
+                <b>חשבונית / תעודת משלוח:</b>
+                <span>{{ data.shipping }}</span>
+            </font></div>
+          {% endif %}
+          {% if data.amount %}
+            <div class="input-group input-group-icon" align="right"></div>
+            <div align="right" style="color:#1B4F72; padding-right: 20px" dir="rtl"><font size="3">
+                <b>כמות:</b>
+                <span>{{ data.amount }}</span>
+            </font></div>
+          {% endif %}
+          {% if data.DDpro %}
+            <div class="input-group input-group-icon" align="right"></div>
+            <div align="right" style="color:#1B4F72; padding-right: 20px" dir="rtl"><font size="3">
+                <b>תאריך ייצור / ביצוע התהליך:</b>
+                <span>{{ data.DDpro }}/{{ data.MMpro }}/{{ data.YYpro }}</span>
+            </font></div>
+          {% endif %}
+          {% if data.DDexp %}
+            <div class="input-group input-group-icon" align="right"></div>
+            <div align="right" style="color:#1B4F72; padding-right: 20px" dir="rtl"><font size="3">
+                <b>תאריך פג תוקף:</b>
+                <span>{{ data.DDexp }}/{{ data.MMexp }}/{{ data.YYexp }}</span>
+            </font></div>
+          {% endif %}
       </div>
-    </div>
-    <div class="row">
-      <h4 align="right">הערות</h4>
-           <div class="input-group">
-        <input name="remark" type="textbox"/>
+      {% if data.remarks %}
+          <div class="row">
+            <div class="input-group input-group-icon" align="right"></div>
+            <div align="right" style="color:#1B4F72; padding-right: 20px" dir="rtl"><font size="3">
+                <b>הערות:</b>
+                <br/>
+                <span>{{ data.remarks }}</span>
+            </font></div>
+          </div>
+      {% endif %}
+      <div class="row" style="position: absolute; bottom: 20%; left: 50%">
+            <div class="input-group" style="position: relative; left: -60%; width: 120%;">
+                <div for="terms" align="center"><font size="5">:תנאי האחסון לכימיקלים בלבד</font></div>
+                <div for="terms" align="center"><font size="4"><u>.מחסן מאוורר , טמפרטורת אחסנה עד 25 מעלות</u></font></div>
+                <div for="terms" align="center"><font size="4">!אנא שימו לב: זהירות - חומר דליק</font></div>
+                <div style="width: 110%; padding-right: 50px;" for="terms" align="center"><font size="4">.מוצר זה עומד בדרישות ההזמנה או הלקוח ונבדק לפני שיגורו</font></div>
+            </div>
       </div>
-    <div class="row">
-      <div class="input-group">
-        <div for="terms" align="center">.תנאי האחסון לכימיקלים בלבד</div>
-        <div for="terms" align="center">.מחסן מאורר , טמפרטורת אחסנה עד 25 מעלות</div>
-        <div for="terms" align="center">.אנא שימו לב - זהירות חומר דליק</div>
-        <div for="terms" align="center">.מוצר זה עומד בדרישות הלקוח או הלקוח ונבדק לפני שיגורו</div>
-         <h4><img src="{% static 'img/Shoham.jpg' %}" align = "center" style="width: 100%;" alt="top"></h4>
+      <div class="row">
+          <div style="position: absolute; bottom: 10%">
+              <h2 align="left" style="padding-left: 125px"><div>,בברכה</div></h2>
+              <h2 align="left" style="padding-bottom: 10px; padding-left: 20px"><div>מ.שוהם סחר בע"מ</div></h2>
+          </div>
       </div>
-    </div>
-    <div align="center">
-  </form>
+      <div align="row">
+              <h4><img src="image/footerShoham.jpg" align = "center" style="width: 100%; position: absolute; bottom: 25px;" alt="footer"></h4>
+      </div>
+        <span style="width: 100%; position: absolute; bottom: 0px; font-size: 10px" dir="rtl">טופס זה הופק ב-{% now 'j/n/Y H:i:s' %}</span>
 </div>
   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
-</div>
-    <script  src="js/index.js">
-    </script>
 
 </body>
 
