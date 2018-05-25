@@ -51,7 +51,7 @@ class Product(models.Model):
             for element in _list:
                 avg += element[1]
             avg = avg / len(_list)
-            estimation_list.append((machine,avg))
+            estimation_list.append((self.id, self.amount, machine, avg, 0, avg * self.amount))
         return estimation_list
 
     def __str__(self):

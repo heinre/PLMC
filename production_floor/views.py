@@ -3,6 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from production_floor.models import Product, Station
 from . import forms
 from django.http import JsonResponse
+from operator import itemgetter
 # Create your views here.
 
 
@@ -89,6 +90,7 @@ def _not_exist_page(request):
 
 import json
 
+
 def savee():
     d={
         "A": [[1,2,3,1,1,60], [1, 2, 3, 1, 1, 600]],
@@ -99,5 +101,45 @@ def savee():
         file.write(d)
 
 
-
 #machine, material, size, difficulty, oilled, packed, time
+def order_products():
+    answer = {}
+    for station in Station.objects.all():
+        answer[station.type] = []
+
+    products = Product.objects.exclude(processes='')
+    products_dict = {}
+    for product in products:
+        products_dict[product.id] = product.estimate_execution_time()
+    print(products_dict)
+    while products_dict:
+        next_to_schedule = {}
+        for key in products_dict:
+            temp = products_dict[key][0]
+            if temp[2] in next_to_schedule:
+                next_to_schedule[temp[2]].append((temp[0],temp[1],temp[3],temp[4],temp[5]))
+            else:
+                next_to_schedule[temp[2]] = [(temp[0], temp[1], temp[3],temp[4],temp[5])]
+        for key in next_to_schedule:
+            answer[key].append(sorted(next_to_schedule[key], key=itemgetter(4))[0])
+            temp = answer[key][-1][-1]
+            products_dict[answer[key][-1][0]].pop(0)
+            if not products_dict[answer[key][-1][0]]:
+                del products_dict[answer[key][-1][0]]
+            else:
+                _list = list(products_dict[answer[key][-1][0]][0])
+                _list[4] = temp
+                _list[5] = temp + _list[1] * _list[3]
+                products_dict[answer[key][-1][0]][0] = tuple(_list)
+        for key in products_dict:
+            next_proc = products_dict[key][0]
+            machine_finish = answer[next_proc[2]][-1][-1]
+            if machine_finish > next_proc[-2]:
+                temp = list(next_proc)
+                temp[-2] = machine_finish
+                temp[-1] = machine_finish + temp[1] * temp[3]
+                products_dict[key][0] = tuple(temp)
+    return answer
+
+
+
