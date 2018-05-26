@@ -4,6 +4,7 @@ from production_floor.models import Product, Station
 from . import forms
 from django.http import JsonResponse
 from operator import itemgetter
+import json
 # Create your views here.
 
 
@@ -88,17 +89,27 @@ def _not_exist_page(request):
     return render(request, 'station_info.html', {'nbar': 'workers',
                                                 'station': None})
 
-import json
 
-
-def savee():
-    d={
-        "A": [[1,2,3,1,1,60], [1, 2, 3, 1, 1, 600]],
-        "B": [[1, 2, 3, 1, 1, 12], [1, 2, 3, 1, 1, 200]],
-    }
-    d=json.dumps(d)
-    with open('./production_floor/utilities/times.json', 'w') as file:
-        file.write(d)
+def schedule_index(request):
+    with open('./production_floor/utilities/schedule.json') as file:
+        schedule = json.load(file)
+    schedule_dict = {}
+    for station in Station.objects.all():
+        schedule_dict[station.type] = []
+        for product_tuple in schedule[station.type]:
+            product = Product.objects.get(id=product_tuple[0])
+            schedule_dict[station.type].append((product, product_tuple[3], product_tuple[4], product_tuple[4]-product_tuple[3]))
+    _list = []
+    for key in schedule_dict:
+        _list.append((key,schedule_dict[key],Station.objects.filter(type=key)[0].id))
+    _list2 = []
+    i = 0
+    while i < len(_list):
+        _list2.append([_list.pop(0), _list.pop(0)])
+        i+=2
+    print(_list)
+    print(_list2)
+    return render(request, 'product_scheduling.html', {'nbar': 'production_floor', 'schedule': _list2, 'more': _list[0]})
 
 
 #machine, material, size, difficulty, oilled, packed, time
@@ -111,7 +122,6 @@ def order_products():
     products_dict = {}
     for product in products:
         products_dict[product.id] = product.estimate_execution_time()
-    print(products_dict)
     while products_dict:
         next_to_schedule = {}
         for key in products_dict:
@@ -139,7 +149,11 @@ def order_products():
                 temp[-2] = machine_finish
                 temp[-1] = machine_finish + temp[1] * temp[3]
                 products_dict[key][0] = tuple(temp)
-    return answer
+    answer = json.dumps(answer)
+    with open('./production_floor/utilities/schedule.json', 'w') as file:
+        file.write(answer)
 
 
-
+def schedule_view(request):
+    order_products()
+    return redirect('production_floor:index')

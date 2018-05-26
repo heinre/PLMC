@@ -5,9 +5,7 @@ from production_floor.models import Product
 
 
 class Order(models.Model):
-    #todo: remove products = models.TextField()
     clientID = models.ForeignKey('clients.Client', on_delete=models.CASCADE)
-    # todo: remove processes = models.TextField()
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
     lastChanged = models.DateTimeField(auto_now=True, auto_now_add=False)
     dueDate = models.DateTimeField(null=True, blank=True)

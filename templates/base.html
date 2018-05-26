@@ -54,7 +54,7 @@
                         <a {% if nbar == 'clients' %}class="active"{% endif %} href="{% url 'clients:index' %}"><i class="fas fa-address-card"></i><span class="nav-text">לקוחות</span></a>
                     </li>
                     <li>
-                        <a {% if nbar == 'production_floor' %}class="active"{% endif %}><i class="fab fa-whmcs "></i><span class="nav-text">רצפת יצור</span></a>
+                        <a {% if nbar == 'production_floor' %}class="active"{% endif %} href="{% url 'production_floor:index' %}"><i class="fab fa-whmcs "></i><span class="nav-text">רצפת יצור</span></a>
                     </li>
                     <li>
                         <a {% if nbar == 'reports' %}class="active"{% endif %} href="{% url 'reports:index' %}"><i class="fas fa-paperclip"></i><span class="nav-text">טפסים</span></a>

@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load PLMC_extras %}
+{% block title %}
+    -סידור מוצרים
+{% endblock %}
+{% block  content %}
+     <div class="row">
+        <div class="col-lg-6 page-title">
+            <h1></h1>
+        </div>
+    </div>
+    <div class="menu">
+        <ul>
+            <li>
+                <a href="{% url 'production_floor:schedule' %}">
+                    <div class="menu-icon" style=""><i class="fas fa-sync-alt"></i></div>
+                    <div class="menu-text">רענן שיבו/</div>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'production_floor:station_new' %}">
+                    <div class="menu-icon"><i class="fas fa-box-open"></i></div>
+                    <div class="menu-text">תחנה חדשה</div>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+    {% for i in schedule %}
+ <div class="row info table">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a href="{% url 'production_floor:station_edit' i.1.2 %}">
+                                    <h4>מכונה {{ i.1.0 }}</h4>
+                                </a>
+                            </div>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>מוצר</th>
+                                            <th># הזמנה</th>
+                                            <th>צפי התחלה</th>
+                                            <th>צפי סיום</th>
+                                            <th>זמן עיבוד</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if i.1.1 %}
+                                            {% for product in i.1.1 %}
+                                                <tr class="clickable-order-row">
+                                                    <td>{{ product.0.name }}</td>
+                                                    <td>{{ product.0.order.id }}</td>
+                                                    <td>{{ product.1 }}</td>
+                                                    <td>{{ product.2 }}</td>
+                                                    <td>{{ product.3 }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                            <tr>
+                                                <td colspan="5">אין עבודות בתור</td>
+                                            </tr>
+                                            {% endif %}
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a href="{% url 'production_floor:station_edit' i.0.2 %}">
+                                    <h4>מכונה {{ i.0.0 }}</h4>
+                                </a>
+                            </div>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>מוצר</th>
+                                            <th># הזמנה</th>
+                                            <th>צפי התחלה</th>
+                                            <th>צפי סיום</th>
+                                            <th>זמן עיבוד</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if i.0.1 %}
+                                            {% for product in i.0.1 %}
+                                                <tr class="clickable-order-row">
+                                                    <td>{{ product.0.name }}</td>
+                                                    <td>{{ product.0.order.id }}</td>
+                                                    <td>{{ product.1 }}</td>
+                                                    <td>{{ product.2 }}</td>
+                                                    <td>{{ product.3 }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                            <tr>
+                                                <td colspan="5">אין עבודות בתור</td>
+                                            </tr>
+                                            {% endif %}
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+    {% endfor %}
+    {% if more %}
+    <div class="row info table">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a href="{% url 'production_floor:station_edit' more.2 %}">
+                                    <h4>מכונה {{ more.0 }}</h4>
+                                </a>
+                            </div>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>מוצר</th>
+                                            <th># הזמנה</th>
+                                            <th>צפי התחלה</th>
+                                            <th>צפי סיום</th>
+                                            <th>זמן עיבוד</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if more.1 %}
+                                            {% for product in more.1 %}
+                                                <tr class="clickable-order-row">
+                                                    <td>{{ product.0.name }}</td>
+                                                    <td>{{ product.0.order.id }}</td>
+                                                    <td>{{ product.1 }}</td>
+                                                    <td>{{ product.2 }}</td>
+                                                    <td>{{ product.3 }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                            <tr>
+                                                <td colspan="5">אין עבודות בתור</td>
+                                            </tr>
+                                            {% endif %}
+                                    </tbody>
+                                </table>
+                        </div>
+    {% endif %}
+{% endblock %}
