@@ -114,7 +114,7 @@
                     window.location.href = '../'
                 }
                 else{
-                    window.location.href = './delete'
+                    window.location.href = '../delete'
                 }
             });
         }

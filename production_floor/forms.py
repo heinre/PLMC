@@ -21,5 +21,5 @@ class ProductForm(forms.ModelForm):
         labels = {'name': _("שם"), 'amount': _("כמות"), 'processes': _("תהליכים"),
                   'done_processes': _("תהליכים שהסתיימו")}
         widgets = {
-            'processes': forms.Textarea(attrs={'rows': 4, 'cols': 20})
+            'processes': forms.Textarea(attrs={'rows': 4, 'cols': 20}),
         }

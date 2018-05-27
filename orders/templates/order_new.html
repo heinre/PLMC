@@ -25,7 +25,7 @@
     <div class="menu">
         <ul>
             <li>
-                <a onclick="window.history.back(); return false;" >
+                <a {% if edit %} href="{% url 'orders:info' form.instance.id %}" {% else %}onclick="window.history.back(); return false;" {% endif %}>
                     <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
                     <div class="menu-text">חזרה</div>
                 </a>
@@ -84,7 +84,11 @@
                                 <div class="col-lg-2"></div>
                                 <div class="col-lg-2">
                                     <label>תהליכים:</label>
-                                <span>{{ product.processes }}</span>
+                                <span style="font-weight: 600;">
+                                    {% if product.done_processes %}
+                                                            <span style="color:lightgreen">{{ product.done_processes }}</span>{% endif %}{% if product.done_processes and product.processes %},{% endif %}{% if product.processes %}{{ product.processes }}
+                                    {% endif %}
+                                </span>
                                 </div>
 
                                 <div class="col-lg-3">

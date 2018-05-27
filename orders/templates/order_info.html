@@ -141,9 +141,9 @@
                                                 <tr class="clickabl-order-row">
                                                     <td>{{ product.name }}</td>
                                                     <td>{{ product.amount }}</td>
-                                                    <td>
+                                                    <td style="font-weight: 600;">
                                                         {% if product.done_processes %}
-                                                            <span style="color:green">{{ product.done_processes }}</span>{% endif %}{% if product.done_processes and product.processes %},{% endif %}{% if product.processes %}{{ product.processes }}
+                                                            <span style="color:lightgreen">{{ product.done_processes }}</span>{% endif %}{% if product.done_processes and product.processes %},{% endif %}{% if product.processes %}{{ product.processes }}
                                                         {% endif %}
                                                         </td>
                                                     <td>

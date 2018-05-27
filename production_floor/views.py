@@ -5,8 +5,7 @@ from . import forms
 from django.http import JsonResponse
 from operator import itemgetter
 import json
-# Create your views here.
-
+import os
 
 def product_edit(request, product_id):
     try:
@@ -44,6 +43,11 @@ def station_new(request):
         form = forms.StationNew(request.POST)
         if form.is_valid():
             form.save()
+            with open('./production_floor/utilities/times.json','r+') as file:
+                data = json.load(file)
+                data[form.instance.type] =[[1, 2, 3, 1, 1, 120]]
+                file.seek(0)
+                file.write(json.dumps(data))
             return redirect('production_floor:stations')
         else:
             return render(request, 'station_new.html', {'nbar': 'production_floor', 'form': form})
@@ -74,6 +78,12 @@ def station_delete(request):
     else:
         try:
             station = Station.objects.get(id=request.POST['id'])
+            with open('./production_floor/utilities/times.json','r') as file:
+                data = json.load(file)
+            del data[station.type]
+            os.remove('./production_floor/utilities/times.json')
+            with open('./production_floor/utilities/times.json', 'w') as file:
+                file.write(json.dumps(data))
             station.delete()
             return JsonResponse({'status': 'success'})
         except:

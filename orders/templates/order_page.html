@@ -89,14 +89,23 @@
                                     <td>{{ order.clientID.name }}</td>
                                     <td><span >{{ order.created|timesince }}</span></td>
                                     <td>
-                                        {% if order.dueDate %}
-                                            {% if order.late_due %}
-                                                <span style="font-weight: bold; color:red;">איחור</span>
+                                        {% if query %}
+                                            {% ifequal order.get_process_time '-' %}
+                                                <span>בעבודה</span>
+                                            {% else %}
+                                                <span>{{ order.get_process_timec }}</span>
+                                            {% endifequal %}
+                                        {% else %}
+                                            {% if order.dueDate %}
+                                                {% if order.late_due %}
+                                                    <span style="font-weight: bold; color:red;">איחור</span>
+                                                {% else %}
+                                                    <span >{{ order.get_due_date }}</span>
+                                                {% endif %}
                                             {% else %}
                                                 <span >{{ order.get_due_date }}</span>
                                             {% endif %}
-                                        {% else %}
-                                            <span >{{ order.get_due_date }}</span>
+
                                         {% endif %}
                                     </td>
                                 </tr>
