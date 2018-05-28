@@ -19,8 +19,8 @@ def orders_index(request):
     return render(request, 'order_page.html', {'nbar': 'orders', 'orders': answer})
 
 
-def _not_exist_page(request):
-    return render(request, 'order_info.html', {'nbar': 'orders', 'order': None})
+def _not_exist_page(request, msg):
+    return render(request, 'order_info.html', {'nbar': 'orders', 'order': None, 'error': msg})
 
 
 def orders_new(request):
@@ -45,7 +45,7 @@ def orders_new(request):
             client = Client.objects.get(id=client)
             return render(request, 'order_new.html', {'nbar': 'orders', 'form': forms.OrderNew(), 'client': client})
         except ObjectDoesNotExist:
-            return _not_exist_page(request)
+            return _not_exist_page(request, 'לא ניתן ליצור הזמנה ללקוח שאינו קיים במערכת')
     return render(request, 'order_new.html', {'nbar': 'orders', 'form': forms.OrderNew()})
 
 
@@ -75,17 +75,19 @@ def order_edit(request, order_id):
             else:
                 return render(request, 'order_new.html', {'nbar': 'orders',
                                                            'form': forms.OrderNew(request.POST), 'edit': True})
+        if instance.doneTime:
+            return _not_exist_page(request, 'לא ניתן לערוך הזמנה שהסתיימה')
         products = Product.objects.filter(order=instance)
         return render(request, 'order_new.html', {'nbar': 'orders',
                                                   'form': forms.OrderNew(instance=instance), 'products': products,
                                                   'edit': True})
     except ObjectDoesNotExist:
-        return _not_exist_page(request)
+        return _not_exist_page(request, 'ההזמנה אינה קיימת')
 
 
 def order_delete(request):
     if request.method == 'GET':
-        return _not_exist_page(request)
+        return _not_exist_page(request, 'ההזמנה אינה קיימת')
     else:
         try:
             order = Order.objects.get(id=request.POST['id'])

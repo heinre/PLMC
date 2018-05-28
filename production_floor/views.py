@@ -3,9 +3,12 @@ from django.core.exceptions import ObjectDoesNotExist
 from production_floor.models import Product, Station
 from . import forms
 from django.http import JsonResponse
+from django.utils import timezone
 from operator import itemgetter
 import json
 import os
+
+
 
 def product_edit(request, product_id):
     try:
@@ -43,12 +46,21 @@ def station_new(request):
         form = forms.StationNew(request.POST)
         if form.is_valid():
             form.save()
-            with open('./production_floor/utilities/times.json','r+') as file:
+            # create arbitrary knn information
+            with open('./production_floor/utilities/times.json', 'r') as file:
                 data = json.load(file)
-                data[form.instance.type] =[[1, 2, 3, 1, 1, 120]]
-                file.seek(0)
+            data[form.instance.type] = [[1, 2, 3, 1, 1, 120]]
+            os.remove('./production_floor/utilities/times.json')
+            with open('./production_floor/utilities/times.json', 'w') as file:
                 file.write(json.dumps(data))
-            return redirect('production_floor:stations')
+            # add empty list of scheduled products
+            with open('./production_floor/utilities/schedule.json', 'r') as file:
+                data = json.load(file)
+            data[form.instance.type] = []
+            os.remove('./production_floor/utilities/schedule.json')
+            with open('./production_floor/utilities/schedule.json', 'w') as file:
+                file.write(json.dumps(data))
+            return redirect('production_floor:index')
         else:
             return render(request, 'station_new.html', {'nbar': 'production_floor', 'form': form})
     return render(request, 'station_new.html', {'nbar': 'production_floor', 'form': forms.StationNew()})
@@ -65,9 +77,10 @@ def station_edit(request, station_id):
             else:
                 return render(request, 'station_new.html', {'nbar': 'production_floor',
                                                            'form': forms.StationNew(request.POST), 'edit': True})
+        pending_processes = Product.objects.filter(processes__contains=instance.type)
         return render(request, 'station_new.html', {'nbar': 'production_floor',
                                                     'form': forms.StationNew(instance=instance),
-                                                    'edit': True})
+                                                    'edit': True, 'pending': len(pending_processes)})
     except ObjectDoesNotExist:
         return _not_exist_page(request)
 
@@ -78,11 +91,19 @@ def station_delete(request):
     else:
         try:
             station = Station.objects.get(id=request.POST['id'])
-            with open('./production_floor/utilities/times.json','r') as file:
+            # deleting knn data
+            with open('./production_floor/utilities/times.json', 'r') as file:
                 data = json.load(file)
             del data[station.type]
             os.remove('./production_floor/utilities/times.json')
             with open('./production_floor/utilities/times.json', 'w') as file:
+                file.write(json.dumps(data))
+            # deleting from scheduling file
+            with open('./production_floor/utilities/schedule.json', 'r') as file:
+                data = json.load(file)
+            del data[station.type]
+            os.remove('./production_floor/utilities/schedule.json')
+            with open('./production_floor/utilities/schedule.json', 'w') as file:
                 file.write(json.dumps(data))
             station.delete()
             return JsonResponse({'status': 'success'})
@@ -108,21 +129,24 @@ def schedule_index(request):
         schedule_dict[station.type] = []
         for product_tuple in schedule[station.type]:
             product = Product.objects.get(id=product_tuple[0])
-            schedule_dict[station.type].append((product, product_tuple[3], product_tuple[4], product_tuple[4]-product_tuple[3]))
+            schedule_dict[station.type].append((product, product_tuple[3], product_tuple[4],
+                                                timezone.now() + timezone.timedelta(seconds=product_tuple[4]-product_tuple[3]+60)))
     _list = []
     for key in schedule_dict:
-        _list.append((key,schedule_dict[key],Station.objects.filter(type=key)[0].id))
+        _list.append((key, schedule_dict[key], Station.objects.filter(type=key)[0].id))
     _list2 = []
     i = 0
-    while i < len(_list):
+    list_length = len(_list) if not len(_list) % 2 else len(_list)-1
+    while i < list_length:
         _list2.append([_list.pop(0), _list.pop(0)])
-        i+=2
+        i += 2
     print(_list)
     print(_list2)
-    return render(request, 'product_scheduling.html', {'nbar': 'production_floor', 'schedule': _list2, 'more': _list[0]})
+    return render(request, 'product_scheduling.html', {'nbar': 'production_floor', 'schedule': _list2,
+                                                       'more': _list})
 
 
-#machine, material, size, difficulty, oilled, packed, time
+# machine, material, size, difficulty, oilled, packed, time
 def order_products():
     answer = {}
     for station in Station.objects.all():

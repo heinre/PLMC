@@ -19,7 +19,7 @@
             </li>
             <li>
                 <a href="{% url 'production_floor:station_new' %}">
-                    <div class="menu-icon"><i class="fas fa-box-open"></i></div>
+                    <div class="menu-icon"><i class="fas fa-plus-square"></i></div>
                     <div class="menu-text">תחנה חדשה</div>
                 </a>
             </li>
@@ -41,9 +41,8 @@
                                         <tr>
                                             <th>מוצר</th>
                                             <th># הזמנה</th>
-                                            <th>צפי התחלה</th>
-                                            <th>צפי סיום</th>
-                                            <th>זמן עיבוד</th>
+                                            <th>כמות</th>
+                                            <th>זמן עיבוד צפוי</th>
                                           </tr>
                                     </thead>
                                     <tbody>
@@ -51,15 +50,16 @@
                                             {% for product in i.1.1 %}
                                                 <tr class="clickable-order-row">
                                                     <td>{{ product.0.name }}</td>
-                                                    <td>{{ product.0.order.id }}</td>
-                                                    <td>{{ product.1 }}</td>
-                                                    <td>{{ product.2 }}</td>
-                                                    <td>{{ product.3 }}</td>
+                                                    <td>
+                                                        <a style="text-decoration: none;" href="{% url 'orders:info' product.0.order.id %}">{{ product.0.order.id }}</a>
+                                                    </td>
+                                                    <td>{{ product.0.amount }}</td>
+                                                    <td>{{ product.3|timeuntil }}</td>
                                                 </tr>
                                                 {% endfor %}
                                             {% else %}
                                             <tr>
-                                                <td colspan="5">אין עבודות בתור</td>
+                                                <td colspan="4">אין עבודות בתור</td>
                                             </tr>
                                             {% endif %}
                                     </tbody>
@@ -78,9 +78,8 @@
                                         <tr>
                                             <th>מוצר</th>
                                             <th># הזמנה</th>
-                                            <th>צפי התחלה</th>
-                                            <th>צפי סיום</th>
-                                            <th>זמן עיבוד</th>
+                                            <th>כמות</th>
+                                            <th>זמן עיבוד צפוי</th>
                                           </tr>
                                     </thead>
                                     <tbody>
@@ -88,15 +87,16 @@
                                             {% for product in i.0.1 %}
                                                 <tr class="clickable-order-row">
                                                     <td>{{ product.0.name }}</td>
-                                                    <td>{{ product.0.order.id }}</td>
-                                                    <td>{{ product.1 }}</td>
-                                                    <td>{{ product.2 }}</td>
-                                                    <td>{{ product.3 }}</td>
+                                                    <td>
+                                                        <a style="text-decoration: none;" href="{% url 'orders:info' product.0.order.id %}">{{ product.0.order.id }}</a>
+                                                    </td>
+                                                    <td>{{ product.0.amount }}</td>
+                                                    <td>{{ product.3|timeuntil }}</td>
                                                 </tr>
                                                 {% endfor %}
                                             {% else %}
                                             <tr>
-                                                <td colspan="5">אין עבודות בתור</td>
+                                                <td colspan="4">אין עבודות בתור</td>
                                             </tr>
                                             {% endif %}
                                     </tbody>
@@ -105,15 +105,15 @@
                     </div>
                 </div>
     {% endfor %}
-    {% if more %}
+    {% if more.0 %}
     <div class="row info table">
                     <div class="col-lg-2"></div>
                     <div class="col-lg-4"></div>
                     <div class="col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <a href="{% url 'production_floor:station_edit' more.2 %}">
-                                    <h4>מכונה {{ more.0 }}</h4>
+                                <a href="{% url 'production_floor:station_edit' more.0.2 %}">
+                                    <h4>מכונה {{ more.0.0 }}</h4>
                                 </a>
                             </div>
                                 <table class="table table-hover">
@@ -121,25 +121,25 @@
                                         <tr>
                                             <th>מוצר</th>
                                             <th># הזמנה</th>
-                                            <th>צפי התחלה</th>
-                                            <th>צפי סיום</th>
+                                            <th>כמות</th>
                                             <th>זמן עיבוד</th>
                                           </tr>
                                     </thead>
                                     <tbody>
-                                        {% if more.1 %}
-                                            {% for product in more.1 %}
+                                        {% if more.0.1 %}
+                                            {% for product in more.0.1 %}
                                                 <tr class="clickable-order-row">
                                                     <td>{{ product.0.name }}</td>
-                                                    <td>{{ product.0.order.id }}</td>
-                                                    <td>{{ product.1 }}</td>
-                                                    <td>{{ product.2 }}</td>
-                                                    <td>{{ product.3 }}</td>
+                                                    <td>
+                                                        <a style="text-decoration: none;" href="{% url 'orders:info' product.0.order.id %}">{{ product.0.order.id }}</a>
+                                                    </td>
+                                                    <td>{{ product.0.amount }}</td>
+                                                    <td>{{ product.3|timeuntil }}</td>
                                                 </tr>
                                                 {% endfor %}
                                             {% else %}
                                             <tr>
-                                                <td colspan="5">אין עבודות בתור</td>
+                                                <td colspan="4">אין עבודות בתור</td>
                                             </tr>
                                             {% endif %}
                                     </tbody>

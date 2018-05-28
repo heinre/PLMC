@@ -33,12 +33,14 @@
                             <div class="menu-text">צפה בלקוח {{ order.clientID.name }}</div>
                         </a>
                 </li>
+                {% if not order.doneTime %}
                 <li>
                     <a href="{% url 'orders:edit' order.id %}" >
                         <div class="menu-icon"><i class="fas fa-pencil-alt"></i></div>
                         <div class="menu-text">ערוך</div>
                     </a>
                 </li>
+                {% endif %}
                 <li>
                     <a id="delete" >
                         <div class="menu-icon"><i class="fas fa-trash-alt"></i></div>
@@ -198,7 +200,8 @@
                     <div class="col-lg-6">
                         <div class="not-exist">
                             <i class="fas fa-ban"></i>
-                            <p>ההזמנה אינה קיימת</p>
+                            <p>{{ error }}</p>
+
                         </div>
                     </div>
                 </div>

@@ -20,7 +20,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     order = models.ForeignKey('orders.Order', on_delete=models.CASCADE)
     amount = models.IntegerField()
-    parameters = models.TextField(blank=True, null=True)
+    parameters = models.CharField(max_length=200, blank=True, null=True)
     done_processes = models.TextField(blank=True, null=True)
     coc = models.FileField(upload_to='media/coc', null=True, blank=True)
     processes = models.TextField(blank=True, null=True)

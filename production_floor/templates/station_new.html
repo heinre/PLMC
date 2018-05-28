@@ -55,7 +55,12 @@
             <div class="col-lg-3">
                 <div class="input-group">
                     <span class="rtlform">{{ form.type.label_tag }}</span>
-                    {{ form.type }}
+                    {% if edit %}
+                        <span style="display: none">{{ form.type }}</span>
+                        <span>{{ form.instance.type }}</span>
+                    {% else %}
+                        <span>{{ form.type }}</span>
+                    {% endif %}
                 </div>
             </div>
                 <input type="submit" id="submit-form" class="hidden">
@@ -66,12 +71,18 @@
         <div class="modal-content">
             <div class="modal-body">
                 <h1><i class="fas fa-exclamation-circle"></i></h1>
-                <h3>האם אתה בטוח שברצונך למחוק את תחנה #{{ form.instance.id }}?</h3>
-                <p style="font-weight: bold">לא ניתן לשחזר מידע שנמחק.</p>
+                {% if pending > 0 %}
+                    <h3>ישנם {{ pending }} מוצרים בתור למכונה</h3>
+                    <p style="font-weight: bold">לא ניתן למחוק תחנה עם מוצרים בתור.</p>
+                {% else %}
+                    <h3>האם אתה בטוח שברצונך למחוק את תחנה #{{ form.instance.id }}?</h3>
+                    <p style="font-weight: bold">לא ניתן לשחזר מידע שנמחק.</p>
+                {% endif %}
             </div>
             <div class="modal-footer">
                 {% csrf_token %}
-                <button type="button" class="btn btn-danger" onclick="deleteStation({{ form.instance.id }})">
+                <button type="button" class="btn btn-danger" onclick="deleteStation({{ form.instance.id }})"
+                {% if pending > 0 %} disabled {% endif %}>
                     <i class="fas fa-check"></i> מחק
                 </button>
                 <button type="button" class="btn btn-info" data-dismiss="modal">

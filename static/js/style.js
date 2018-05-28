@@ -1,6 +1,7 @@
 
 
 
+
 /*=============================================================
     Authour URI: www.binarytheme.com
     License: Commons Attribution 3.0
@@ -111,7 +112,7 @@
             $.post("/productionFloor/stations/delete/", {'csrfmiddlewaretoken': $("[name=csrfmiddlewaretoken]").val(), 'id': id},
                 function(data){
                 if (data['status'] == 'success'){
-                    window.location.href = '../'
+                    window.location.href = '../../'
                 }
                 else{
                     window.location.href = '../delete'
