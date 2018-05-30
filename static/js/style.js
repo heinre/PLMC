@@ -62,9 +62,26 @@
             str=$(this).children('td')[0].innerHTML;
             window.location="/workers/"+str.substr(0,str.indexOf('-')-1);
         });
+        $(".clickable-schedule-row").dblclick(function() {
+            name=$(this).children('td')[0].innerHTML;
+            amount=$(this).children('td')[2].innerHTML;
+            p_time=$(this).children('td')[5].innerHTML;
+            id=$(this).children('td')[6].innerHTML;
+            process=$(this).children('td')[7].innerHTML;
+            $.get("/productionFloor/wip", {'id': id, 'process': process, 'name': name, 'amount': amount,
+                                             'p_time': p_time}, function (data) {
+                $("#page-inner").html(data);
+            });
+        });
+
+        $(document).on("click", "#end", function () {
+            $("#endModal").modal();
+        });
+
         $("#delete").click(function() {
             $("#deleteModal").modal();
         });
+
 
         function deleteClient(id){
             $("#deleteModal").modal("hide");

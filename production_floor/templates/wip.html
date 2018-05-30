@@ -1,0 +1,106 @@
+
+{% load PLMC_extras %}
+
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6 page-title">
+    </div>
+</div>
+<div class="menu">
+    <ul>
+        <li>
+            <a href="{% url 'production_floor:index' %}" >
+                <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
+                <div class="menu-text">חזרה</div>
+            </a>
+        </li>
+        <li>
+            {% if not start_time %}
+                <a>
+                <label for="start-form">
+            {% else %}
+                <label style="color: lightgray">
+            {% endif %}
+            <div class="menu-icon"><i class="fas fa-hourglass-start"></i></div>
+            <div class="menu-text">התחל עבודה</div>
+            </label>
+            {% if not start_time %}
+                </a>
+            {% endif %}
+        </li>
+        <li>
+            {% if start_time %}
+                <a id="end">
+            {% else %}
+                <label style="color: lightgray">
+            {% endif %}
+            <div class="menu-icon"><i class="fas fa-check-square"></i></div>
+            <div class="menu-text">סיים עבודה</div>
+            {% if start_time %}
+                </a>
+            {% endif %}
+        </li>
+    </ul>
+</div>
+<div class="row">
+</div>
+<div class="row">
+    <div class="col-lg-2">
+    </div>
+    <div class="col-lg-8" style="margin-top: 8%;">
+        <span style="font-size: 1.8em">{{ context.amount }} יחידות של {{ context.name }}</span>
+        <br/><br/><br/>
+        {% if start_time %}
+            <span style="font-size: 1.3em">העבודה החלה ב{{ start_time }} (לפני {{ start_time|timesince }})</span>
+        {% endif %}
+        <br/><br/>
+        <span style="font-size: 1.3em">        זמן עבודה מוערך כולל בתחנת {{ context.process }} הוא כ-{{ time }}</span>
+    </div>
+</div>
+<div>
+    <form method="post" action="/productionFloor/start/">
+        {% csrf_token %}
+        <input type="text" name="id" value={{ context.id }} class="hidden">
+        <input type="text" name="process" value={{ context.process }} class="hidden">
+        <input type="submit" id="start-form" class="hidden">
+    </form>
+</div>
+</div>
+<div class="modal fade" id="endModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h1 style="color: green;"><i class="fas fa-clipboard-check"></i></h1>
+            </div>
+            <form method="post" action="/productionFloor/end/">
+                {% csrf_token %}
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <span style="margin-left:5px;">שם המבצע:</span>
+                        <input type="text" name="operator">
+                    </div>
+                    <div class="input-group">
+                        <span style="margin-left:30px;">הערות:</span>
+                        <textarea name="remarks"></textarea>
+                    </div>
+                </div>
+                <div class="input-group" >
+                    <span style="margin-left:30px;">#מוצר</span>
+                    <input type="text" name="id" style="background-color: lightgray;" readonly value={{ context.id }}>
+                    <span style="margin-left:30px;">תהליך</span>
+                    <input type="text" name="process" style="background-color: lightgray;" readonly value={{ context.process }}>
+                </div>
+                <br/>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check"></i>סיים
+                    </button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">
+                        <i class="fas fa-times"></i> בטל
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

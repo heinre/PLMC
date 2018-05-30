@@ -21,7 +21,7 @@ class Product(models.Model):
     order = models.ForeignKey('orders.Order', on_delete=models.CASCADE)
     amount = models.IntegerField()
     parameters = models.CharField(max_length=200, blank=True, null=True)
-    done_processes = models.TextField(blank=True, null=True)
+    done_processes = models.TextField(blank=True, null=True, default='{}')
     coc = models.FileField(upload_to='media/coc', null=True, blank=True)
     processes = models.TextField(blank=True, null=True)
 
@@ -29,6 +29,10 @@ class Product(models.Model):
     def parse_machines(self):
         processes_list = self.processes.split(',')
         return processes_list
+
+    def parse_done(self):
+        return json.loads(self.done_processes)
+
 
     def parse_param(self):
         param_list = self.parameters.split(',')

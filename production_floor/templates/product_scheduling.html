@@ -26,6 +26,13 @@
         </ul>
 
     </div>
+    <div class="row" style="text-align: center">
+עודכן לאחרונה ב        {{ last_updated }}
+        <br/>
+        <span style="font-size: 0.8em">*זמני ההתחלה מתייחסים לזמן העדכון האחרון</span>
+    {% csrf_token %}
+    </div>
+
     {% for i in schedule %}
  <div class="row info table">
                     <div class="col-lg-2"></div>
@@ -42,19 +49,25 @@
                                             <th>מוצר</th>
                                             <th># הזמנה</th>
                                             <th>כמות</th>
+                                            <th>זמן התחלה</th>
+                                            <th>זמן סיום</th>
                                             <th>זמן עיבוד צפוי</th>
                                           </tr>
                                     </thead>
                                     <tbody>
                                         {% if i.1.1 %}
                                             {% for product in i.1.1 %}
-                                                <tr class="clickable-order-row">
+                                                <tr class="clickable-schedule-row" style="color: {{ product.4 }}">
                                                     <td>{{ product.0.name }}</td>
                                                     <td>
                                                         <a style="text-decoration: none;" href="{% url 'orders:info' product.0.order.id %}">{{ product.0.order.id }}</a>
                                                     </td>
                                                     <td>{{ product.0.amount }}</td>
+                                                    <td>{{ product.1|date:'H:i' }}</td>
+                                                    <td>{{ product.2|date:'H:i' }}</td>
                                                     <td>{{ product.3|timeuntil }}</td>
+                                                    <td style="display: none;">{{ product.0.id }}</td>
+                                                    <td style="display: none;">{{ i.1.0 }}</td>
                                                 </tr>
                                                 {% endfor %}
                                             {% else %}
@@ -76,22 +89,28 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>מוצר</th>
+                                            <th style="color: g">מוצר</th>
                                             <th># הזמנה</th>
                                             <th>כמות</th>
+                                            <th>זמן התחלה</th>
+                                            <th>זמן סיום</th>
                                             <th>זמן עיבוד צפוי</th>
                                           </tr>
                                     </thead>
                                     <tbody>
                                         {% if i.0.1 %}
                                             {% for product in i.0.1 %}
-                                                <tr class="clickable-order-row">
+                                                <tr class="clickable-schedule-row" style="color: {{ product.4 }}">
                                                     <td>{{ product.0.name }}</td>
                                                     <td>
                                                         <a style="text-decoration: none;" href="{% url 'orders:info' product.0.order.id %}">{{ product.0.order.id }}</a>
                                                     </td>
                                                     <td>{{ product.0.amount }}</td>
+                                                    <td>{{ product.1|date:'H:i' }}</td>
+                                                    <td>{{ product.2|date:'H:i' }}</td>
                                                     <td>{{ product.3|timeuntil }}</td>
+                                                    <td style="display: none;">{{ product.0.id }}</td>
+                                                    <td style="display: none;">{{ i.0.0 }}</td>
                                                 </tr>
                                                 {% endfor %}
                                             {% else %}
@@ -122,19 +141,25 @@
                                             <th>מוצר</th>
                                             <th># הזמנה</th>
                                             <th>כמות</th>
+                                            <th>זמן התחלה</th>
+                                            <th>זמן סיום</th>
                                             <th>זמן עיבוד</th>
                                           </tr>
                                     </thead>
                                     <tbody>
                                         {% if more.0.1 %}
                                             {% for product in more.0.1 %}
-                                                <tr class="clickable-order-row">
+                                                <tr class="clickable-schedule-row" style="color: {{ product.4 }}">
                                                     <td>{{ product.0.name }}</td>
                                                     <td>
                                                         <a style="text-decoration: none;" href="{% url 'orders:info' product.0.order.id %}">{{ product.0.order.id }}</a>
                                                     </td>
                                                     <td>{{ product.0.amount }}</td>
+                                                    <td>{{ product.1|date:'H:i' }}</td>
+                                                    <td>{{ product.2|date:'H:i' }}</td>
                                                     <td>{{ product.3|timeuntil }}</td>
+                                                    <td style="display: none;">{{ product.0.id }}</td>
+                                                    <td style="display: none;">{{ more.0.0 }}</td>
                                                 </tr>
                                                 {% endfor %}
                                             {% else %}

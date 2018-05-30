@@ -10,4 +10,7 @@ urlpatterns = [
     url(r'^products/edit/(?P<product_id>[0-9]+)$', views.product_edit, name='pedit'),
     url(r'^$', views.schedule_index, name='index'),
     url(r'^schedule/$', views.schedule_view, name='schedule'),
+    url(r'^wip/$', views.wip_view, name='wip'),
+    url(r'^start/$', views.start_process, name='start'),
+    url(r'^end/$', views.end_process, name='end'),
 ]

@@ -10,6 +10,7 @@ import os
 
 
 
+
 def product_edit(request, product_id):
     try:
         instance = Product.objects.get(id=product_id)
@@ -117,20 +118,87 @@ def show_stations(request):
 
 
 def _not_exist_page(request):
-    return render(request, 'station_info.html', {'nbar': 'workers',
+    return render(request, 'station_info.html', {'nbar': 'production_floor',
                                                 'station': None})
+
+
+def wip_view(request):
+    time = request.GET['p_time'].replace('&nbsp;',' ')
+    product_processes = Product.objects.get(id=request.GET['id']).parse_done()
+    start_time = None
+    #done_time = None
+    if request.GET['process'] in product_processes.keys():
+        process_info = product_processes[request.GET['process']]
+        start_time = timezone.datetime.fromtimestamp(process_info['start_time'])
+    else:
+        pass
+
+    return render(request, 'wip.html', {'nbar': 'production_floor', 'context': request.GET,
+                                        'time': time, 'start_time': start_time})
+
+
+def end_process(request):
+    product = Product.objects.get(id=request.POST['id'])
+    done = product.parse_done()
+    processes = product.parse_machines()
+    done[request.POST['process']]['done_time'] = timezone.now().timestamp()
+    done[request.POST['process']]['operator'] = request.POST['operator']
+    done[request.POST['process']]['remarks'] = request.POST['remarks']
+    processes.remove(request.POST['process'])
+    processes = str(processes).replace('[','').replace(']','').replace("'","").replace(' ','')
+    product.done_processes = json.dumps(done)
+
+    with open('./production_floor/utilities/times.json') as file:
+        knn = json.load(file)
+    param = product.parse_param()
+    param.append(done[request.POST['process']]['done_time'] - done[request.POST['process']]['start_time'])
+    knn[request.POST['process']].append(param)
+    os.remove('./production_floor/utilities/times.json')
+    with open('./production_floor/utilities/times.json', 'w') as file:
+        file.write(json.dumps(knn))
+    product.processes = processes
+    product.save()
+    order = product.order
+    product_in_order = Product.objects.filter(order = order)
+    flag = True
+    for _product in product_in_order:
+        if _product.processes != '':
+            flag = False
+            break
+    if flag:
+        order.doneTime = timezone.now()
+        order.save()
+    return redirect('production_floor:index')
+
+
+def start_process(request):
+    product = Product.objects.get(id=request.POST['id'])
+    done = product.parse_done()
+    info = {'start_time': timezone.now().timestamp()}
+    done[request.POST['process']] = info
+    product.done_processes = json.dumps(done)
+    product.save()
+    return redirect('production_floor:index')
 
 
 def schedule_index(request):
     with open('./production_floor/utilities/schedule.json') as file:
         schedule = json.load(file)
     schedule_dict = {}
+    last_updated = timezone.datetime.fromtimestamp(schedule['time'])
     for station in Station.objects.all():
         schedule_dict[station.type] = []
         for product_tuple in schedule[station.type]:
             product = Product.objects.get(id=product_tuple[0])
-            schedule_dict[station.type].append((product, product_tuple[3], product_tuple[4],
-                                                timezone.now() + timezone.timedelta(seconds=product_tuple[4]-product_tuple[3]+60)))
+            color = 'green'
+            if station.type in product.parse_done():
+                color = 'gold'
+            if station.type not in product.parse_machines():
+                color = 'red'
+            schedule_dict[station.type].append((product, last_updated + timezone.timedelta(seconds=product_tuple[3]),
+                                                last_updated + timezone.timedelta(seconds=product_tuple[4]),
+                                                timezone.now() + timezone.timedelta(seconds=product_tuple[4]-product_tuple[3]+60),
+                                                color))
     _list = []
     for key in schedule_dict:
         _list.append((key, schedule_dict[key], Station.objects.filter(type=key)[0].id))
@@ -140,10 +208,9 @@ def schedule_index(request):
     while i < list_length:
         _list2.append([_list.pop(0), _list.pop(0)])
         i += 2
-    print(_list)
-    print(_list2)
     return render(request, 'product_scheduling.html', {'nbar': 'production_floor', 'schedule': _list2,
-                                                       'more': _list})
+                                                       'more': _list,
+                                                       'last_updated': last_updated})
 
 
 # machine, material, size, difficulty, oilled, packed, time
@@ -177,12 +244,17 @@ def order_products():
                 products_dict[answer[key][-1][0]][0] = tuple(_list)
         for key in products_dict:
             next_proc = products_dict[key][0]
-            machine_finish = answer[next_proc[2]][-1][-1]
+            print(products_dict,key)
+            print(next_proc)
+            print(answer)
+            print(answer[next_proc[2]])
+            machine_finish = answer[next_proc[2]][-1][-1] if answer[next_proc[2]] else 0
             if machine_finish > next_proc[-2]:
                 temp = list(next_proc)
                 temp[-2] = machine_finish
                 temp[-1] = machine_finish + temp[1] * temp[3]
                 products_dict[key][0] = tuple(temp)
+    answer['time'] = timezone.now().timestamp()
     answer = json.dumps(answer)
     with open('./production_floor/utilities/schedule.json', 'w') as file:
         file.write(answer)
