@@ -46,7 +46,7 @@ class Order(models.Model):
         undone = 0
         for product in products:
             try:
-                done += (len(product.done_processes) - product.done_processes.count(',')) * product.amount
+                done += len(product.get_done()) * product.amount
             except:
                 done += 0
             undone += (len(product.processes) - product.processes.count(',')) * product.amount

@@ -123,18 +123,23 @@ def _not_exist_page(request):
 
 
 def wip_view(request):
-    time = request.GET['p_time'].replace('&nbsp;',' ')
+    time = request.GET['p_time'].replace('&nbsp;', ' ')
     product_processes = Product.objects.get(id=request.GET['id']).parse_done()
     start_time = None
-    #done_time = None
+    done_time = None
+    operator = None
     if request.GET['process'] in product_processes.keys():
         process_info = product_processes[request.GET['process']]
         start_time = timezone.datetime.fromtimestamp(process_info['start_time'])
+        if 'done_time' in process_info.keys():
+            done_time = timezone.datetime.fromtimestamp(process_info['done_time'])
+            operator = process_info['operator']
     else:
         pass
 
     return render(request, 'wip.html', {'nbar': 'production_floor', 'context': request.GET,
-                                        'time': time, 'start_time': start_time})
+                                        'time': time, 'start_time': start_time, 'done_time': done_time,
+                                        'operator': operator})
 
 
 def end_process(request):
@@ -151,7 +156,8 @@ def end_process(request):
     with open('./production_floor/utilities/times.json') as file:
         knn = json.load(file)
     param = product.parse_param()
-    param.append(done[request.POST['process']]['done_time'] - done[request.POST['process']]['start_time'])
+    param.append((done[request.POST['process']]['done_time'] -
+                  done[request.POST['process']]['start_time'])/product.amount)
     knn[request.POST['process']].append(param)
     os.remove('./production_floor/utilities/times.json')
     with open('./production_floor/utilities/times.json', 'w') as file:
@@ -190,15 +196,16 @@ def schedule_index(request):
         schedule_dict[station.type] = []
         for product_tuple in schedule[station.type]:
             product = Product.objects.get(id=product_tuple[0])
-            color = 'green'
+            color = ''
             if station.type in product.parse_done():
-                color = 'gold'
-            if station.type not in product.parse_machines():
-                color = 'red'
+                color = 'rgba(0,255,0,0.7)'
+            if station.type in product.get_done():
+                color = 'rgba(255,180,0,0.7)'
             schedule_dict[station.type].append((product, last_updated + timezone.timedelta(seconds=product_tuple[3]),
                                                 last_updated + timezone.timedelta(seconds=product_tuple[4]),
                                                 timezone.now() + timezone.timedelta(seconds=product_tuple[4]-product_tuple[3]+60),
                                                 color))
+        schedule_dict[station.type] = sorted(schedule_dict[station.type], key=itemgetter(4), reverse=True)
     _list = []
     for key in schedule_dict:
         _list.append((key, schedule_dict[key], Station.objects.filter(type=key)[0].id))

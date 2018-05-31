@@ -1,4 +1,4 @@
-var sec1='<div class="row">\n' +
+var sec1='<div class="row"><div class="row">\n' +
     '       <div class="col-lg-1"></div><div class="col-lg-3"><label>תהליכים:</label><input type="text" name="process';
 var sec2='"><span style="padding:0 10px 0 10px; ">+</span><select onchange="addProcess(this,this.value)">\n' +
     '       <option style="display: none;" selected>תהליך</option>';
@@ -15,16 +15,16 @@ var sec4='"></div></div> \n'+
     '       <input type="text" name="pname';
 var sec5='"></div></div> \n' +
     '<div class="col-lg-1"><h4>';
-var sec6='.</h4></div><div class="row"><div class="col-lg-3"></div>' +
-    '<div class="col-lg-1"><input type="checkbox" name="packed" onclick="updateParameters(this,4)"><label>ארוז</label></div>' +
-    '<div class="col-lg-1"><input type="checkbox" name="oilled" onclick="updateParameters(this,3)"><label>משומן</label></div>' +
-    '<div class="col-lg-2"><label>קושי עבודה</label><select onchange="updateParameters(this,2)">' +
+var sec6='.</h4></div></div><div class="row" style="margin-bottom:50px;"><div class="col-lg-1"></div>' +
+    '<div class="col-lg-1"><input type="checkbox" name="packed" onclick="updateParameters(this,4)"><label style="margin-right: 10px;">ארוז </label></div>' +
+    '<div class="col-lg-1"><input type="checkbox" name="oilled" onclick="updateParameters(this,3)"><label style="margin-right: 10px;">משומן</label></div>' +
+    '<div class="col-lg-2"><label style="margin-left: 10px;">קושי עבודה:</label><select onchange="updateParameters(this,2)">' +
     '<option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>' +
     '</div>' +
-    '<div class="col-lg-2"><label>שטח ריתוך/סימון (סמ"ר)</label><input type="text" style="width: 80px;" onkeyup="updateParameters(this,1)"></div>' +
-    '<div class="col-lg-2"><label>חומר</label><select onchange="updateParameters(this,0)">' +
+    '<div class="col-lg-3"><label style="margin-left: 10px;">שטח ריתוך/סימון (סמ"ר):</label><input type="text" style="width: 120px;" onkeyup="updateParameters(this,1)"></div>' +
+    '<div class="col-lg-2"><label style="margin-left: 10px;">חומר:</label><select onchange="updateParameters(this,0)">' +
     '<option value="0">PVC</option><option value="1">Aluminum</option><option value="3">Copper</option></select></div>' +
-    '<input type="text" name="parameters';
+    '<input style="display: none;" type="text" name="parameters';
 var sec7='" value="0,0,1,0,0"></div><div id="perror';
 var sec8='" class="row login-error" align="center" style="display:none; margin-bottom: 40px;"> \n' +
     '<span>אנא וודא שנתת למוצר שם, כמות גדולה מ-0 ורשימת תהליכים חוקית.</span></div></div>';

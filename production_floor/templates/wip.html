@@ -29,7 +29,7 @@
             {% endif %}
         </li>
         <li>
-            {% if start_time %}
+            {% if start_time and not done_time %}
                 <a id="end">
             {% else %}
                 <label style="color: lightgray">
@@ -51,10 +51,16 @@
         <span style="font-size: 1.8em">{{ context.amount }} יחידות של {{ context.name }}</span>
         <br/><br/><br/>
         {% if start_time %}
-            <span style="font-size: 1.3em">העבודה החלה ב{{ start_time }} (לפני {{ start_time|timesince }})</span>
+            <span style="font-size: 1.3em">העבודה החלה ב{{ start_time|date:'d/m/Y, H:i' }} (לפני {{ start_time|timesince }})</span>
         {% endif %}
         <br/><br/>
-        <span style="font-size: 1.3em">        זמן עבודה מוערך כולל בתחנת {{ context.process }} הוא כ-{{ time }}</span>
+        {% if done_time %}
+            <span style="font-size: 1.3em">העבודה הושלמה ב{{ done_time|date:'d/m/Y, H:i' }} (לפני {{ done_time|timesince }})</span>
+            <br/>
+            <span style="font-size: 1.3em">בוצע ע"י {{ operator }}</span>
+        {% else %}
+            <span style="font-size: 1.3em">        זמן עבודה מוערך כולל בתחנת {{ context.process }} הוא כ-{{ time }}</span>
+        {% endif %}
     </div>
 </div>
 <div>
@@ -78,21 +84,22 @@
                 <div class="col-lg-6">
                     <div class="input-group">
                         <span style="margin-left:5px;">שם המבצע:</span>
-                        <input type="text" name="operator">
+                        <input type="text" name="operator" required>
                     </div>
                     <div class="input-group">
                         <span style="margin-left:30px;">הערות:</span>
                         <textarea name="remarks"></textarea>
                     </div>
                 </div>
-                <div class="input-group" >
+                <div class="input-group" style="display: none;">
                     <span style="margin-left:30px;">#מוצר</span>
                     <input type="text" name="id" style="background-color: lightgray;" readonly value={{ context.id }}>
                     <span style="margin-left:30px;">תהליך</span>
                     <input type="text" name="process" style="background-color: lightgray;" readonly value={{ context.process }}>
                 </div>
                 <br/>
-                <div class="modal-footer">
+                <div class="row"></div>
+                <div class="modal-footer" >
                     <button type="submit" class="btn btn-success">
                         <i class="fas fa-check"></i>סיים
                     </button>

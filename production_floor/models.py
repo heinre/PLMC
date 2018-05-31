@@ -33,6 +33,13 @@ class Product(models.Model):
     def parse_done(self):
         return json.loads(self.done_processes)
 
+    def get_done(self):
+        dic = json.loads(self.done_processes)
+        done = []
+        for key in dic:
+            if 'done_time' in dic[key]:
+                done.append(key)
+        return done
 
     def parse_param(self):
         param_list = self.parameters.split(',')
