@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -135,4 +136,13 @@ LOGIN_EXEMPT_URLS = (
 
 MANAGER_ONLY_URLS = (
     r'^admin/',
+    r'^orders/',
+    r'^clients/',
+    r'^reports/',
+    r'^productionFloor/stations',
+    r'^productionFloor/products',
+    r'^productionFloor/schedule',
+    r'^workers/(?P<worker_id>[0-9]+)$',
+    r'^workers/edit',
+    r'^workers/new',
 )

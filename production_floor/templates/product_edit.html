@@ -51,18 +51,12 @@
         <form class="new-client-form" action="" method="POST">
             {% csrf_token %}
             <div class="col-lg-3">
-                <div class="input-group">
+                <div class="input-group" style="display: none;  ">
                     <span class="rtlform">{{ form.done_processes.label_tag }}</span>
                     {{ form.done_processes }}
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="input-group">
-                    <span class="rtlform">{{ form.processes.label_tag }}</span>
-                    {{ form.processes }}
-                </div>
-            </div>
-            <div class="col-lg-4">
                 <div class="input-group">
                     <span style="display: none;">{{ form.order }}</span>
                     <span class="rtlform">{{ form.name.label_tag }}</span>
@@ -73,6 +67,13 @@
                     <span class="rtlform">{{ form.amount.label_tag }}</span>
                     {{ form.amount }}
                 </div>
+                <div class="input-group">
+                    <span class="rtlform">{{ form.processes.label_tag }}</span>
+                    {{ form.processes }}
+                </div>
+            </div>
+            <div class="col-lg-4">
+
                 <div class="input-group" style="display: none;">
                     {{ form.parameters }}
                 </div>

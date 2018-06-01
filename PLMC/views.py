@@ -6,7 +6,6 @@ from django.contrib.auth import login, logout
 from django.contrib.messages import info
 from clients.models import Client
 from production_floor.models import Station
-import mimetypes
 import json
 
 
@@ -42,7 +41,7 @@ def get_stations(request):
 
 
 def index(request):
-    return render(request, 'base.html')
+    return render(request, 'index.html')
 
 
 def login_view(request):

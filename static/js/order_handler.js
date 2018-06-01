@@ -1,28 +1,28 @@
-var sec1='<div class="row"><div class="row">\n' +
-    '       <div class="col-lg-1"></div><div class="col-lg-3"><label>תהליכים:</label><input type="text" name="process';
+var sec1='<div class="row"><div class="row" style="margin-right: -2px;"">\n' +
+    '       <div class="col-lg-1"></div><div class="col-lg-3"><label style="margin-right: -10px; margin-left: 10px">תהליכים:</label><input type="text" name="process';
 var sec2='"><span style="padding:0 10px 0 10px; ">+</span><select onchange="addProcess(this,this.value)">\n' +
     '       <option style="display: none;" selected>תהליך</option>';
 var sec3='</select> \n' +
     '</div> \n' +
     '<div class="col-lg-3"> \n' +
     '   <div class="input-group"> \n' +
-    '       <span class="rtlform"><label>כמות:</label></span>\n' +
+    '       <span class="rtlform" style="margin-right: -25px;"><label style="margin-left: -30px;">כמות:</label></span>\n' +
     '       <input type="text" name="pamount';
 var sec4='"></div></div> \n'+
     '<div class="col-lg-3"> \n' +
     '   <div class="input-group"> \n' +
-    '       <span class="rtlform"><label>שם:</label></span>\n' +
+    '       <span class="rtlform"  style="margin-right: -21px;"><label style="margin-left: -30px;">שם:</label></span>\n' +
     '       <input type="text" name="pname';
 var sec5='"></div></div> \n' +
-    '<div class="col-lg-1"><h4>';
-var sec6='.</h4></div></div><div class="row" style="margin-bottom:50px;"><div class="col-lg-1"></div>' +
-    '<div class="col-lg-1"><input type="checkbox" name="packed" onclick="updateParameters(this,4)"><label style="margin-right: 10px;">ארוז </label></div>' +
-    '<div class="col-lg-1"><input type="checkbox" name="oilled" onclick="updateParameters(this,3)"><label style="margin-right: 10px;">משומן</label></div>' +
-    '<div class="col-lg-2"><label style="margin-left: 10px;">קושי עבודה:</label><select onchange="updateParameters(this,2)">' +
+    '<div class="col-lg-1"><h4 style="display: inline; margin-right: 27px;"> ';
+var sec6='.</h4></div><div class="col-lg-1"></div></div><div class="row" style="margin-bottom:50px; margin-right: -270px;"><div class="col-lg-1"></div>' +
+    '<div class="col-lg-1" ><input type="checkbox" name="packed" onclick="updateParameters(this,4)"><label style="margin-right: 10px;">ארוז </label></div>' +
+    '<div class="col-lg-1" ><input type="checkbox" name="oilled" onclick="updateParameters(this,3)"><label style="margin-right: 10px;">משומן</label></div>' +
+    '<div class="col-lg-2" style="margin-right: -70px;"><label style="margin-left: 10px;">קושי עבודה:</label><select onchange="updateParameters(this,2)">' +
     '<option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>' +
     '</div>' +
     '<div class="col-lg-3"><label style="margin-left: 10px;">שטח ריתוך/סימון (סמ"ר):</label><input type="text" style="width: 120px;" onkeyup="updateParameters(this,1)"></div>' +
-    '<div class="col-lg-2"><label style="margin-left: 10px;">חומר:</label><select onchange="updateParameters(this,0)">' +
+    '<div class="col-lg-2"><label style="margin-left: 10px; margin-right: 20px;"">חומר:</label><select onchange="updateParameters(this,0)">' +
     '<option value="0">PVC</option><option value="1">Aluminum</option><option value="3">Copper</option></select></div>' +
     '<input style="display: none;" type="text" name="parameters';
 var sec7='" value="0,0,1,0,0"></div><div id="perror';
@@ -105,7 +105,6 @@ function removeProduct() {
 }
 
 function addProcess(obj,station){
-    console.log(station);
     $(obj).siblings()[1].value += station +',';
     $(obj).prop('selectedIndex', 0);
 }
@@ -138,16 +137,13 @@ function isProcessList(index){
     if (list.length < 1){
         return false;
     }
+    list = list.split(',');
+    if (list[list.length-1]==''){
+        list.pop();
+    }
     for (var i=0; i<list.length; i++){
-        if (!(i%2)) {
-            if (!stations.includes(list[i])) {
-                return false;
-            }
-        }
-        else{
-            if (list[i] != ','){
-                return false;
-            }
+        if (!stations.includes(list[i])) {
+            return false;
         }
     }
     return true;

@@ -41,12 +41,17 @@ class Product(models.Model):
                 done.append(key)
         return done
 
+    def stringify_done(self):
+        l = self.get_done()
+        l = str(l).replace('[', '').replace(']', '').replace("'", '')
+        return l
+
     def parse_param(self):
         param_list = self.parameters.split(',')
-        int_list = []
+        float_list = []
         for i in param_list:
-            int_list.append(int(i))
-        return int_list
+            float_list.append(float(i))
+        return float_list
 
     # should initialize executionTime field
     def estimate_execution_time(self):

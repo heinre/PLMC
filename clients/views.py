@@ -24,7 +24,7 @@ def clients_index(request):
             clients_dict[client.id] = [client, len(Order.objects.filter(clientID=client)),
                                        len(Order.objects.filter(doneTime=None).filter(clientID=client))]
         return render(request, 'client_page.html', {'nbar': 'clients', 'clients': clients_dict,
-                      'query': request.GET['query']})
+                      'query': request.GET['query'], 'search': True})
     answer = Order.objects.filter(doneTime=None).order_by('clientID')
     for order in answer:
         client = order.clientID

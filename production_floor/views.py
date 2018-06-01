@@ -150,7 +150,7 @@ def end_process(request):
     done[request.POST['process']]['operator'] = request.POST['operator']
     done[request.POST['process']]['remarks'] = request.POST['remarks']
     processes.remove(request.POST['process'])
-    processes = str(processes).replace('[','').replace(']','').replace("'","").replace(' ','')
+    processes = str(processes).replace('[','').replace(']','').replace("'", "").replace(' ', '')
     product.done_processes = json.dumps(done)
 
     with open('./production_floor/utilities/times.json') as file:
@@ -205,7 +205,6 @@ def schedule_index(request):
                                                 last_updated + timezone.timedelta(seconds=product_tuple[4]),
                                                 timezone.now() + timezone.timedelta(seconds=product_tuple[4]-product_tuple[3]+60),
                                                 color))
-        schedule_dict[station.type] = sorted(schedule_dict[station.type], key=itemgetter(4), reverse=True)
     _list = []
     for key in schedule_dict:
         _list.append((key, schedule_dict[key], Station.objects.filter(type=key)[0].id))

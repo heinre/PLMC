@@ -54,15 +54,19 @@
     <div class="row table">
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
-            {% if not orders and query %}
+            {% if not orders and search %}
                     אין תוצאות
             {% else %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>
                             {{ orders.count }}
-                            {% if query %}
+                            {% if search %}
+                                {% if query %}
                                 תוצאות עבור '{{ query }}'
+                                {% else %}
+                                הזמנות במערכת
+                                {% endif %}
                             {% else %}
                                  הזמנות פעילות
                             {% endif %}
@@ -74,7 +78,7 @@
                                 <th onclick="sortTable(0,0)"># הזמנה</th>
                                 <th onclick="sortTable(1,0)">שם לקוח</th>
                                 <th onclick="sortTable(2,0)">התקבלה לפני</th>
-                                {% if query %}
+                                {% if search %}
                                     <th onclick="sortTable(3,0)">זמן עיבוד</th>
                                 {% else %}
                                     <th onclick="sortTable(3,0)">יעד לסיום</th>
@@ -89,11 +93,11 @@
                                     <td>{{ order.clientID.name }}</td>
                                     <td><span >{{ order.created|timesince }}</span></td>
                                     <td>
-                                        {% if query %}
+                                        {% if search %}
                                             {% ifequal order.get_process_time '-' %}
-                                                <span>בעבודה</span>
+                                                <span style="font-weight: 600">בעבודה</span>
                                             {% else %}
-                                                <span>{{ order.get_process_timec }}</span>
+                                                <span>{{ order.get_process_time }}</span>
                                             {% endifequal %}
                                         {% else %}
                                             {% if order.dueDate %}

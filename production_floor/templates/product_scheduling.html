@@ -10,6 +10,7 @@
         </div>
     </div>
     <div class="menu">
+    {% if request.user|has_group:"Manager" %}
         <ul>
             <li>
                 <a href="{% url 'production_floor:schedule' %}">
@@ -24,7 +25,7 @@
                 </a>
             </li>
         </ul>
-
+    {% endif %}
     </div>
     <div class="row" style="text-align: center">
 עודכן לאחרונה ב        {{ last_updated }}

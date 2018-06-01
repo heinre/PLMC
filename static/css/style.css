@@ -392,3 +392,18 @@ th{
     text-align: center;
     padding: 0;
 }
+
+ .shifts-table td, .shifts-table th {
+  border-left: 1px solid #ddd;
+}
+
+  .shifts-table td:last-child, .shifts-table th:last-child {
+  border-left: none;
+}
+
+  .welcome{
+      margin-top: 15%;
+  }
+  .welcome h1 {
+      font-size: 10em;
+  }

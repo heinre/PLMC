@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load PLMC_extras %}
 {% block title %}
 - משמרות עובדים
 {% endblock %}
@@ -9,24 +10,26 @@
         </div>
     </div>
     <div class="menu">
-        <ul>
-            <li>
-                <a onclick="window.history.back(); return false;" >
-                    <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
-                    <div class="menu-text">חזרה</div>
-                </a>
-        </ul>
+        {% if request.user|has_group:"Manager" %}
+            <ul>
+                <li>
+                    <a onclick="window.history.back(); return false;" >
+                        <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
+                        <div class="menu-text">חזרה</div>
+                    </a>
+            </ul>
+        {% endif %}
     </div>
     <div class="row table">
         <div class="col-lg-3"></div>
-        <div class="col-lg-6">
+        <div class="col-lg-7">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>
                                  הקצאת משמרות
                         </h4>
                     </div>
-                    <table class="table table-hover">
+                    <table class="table table-hover shifts-table">
                         <thead>
                             <tr>
                                 <th colspan="3"></th>

@@ -54,15 +54,19 @@
     <div class="row table">
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
-            {% if not clients and query %}
+            {% if not clients and search %}
                 אין תוצאות
             {% else %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>
                             {{ clients|length }}
-                            {% if query %}
+                            {% if search %}
+                                {% if query %}
                                 תוצאות עבור '{{ query }}'
+                                {% else %}
+                                    לקוחות במערכת
+                                {% endif %}
                             {% else %}
                                 לקוחות עם הזמנות פעילות
                             {% endif %}

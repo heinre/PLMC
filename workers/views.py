@@ -5,11 +5,13 @@ from .models import Worker
 from production_floor.models import Station
 import networkx as nx
 from . import forms
-import ast
+import json
 # Create your views here.
 
 
 def workers_index(request):
+    if request.user.groups.filter(name='Employee').exists():
+        return redirect('workers:shifts')
     if request.GET:
         answer = Worker.objects.filter(id__contains=request.GET['query']) | \
                  Worker.objects.filter(firstName__contains=request.GET['query']) | \
@@ -82,7 +84,14 @@ def worker_delete(request):
 def workers_shifts(request):
     with open('./workers/utilities/shifts', 'r') as file:
         shifts = file.read()
-    return render(request, 'worker_shifts.html', {'nbar': 'workers', 'shifts': ast.literal_eval(shifts)})
+    shifts = json.loads(shifts)
+    named_shifts_dict = {}
+    for key, value in shifts.items():
+        for shift in value:
+            if shift != 'x':
+                value[value.index(shift)] = Station.objects.get(id=int(shift)).type
+        named_shifts_dict[str(key) + ' - ' + str(Worker.objects.filter(pk=key)[0])] = value
+    return render(request, 'worker_shifts.html', {'nbar': 'workers', 'shifts': named_shifts_dict})
 
 
 def create_shifts_graph():
@@ -110,10 +119,11 @@ def create_shifts_graph():
 def assign_shifts():
     graph = create_shifts_graph()
     flow_dict = nx.maximum_flow(graph, 'B', 'T')[1]
+    print(flow_dict)
     shifts_dict = {}
     # initialize all workers to work none
     for worker in Worker.objects.all():
-        shifts_dict[worker.id] = 'xxxxxxxxxxxxxxx'
+        shifts_dict[worker.id] = ['x'] * 15
     # check nodes that represent worker at a certain day
     for node in flow_dict:
         if type(node) is not int:
@@ -121,13 +131,8 @@ def assign_shifts():
                 for destination in flow_dict[node]:
                     # if there is flow for the i-th shift the i-th char in the string will be updated to the station id
                     if flow_dict[node][destination] > 0:
-                        s = list(shifts_dict[node[1]])
-                        s[destination[2]] = str(destination[1])
-                        shifts_dict[node[1]] = ''.join(s)
-    named_shifts_dict = {}
-    for key, value in shifts_dict.items():
-        named_shifts_dict[str(key) + ' - ' + str(Worker.objects.filter(pk=key)[0])] = value
+                        shifts_dict[node[1]][destination[2]] = str(destination[1])
     with open('./workers/utilities/shifts', 'w') as file:
-        file.write(str(named_shifts_dict))
+        file.write(json.dumps(shifts_dict))
 
 
