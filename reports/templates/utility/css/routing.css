@@ -7,19 +7,33 @@ body {
   padding: 1em;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 15px;
-  color: #1B4F72;
+  color: #b9b9b9;
   background-color: #e3e3e3;
 }
 h4 {
   color: #1B4F72;
 }
+table {
+    alignment-baseline:  left;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    color:#1B4F72;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+}
+
 input,
 input[type="radio"] + label,
 input[type="checkbox"] + label:before,
 select option,
 select {
   width: 100%;
-  padding: 0.8em;
+  padding: 1em;
   line-height: 1.4;
   background-color: #f9f9f9;
   border: 1px solid #1B4F72;
@@ -33,6 +47,7 @@ select {
 }
 input:focus {
   outline: 0;
+  border-color: #5DADE2;
   text-align: right;
 }
 input:focus + .input-icon i {
@@ -46,7 +61,7 @@ input[type="radio"] {
 }
 input[type="radio"] + label,
 select {
-  display: inline-block;
+  
   width: 50%;
   text-align: center;
   float: center;
@@ -63,17 +78,42 @@ input[type="radio"] + label:last-of-type {
 input[type="radio"] + label i {
   padding-right: 0.4em;
 }
-
+input[type="radio"]:checked + label,
 input:checked + label:before,
 select:focus,
 select:active {
-  background: #1B4F72;
+  background-color: #7ed321;
+  color: #1B4F72;
+  border-color: #1B4F72;
 }
 input[type="checkbox"] {
-  top:13em;
-  width: 1em;
+  display: none;
 }
-
+input[type="checkbox"] + label {
+  position: relative;
+  display: block;
+  padding-right: 1.6em;
+}
+input[type="checkbox"] + label:before {
+  position: absolute;
+  top: 0.2em;
+  right: 0;
+  display: block;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  content: "";
+}
+input[type="checkbox"] + label:after {
+  position: absolute;
+  top: 0.45em;
+  right: 0.2em;
+  font-size: 0.8em;
+  color: #fff;
+  opacity: 0;
+  font-family: FontAwesome;
+  content: "\f00c";
+}
 input:checked + label:after {
   opacity: 1;
 }
@@ -213,6 +253,26 @@ select option {
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
+}
+.column5 {
+    float: right;
+    width: 20%;
+    padding: 5px;
+  }
+.column {
+    float: right;
+    width: 33.33%;
+    padding: 5px;
+}
+.column4 {
+    float: right;
+    width: 25%;
+    padding: 5px;
+}
+.column2 {
+    float: right;
+    width: 50%;
+    padding: 5px;
 }
 @media only screen and (max-width: 540px) {
   .col-half {

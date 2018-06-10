@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="hw" >
+{% load static %}
+{% load PLMC_extras %}
+<head>
+
+  <meta charset="UTF-8">
+  <title>Shoham PLMC - יצירת טופס ניתוב</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+
+      <link rel="stylesheet" href="css/style.css">
+
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row">
+            <h4><img src="image/topShoham.jpg" align = "center" style="width: 100%; padding-top: 15px; padding-left: 10px" alt="top"></h4>
+      </div>
+      <div class="row">
+          <h4 align="center" style=" padding-bottom: 10px;">
+                <div><font size="6"><u>כרטיס ניתוב</u></font></div>
+          </h4>
+          <div dir="rtl" style="color:#1B4F72;">
+              <div style="padding: 5px"><b>שם הלקוח: </b>{{ data.product.order.clientID.name }}</div>
+              <div class = "column"><b>מספר הזמנה: </b>{{ data.product.order.id }}</div>
+              <div class = "column"><b>מספר שרטוט: </b></div>
+              <div class = "column"><b>מהדורה: </b></div>
+              <div class = "column"><b>תיאור פריט: </b>{{ data.product.name }}</div>
+              <div class = "column"><b>מק"ט: </b></div>
+              <div class = "column"><b>כמות: </b>{{ data.product.amount }}</div>
+          </div>
+      </div>
+
+        <div align= "center" dir="rtl" style="margin: 0 auto; padding-top: 80px;" >
+              <table align="center">
+                  <thead>
+                    <tr>
+                      <th>מס' פעולה</th>
+                      <th>פירוט הפעולה</th>
+                      <th>כמות שמישים</th>
+                      <th>שם המבצע</th>
+                      <th>זמן ביצוע</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+               		{% for process, info in data.done_processes.items %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ process }}</td>
+                            <td>{{ info.amount }}</td>
+                            <td>{{ info.operator }}</td>
+                            <td>{{ info.done_time|timestamp|date:'H:i j/n/Y' }}</td>
+                        </tr>
+                        {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+
+    <div dir="rtl" style="color:#1B4F72; padding-top: 20px;">
+        <div>
+	          <div class = "column"><b>שם המתכנן: </b>{{ data.planner }}</div>
+	          <div class = "column"><b>חתימה: _____________</b></div>
+	          <div class = "column">
+	              <b>תאריך: </b>
+	              {% if data.DD %}
+	                <span>{{ data.DD }}/{{ data.MM }}/{{ data.YY }}</span>
+                  {% endif %}
+	          </div>
+        </div>
+    </div>
+	<div dir="rtl" style="color:#1B4F72; padding-top: 30px;">
+            <div class = "column4"><b>ביקורת סופית ויזואלית לפי: </b></div>
+            <div class = "column4">
+            		{% if data.visual_sc %}
+                    <i class="far fa-window-close"></i>
+                    {% else %}
+                    <i class="far fa-square"></i>
+                    {% endif %}
+              		<b>סקווליה רא"ר 2.5% </b>
+              </div>
+              <div class = "column4">
+              		{% if data.visual_100 %}
+                    <i class="far fa-window-close"></i>
+                    {% else %}
+                    <i class="far fa-square"></i>
+                    {% endif %}
+                  <b>100% </b>
+              </div>
+              <div class = "column4">
+              		{% if data.visual_other %}
+                    <i class="far fa-window-close"></i>
+                    {% else %}
+                    <i class="far fa-square"></i>
+                    {% endif %}
+                  	{% if data.visual_other and data.visual_other_text %}
+                    	<b>אחר: </b>
+                    	<span>{{ data.visual_other_text }}</span>
+                  	{% else %}
+                      <b>אחר</b>
+                  {% endif %}
+              </div>
+        </div>
+	<div dir="rtl" style="color:#1B4F72; padding-top: 30px;">
+            <div class = "column2"><b>מספר חלקים במנה: </b>{{ data.portion }}</div>
+            <div class = "column2"><b>מספר חלקים בדגימה: </b>{{ data.sample }}</div>
+    </div>
+    <div dir="rtl" style="color:#1B4F72; padding-top: 30px;">
+            <div class = "column">
+            	{% if data.usable %}
+                    <i class="far fa-window-close"></i>
+                {% else %}
+                    <i class="far fa-square"></i>
+                {% endif %}
+                <b>שמיש</b>
+            </div>
+            <div class = "column">
+            	{% if data.invalid %}
+                    <i class="far fa-window-close"></i>
+                {% else %}
+                    <i class="far fa-square"></i>
+                {% endif %}
+                <b>פסול</b>
+            </div>
+            <div class = "column">
+            	{% if data.use_other %}
+                    <i class="far fa-window-close"></i>
+                {% else %}
+                    <i class="far fa-square"></i>
+                {% endif %}
+                {% if data.use_other and data.use_other_text %}
+                      <b>אחר: </b>
+                      <span>{{ data.use_other_text }}</span>
+                {% else %}
+                      <b>אחר</b>
+                {% endif %}
+            </div>
+    </div>
+	<div dir="rtl" style="color:#1B4F72; padding-top: 30px;">
+            <div class = "column"><b>שם המבקר: </b>{{ data.audit }}</div>
+            <div class = "column"><b>חתימה: _____________</b></div>
+            <div class = "column">
+                <b>תאריך: </b>
+                {% now 'j/n/Y' %}
+            </div>
+    </div>
+
+      <div class="row">
+          <div style="position: absolute; bottom: 10%">
+              <h2 align="left" style="padding-left: 0px"><div>,תודה על שיתוף הפעולה</div></h2>
+              <h2 align="left" style="padding-bottom: 10px; padding-left: 20px"><div>מ.שוהם סחר בע"מ</div></h2>
+          </div>
+      </div>
+      <div align="row">
+              <h4><img src="image/footerShoham.jpg" align = "center" style="width: 100%; position: absolute; bottom: 25px;" alt="footer"></h4>
+      </div>
+        <span style="width: 100%; position: absolute; bottom: 0px; font-size: 10px" dir="rtl">טופס זה הופק ב-{% now 'j/n/Y H:i:s' %}</span>
+</div>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+
+</body>
+
+</html>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.template import loader
 from production_floor.models import Product
+from orders.models import Order
 from django.http import HttpResponse
 import codecs
 import os
@@ -9,7 +10,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 import pdfkit
 import random
 import string
-import datetime
+import json
 
 
 def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits):
@@ -23,7 +24,8 @@ def render_to_file(template, filepath, context):
 
 
 def reports_index(request):
-    products = Product.objects.filter(processes='').filter(coc='')
+    products = Product.objects.filter(processes='').filter(coc='') | \
+               Product.objects.filter(processes='').filter(routing='')
     return render(request, 'report_page.html', {'nbar': 'reports', 'products': products})
 
 
@@ -39,7 +41,7 @@ def coc(request, product_id):
                 if not product.processes:
                     return render(request, 'coc_form.html', {'nbar': 'reports', 'product': product})
                 else:
-                    return _not_exist_page(request, 'notFinished')
+                    return _not_exist_page(request, 'המוצר לא סיים עיבוד בכל התחנות')
             else:
                 product = Product.objects.get(id=request.POST['product'])
                 form = request.POST.copy()
@@ -65,7 +67,77 @@ def coc(request, product_id):
                 return redirect('reports:coc', product.id)
 
     except ObjectDoesNotExist:
-        return _not_exist_page(request, 'notExist')
+        return _not_exist_page(request, 'המוצר אינו קיים')
+
+
+def delivery(request, order_id):
+    try:
+        order = Order.objects.get(id=order_id)
+        if request.method == 'GET':
+            if order.doneTime:
+                return render(request, 'delivery_form.html', {'nbar': 'reports', 'order': order})
+            else:
+                return _not_exist_page(request, 'ההזמנה עדיין בתהליכי עיבוד')
+        else:
+            form = request.POST.copy()
+            print(form)
+            order = Order.objects.get(id=form['order_number'])
+            del form['csrfmiddlewaretoken']
+            data = {
+                'client_name': order.clientID.name,
+                'client_address': order.clientID.address,
+            }
+            for field in form:
+                if form[field] != '':
+                    data[field] = form[field]
+            rand_file = 'reports/templates/utility/' + random_string_generator() + '.html'
+            render_to_file('delivery.html', rand_file, {"data": data})
+            pdf = pdfkit.from_file(rand_file, False, options={'title': 'SHOHAM - delivery of order ' + str(order.id)})
+            response = HttpResponse(pdf, content_type='application/pdf')
+            response['Content-Disposition'] = 'filename=delivery_' + str(order.id) + '.pdf'
+            os.remove(rand_file)
+            return response
+    except ObjectDoesNotExist:
+        return _not_exist_page(request, 'המוצר אינו קיים')
+
+
+def routing(request, product_id):
+    try:
+        product = Product.objects.get(id=product_id)
+        if product.routing:
+            response = HttpResponse(product.routing, content_type='application/pdf')
+            response['Content-Disposition'] = 'filename='+str(product.order.id)+'_'+str(product.id)+'_routing.pdf'
+            return response
+        else:
+            if request.method == 'GET':
+                if not product.processes:
+                    return render(request, 'routing_form.html', {'nbar': 'reports', 'product': product})
+                else:
+                    return _not_exist_page(request, 'המוצר לא סיים עיבוד בכל התחנות')
+            else:
+                product = Product.objects.get(id=request.POST['product'])
+                form = request.POST.copy()
+                del form['csrfmiddlewaretoken']
+                del form['product']
+                data = {
+                    'product': product,
+                    'done_processes': json.loads(product.done_processes),
+                }
+                for field in form:
+                    if form[field] != '':
+                        data[field] = form[field]
+                print(data)
+                rand_file = 'reports/templates/utility/' + random_string_generator() + '.html'
+                render_to_file('routing.html', rand_file, {"data": data})
+                pdf = pdfkit.from_file(rand_file, False,
+                                       options={'title': 'SHOHAM - routing card of product ' + str(product.id)})
+                product.routing = SimpleUploadedFile(str(product.order.id) + '_' + str(product.id) + '_routing.pdf',
+                                                     pdf, content_type='application/pdf')
+                product.save()
+                os.remove(rand_file)
+            return redirect('reports:routing', product.id)
+    except ObjectDoesNotExist:
+        return _not_exist_page(request, 'המוצר אינו קיים')
 
 
 def _not_exist_page(request, error):

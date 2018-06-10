@@ -5,7 +5,7 @@
 }
 body {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 15px;
+  font-size: 17px;
 }
 h4 {
   color: #1B4F72;
@@ -37,6 +37,28 @@ select:active {
   position: relative;
 }
 
+.column5 {
+    float: right;
+    width: 20%;
+    padding: 5px;
+  }
+.column {
+    float: right;
+    width: 33.33%;
+    padding: 5px;
+}
+.column4 {
+    float: right;
+    width: 25%;
+    padding: 5px;
+}
+.column2 {
+    float: right;
+    width: 50%;
+    padding: 5px;
+}
+
+
 
 .container {
   background: white;
@@ -58,7 +80,19 @@ select:active {
   float: right;
   width: 50%;
 }
+table {
+    alignment-baseline:  left;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    color:#1B4F72;
+}
 
+td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+}
 @media only screen and (max-width: 540px) {
 
 }

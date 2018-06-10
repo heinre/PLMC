@@ -23,6 +23,7 @@ class Product(models.Model):
     parameters = models.CharField(max_length=200, blank=True, null=True)
     done_processes = models.TextField(blank=True, null=True, default='{}')
     coc = models.FileField(upload_to='media/coc', null=True, blank=True)
+    routing = models.FileField(upload_to='media/routing', null=True, blank=True)
     processes = models.TextField(blank=True, null=True)
 
     # should return a list of machines and another list machines in order

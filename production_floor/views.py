@@ -10,7 +10,6 @@ import os
 
 
 
-
 def product_edit(request, product_id):
     try:
         instance = Product.objects.get(id=product_id)
@@ -149,6 +148,7 @@ def end_process(request):
     done[request.POST['process']]['done_time'] = timezone.now().timestamp()
     done[request.POST['process']]['operator'] = request.POST['operator']
     done[request.POST['process']]['remarks'] = request.POST['remarks']
+    done[request.POST['process']]['amount'] = request.POST['amount']
     processes.remove(request.POST['process'])
     processes = str(processes).replace('[','').replace(']','').replace("'", "").replace(' ', '')
     product.done_processes = json.dumps(done)
@@ -165,7 +165,7 @@ def end_process(request):
     product.processes = processes
     product.save()
     order = product.order
-    product_in_order = Product.objects.filter(order = order)
+    product_in_order = Product.objects.filter(order=order)
     flag = True
     for _product in product_in_order:
         if _product.processes != '':

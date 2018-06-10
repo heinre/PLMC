@@ -1,5 +1,5 @@
 from django import template
-
+from django.utils import timezone
 from django.contrib.auth.models import Group
 
 register = template.Library()
@@ -13,3 +13,8 @@ def has_group(user, group_name):
 @register.filter(name='modulo')
 def modulo(num, val):
     return num % val
+
+
+@register.filter(name='timestamp')
+def timestamp(stamp):
+    return timezone.datetime.fromtimestamp(stamp)

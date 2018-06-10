@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="hw" >
+{% load static %}
+<head>
+
+  <meta charset="UTF-8">
+  <title>Shoham PLMC - יצירת אישור איסוף</title>
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+
+      <link rel="stylesheet" href="{% static 'css/coc.css' %}">
+
+  
+</head>
+
+<body>
+
+<div class="container">
+  <form id="deliveryForm" action="./{{ order.id }}" method="post">
+      {% csrf_token %}
+      <div class="row">
+          <h4 align="center">
+              <div><font size="4">אישור איסוף חבילה </font></div>
+          </h4>
+          <div align="right" style="color:#1B4F72">
+              <b>:חשבונית / תעודת משלוח</b>
+          </div>
+          <div class="input-group input-group-icon" align="right">
+              <input type="text" name="shipping" placeholder="חשבונית / תעודת משלוח"/>
+              <div class="input-icon">
+                  <i class="fa fa-file-text-o "></i>
+              </div>
+          </div>
+          <div align="right" style="color:#1B4F72">
+              <b>:מספר הזמנה</b>
+          </div>
+          <div class="input-group input-group-icon">
+              <input style="background-color: #e6ffcc;" align="right" name="order_number" type="text" value="{{ order.id }}" readonly />
+              <div class="input-icon" align="right">
+                  <i class="fa fa-barcode"></i>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <h4 align="right">הערות</h4>
+          <div class="input-group">
+              <textarea name="remarks" form="deliveryForm" dir="rtl" style="width: 100%; height: 100px; resize: none;"></textarea>
+          </div>
+      </div>
+      <div class="row">
+        <div class="input-group">
+            <div for="terms" align="right"><font size="5">פרטי הנהג</font></div>
+            <div align="right" style="color:#1B4F72"><b>:שם מלא</b></div>
+            <div class="input-group input-group-icon" align="right">
+                <input type="text" name="name" placeholder=""/>
+            </div>
+            <div align="right" style="color:#1B4F72"><b>:חתימה</b></div>
+            <div class="input-group input-group-icon" align="right">
+                <input type="text" name="signature" placeholder=""/>
+            </div>
+            <div align="right" style="color:#1B4F72"><b>:תאריך  איסוף</b></div>
+            <div class="input-group input-group-icon" align="right">
+                <div class="col-third">
+                    <input name="DD" type="text" placeholder="DD" onkeyup="checkDateValidity()"/>
+                </div>
+                <div class="col-third" >
+                    <input name="MM" type="text" placeholder="MM" onkeyup="checkDateValidity()"/>
+                </div>
+                <div class="col-third">
+                    <input name="YY" type="text" placeholder="YYYY" onkeyup="checkDateValidity()"/>
+                </div>
+            </div>
+        </div>
+      </div>
+
+        <input style="text-align: center; background-color: #4CAF50" type="submit" value="צור טופס" id="submit">
+
+    </div>
+  </form>
+</div>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+</div>
+
+<script>
+        function checkDateValidity(){
+            var day,month,year;
+            day = document.getElementsByName('DD')[0].value;
+            month= document.getElementsByName('MM')[0].value;
+            year = document.getElementsByName('YY')[0].value;
+            var date = checkDate(day,month,year);
+            if(date){
+                $('#submit').attr("disabled", false);
+                $('#submit').css("background-color", '#4CAF50');
+            }
+            else{
+                $('#submit').attr("disabled", true);
+                $('#submit').css("background-color", 'lightgray');
+            }
+        }
+        function checkDate(day,month,year){
+            if ((0 < day && day < 32) && (0 < month && month < 13) && (2000 < year && year < 2100)){
+                return true;
+            }
+            if (!day && !month && !year){
+                return true;
+            }
+            return false;
+        }
+
+    </script>
+
+</body>
+
+</html>

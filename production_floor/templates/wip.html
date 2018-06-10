@@ -83,11 +83,15 @@
                 <div class="col-lg-3"></div>
                 <div class="col-lg-6">
                     <div class="input-group">
-                        <span style="margin-left:5px;">שם המבצע:</span>
+                        <span style="margin-left:19px;">שם המבצע:</span>
                         <input type="text" name="operator" required>
                     </div>
                     <div class="input-group">
-                        <span style="margin-left:30px;">הערות:</span>
+                        <span style="margin-left:5px;">כמות שמישים:</span>
+                        <input type="text" name="amount" value="{{ context.amount }}" required>
+                    </div>
+                    <div class="input-group">
+                        <span style="margin-left:44px;">הערות:</span>
                         <textarea name="remarks"></textarea>
                     </div>
                 </div>

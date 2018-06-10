@@ -33,6 +33,7 @@ select {
 }
 input:focus {
   outline: 0;
+  border-color: #5DADE2;
   text-align: right;
 }
 input:focus + .input-icon i {
@@ -63,17 +64,42 @@ input[type="radio"] + label:last-of-type {
 input[type="radio"] + label i {
   padding-right: 0.4em;
 }
-
+input[type="radio"]:checked + label,
 input:checked + label:before,
 select:focus,
 select:active {
-  background: #1B4F72;
+  background-color: #7ed321;
+  color: #1B4F72;
+  border-color: #1B4F72;
 }
 input[type="checkbox"] {
-  top:13em;
-  width: 1em;
+  display: none;
 }
-
+input[type="checkbox"] + label {
+  position: relative;
+  display: block;
+  padding-right: 1.6em;
+}
+input[type="checkbox"] + label:before {
+  position: absolute;
+  top: 0.2em;
+  right: 0;
+  display: block;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  content: "";
+}
+input[type="checkbox"] + label:after {
+  position: absolute;
+  top: 0.45em;
+  right: 0.2em;
+  font-size: 0.8em;
+  color: #fff;
+  opacity: 0;
+  font-family: FontAwesome;
+  content: "\f00c";
+}
 input:checked + label:after {
   opacity: 1;
 }
