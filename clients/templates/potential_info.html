@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block title %}
+            {% if client %}
+                - {{ client.name }}
+            {% else %}
+                - לקוחות
+            {% endif %}
+{% endblock %}
+{% block  content %}
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6 page-title">
+        <h1>
+            {% if client %}
+                {{ client.name }}
+            {% endif %}
+        </h1>
+        </div>
+    </div>
+    <!-- MENU -->
+    <div class="menu">
+        <ul>
+            <li>
+                <a onclick="window.history.back(); return false;" >
+                    <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
+                    <div class="menu-text">חזרה</div>
+                </a>
+            </li>
+            {% if client %}
+                <li>
+                    <a href="{% url 'clients:edit' client.id %}" >
+                        <div class="menu-icon"><i class="fas fa-pencil-alt"></i></div>
+                        <div class="menu-text">ערוך</div>
+                    </a>
+                </li>
+                <li>
+                    <a id="delete" >
+                        <div class="menu-icon"><i class="fas fa-trash-alt"></i></div>
+                        <div class="menu-text">מחק</div>
+                    </a>
+                </li>
+                <li class="right-menu">
+                <a href="{% url 'orders:new' %}?client={{ client.id }}">
+                    <div class="menu-icon"><i class="fas fa-cart-plus"></i></div>
+                    <div class="menu-text">טופס מתעניין</div>
+                </a>
+            </li>
+            {% endif %}
+                </ul>
+    </div>
+        <!-- CONTENT -->
+            {% if client %}
+                <div class="row"></div>
+                <div class="row info">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4">
+                        <h3>כתובת</h3>
+                        <p>{{ client.address }}</p>
+                    </div>
+                    <div class="col-lg-3">
+                        <h3>פרטי התקשרות</h3>
+                        <p>{{ client.contactName }}</p>
+                        {% if client.contactPhone %}
+                            <p>{{ client.contactPhone }}</p>
+                        {% endif %}
+                        {% if client.contactEmail %}
+                            <p>{{ client.contactEmail }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row info">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4">
+                        <h3>מטופל ע"י</h3>
+                        <p>{{ client.operator }}</p>
+                    </div>
+                    <div class="col-lg-3">
+                        <h3>תחום התעניינות</h3>
+                        <p>{{ client.field }}</p>
+                    </div>
+                </div>
+                <div class="row info">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4">
+                            <h3>זמן הפנייה</h3>
+                            <p>{{ client.created|date:'d/m/Y, H:i' }}</p>
+                    </div>
+                    <div class="col-lg-3">
+                        <h3>התקבל דרך</h3>
+                        <p>{{ client.get_referred_display }}</p>
+                    </div>
+
+                </div>
+                {% if client.remarks %}
+                    <div class="row">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-6">
+                            <h3>הערות</h3>
+                            <p>{{ client.remarks }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+
+
+
+
+                <!-- DELETE MODAL -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <h1><i class="fas fa-exclamation-circle"></i></h1>
+                                <h3>האם אתה בטוח שברצונך למחוק את הלקוח {{ client.name }}?</h3>
+                                <p>תהליך זה ימחק את כל המידע הקשור ללקוח {{ client.name }}, כולל הזמנות.</p>
+                                <p style="font-weight: bold">לא ניתן לשחזר מידע שנמחק.</p>
+                            </div>
+                            <div class="modal-footer">
+                                {% csrf_token %}
+                                <button type="button" class="btn btn-danger" onclick="deleteClient({{ client.id }})">
+                                    <i class="fas fa-check"></i> מחק
+                                </button>
+                                <button type="button" class="btn btn-info" data-dismiss="modal">
+                                    <i class="fas fa-times"></i> בטל
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- NOT EXISTS MESSAGE -->
+            {% else %}
+                <div class="row"></div>
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-6">
+                        <div class="not-exist">
+                            <i class="fas fa-ban"></i>
+                            <p>הלקוח אינו קיים</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+
+
+{% endblock %}

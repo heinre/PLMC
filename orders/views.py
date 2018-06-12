@@ -12,11 +12,9 @@ def orders_index(request):
         answer = Order.objects.filter(id__contains=request.GET['query']) | \
                  Order.objects.filter(clientID__name__contains=request.GET['query']) | \
                  Order.objects.filter(clientID__id__contains=request.GET['query'])
-        print(request.GET)
         return render(request, 'order_page.html', {'nbar': 'orders', 'orders': answer,
                       'query': request.GET['query'], 'search': True})
     answer = Order.objects.filter(doneTime=None)
-    print(request.GET)
     return render(request, 'order_page.html', {'nbar': 'orders', 'orders': answer})
 
 

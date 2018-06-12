@@ -56,7 +56,13 @@ def coc(request, product_id):
                     if form[field] != '':
                         data[field] = form[field]
                 rand_file = 'reports/templates/utility/' + random_string_generator() + '.html'
-                render_to_file('COC.html', rand_file, {"data": data})
+                with open('./reports/utilities/globals.json', 'r+') as file:
+                    data = json.load(file)
+                    data['COC'] = data['COC'] + 1
+                    serial = str(data['COC']).zfill(6)
+                    file.seek(0)
+                    file.write(json.dumps(data))
+                render_to_file('COC.html', rand_file, {"data": data, 'serial': serial})
                 pdf = pdfkit.from_file(rand_file, False, options={'title': 'SHOHAM - C.O.C of part '
                                                                            + str(product.id) + ', order '
                                                                            + str(product.order.id)})

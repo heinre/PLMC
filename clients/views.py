@@ -6,9 +6,10 @@ from django.contrib.auth import login, logout
 from django.contrib.messages import info
 from django.http import JsonResponse
 from . import forms
-from .models import Client
+from .models import Client, PotentialClient
 from orders.models import Order
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 
 
 def clients_index(request):
@@ -49,6 +50,18 @@ def clients_new(request):
     return render(request, 'client_new.html', {'nbar': 'clients', 'form': forms.ClientNew()})
 
 
+def potential_new(request):
+    if request.method == 'POST':
+        form = forms.PotentialNew(request.POST)
+        if form.is_valid():
+            form.instance.created = timezone.now()
+            client = form.save()
+            return redirect('clients:p_new', client.id)
+        else:
+            return render(request, 'potential_new.html', {'nbar': 'clients', 'form': form})
+    return render(request, 'potential_new.html', {'nbar': 'clients', 'form': forms.PotentialNew()})
+
+
 def client_info(request, client_id):
     try:
         client = Client.objects.get(id=client_id)
@@ -57,6 +70,14 @@ def client_info(request, client_id):
         return render(request, 'client_info.html', {'nbar': 'clients',
                                                     'client': client, 'done_orders': done_orders,
                                                     'active_orders': active_orders})
+    except ObjectDoesNotExist:
+        return _not_exist_page(request)
+
+
+def potential_info(request, client_id):
+    try:
+        client = PotentialClient.objects.get(id=client_id)
+        return render(request, 'potential_info.html', {'nbar': 'clients', 'client': client})
     except ObjectDoesNotExist:
         return _not_exist_page(request)
 
