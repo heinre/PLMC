@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.template import loader
 from production_floor.models import Product
 from orders.models import Order
+from clients.models import PotentialClient
 from django.http import HttpResponse
 import codecs
 import os
@@ -57,11 +58,11 @@ def coc(request, product_id):
                         data[field] = form[field]
                 rand_file = 'reports/templates/utility/' + random_string_generator() + '.html'
                 with open('./reports/utilities/globals.json', 'r+') as file:
-                    data = json.load(file)
-                    data['COC'] = data['COC'] + 1
-                    serial = str(data['COC']).zfill(6)
+                    sn = json.load(file)
+                    sn['COC'] = sn['COC'] + 1
+                    serial = str(sn['COC']).zfill(6)
                     file.seek(0)
-                    file.write(json.dumps(data))
+                    file.write(json.dumps(sn))
                 render_to_file('COC.html', rand_file, {"data": data, 'serial': serial})
                 pdf = pdfkit.from_file(rand_file, False, options={'title': 'SHOHAM - C.O.C of part '
                                                                            + str(product.id) + ', order '
@@ -104,7 +105,21 @@ def delivery(request, order_id):
             os.remove(rand_file)
             return response
     except ObjectDoesNotExist:
-        return _not_exist_page(request, 'המוצר אינו קיים')
+        return _not_exist_page(request, 'ההזמנה אינה קיימת')
+
+
+def potential(request, client_id):
+    try:
+        client = PotentialClient.objects.get(id=client_id)
+        rand_file = 'reports/templates/utility/' + random_string_generator() + '.html'
+        render_to_file('potential.html', rand_file, {"client": client})
+        pdf = pdfkit.from_file(rand_file, False, options={'title': 'SHOHAM - Potential Client ' + client.name})
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'filename=potential_' + str(client.id) + '.pdf'
+        #os.remove(rand_file)
+        return response
+    except ObjectDoesNotExist:
+        return _not_exist_page(request, 'הלקוח אינו קיים')
 
 
 def routing(request, product_id):

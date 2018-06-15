@@ -49,6 +49,9 @@
         $(".clickable-client-row").dblclick(function() {
             window.location="/clients/"+$(this).children('td')[0].innerHTML;
         });
+        $(".clickable-potential-row").dblclick(function() {
+            window.location="/clients/potential/"+$(this).children('td')[0].innerHTML;
+        });
         $(".clickable-order-row").dblclick(function() {
             window.location="/orders/"+$(this).children('td')[0].innerHTML;
         });
@@ -86,6 +89,20 @@
         function deleteClient(id){
             $("#deleteModal").modal("hide");
             $.post("/clients/delete/", {'csrfmiddlewaretoken': $("[name=csrfmiddlewaretoken]").val(), 'id': id},
+                function(data){
+                if (data['status'] == 'success'){
+                    window.location.href = './';
+                }
+                else{
+                    window.location.href = './delete';
+
+                }
+            });
+        }
+
+        function deletePotential(id){
+            $("#deleteModal").modal("hide");
+            $.post("/clients/potential/delete/", {'csrfmiddlewaretoken': $("[name=csrfmiddlewaretoken]").val(), 'id': id},
                 function(data){
                 if (data['status'] == 'success'){
                     window.location.href = './';

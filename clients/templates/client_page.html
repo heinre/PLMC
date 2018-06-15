@@ -19,10 +19,30 @@
                 </li>
             {% endif %}
             <li>
-                <a href="{% url 'clients:new' %}">
-                    <div class="menu-icon"><i class="fas fa-user-plus"></i></div>
-                    <div class="menu-text">לקוח חדש</div>
-                </a>
+                {% if potential %}
+                    <a href="{% url 'clients:p_new' %}">
+                        <div class="menu-icon"><i class="fas fa-user-plus"></i></div>
+                        <div class="menu-text">לקוח מתעניין חדש</div>
+                    </a>
+                {% else %}
+                    <a href="{% url 'clients:new' %}">
+                        <div class="menu-icon"><i class="fas fa-user-plus"></i></div>
+                        <div class="menu-text">לקוח חדש</div>
+                    </a>
+                {% endif %}
+            </li>
+            <li class="right-menu">
+                {% if potential %}
+                    <a href="{% url 'clients:index' %}">
+                        <div class="menu-icon"><i class="fa fa-users"></i></div>
+                        <div class="menu-text">לקוחות קיימים</div>
+                    </a>
+                {% else %}
+                    <a href="{% url 'clients:p_index' %}">
+                        <div class="menu-icon"><i class="fas fa-question"></i></div>
+                        <div class="menu-text">לקוחות מתעניינים</div>
+                    </a>
+                {% endif %}
             </li>
         </ul>
 
@@ -68,7 +88,11 @@
                                     לקוחות במערכת
                                 {% endif %}
                             {% else %}
-                                לקוחות עם הזמנות פעילות
+                                {% if potential %}
+                                    לקוחות מתעניינים
+                                    {% else %}
+                                    לקוחות עם הזמנות פעילות
+                                    {% endif %}
                             {% endif %}
                         </h4>
                     </div>
@@ -83,7 +107,13 @@
                         </thead>
                         <tbody>
                             {% for client,vl in clients.items %}
-                                <tr class="clickable-client-row">
+                                <tr class="
+                                    {% if potential %}
+                                        clickable-potential-row
+                                    {% else %}
+                                        clickable-client-row
+                                    {% endif %}
+                                 ">
                                     <td>{{ vl.0.id }}</td>
                                     <td>{{ vl.0.name }}</td>
                                     <td>{{ vl.1 }}</td>

@@ -21,14 +21,14 @@
     <div class="menu">
         <ul>
             <li>
-                <a onclick="window.history.back(); return false;" >
+                <a href="{% url 'clients:p_index' %}" >
                     <div class="menu-icon"><i class="fas fa-arrow-right"></i></div>
                     <div class="menu-text">חזרה</div>
                 </a>
             </li>
             {% if client %}
                 <li>
-                    <a href="{% url 'clients:edit' client.id %}" >
+                    <a href="{% url 'clients:p_edit' client.id %}" >
                         <div class="menu-icon"><i class="fas fa-pencil-alt"></i></div>
                         <div class="menu-text">ערוך</div>
                     </a>
@@ -42,7 +42,7 @@
                 <li class="right-menu">
                 <a href="{% url 'orders:new' %}?client={{ client.id }}">
                     <div class="menu-icon"><i class="fas fa-cart-plus"></i></div>
-                    <div class="menu-text">טופס מתעניין</div>
+                    <div class="menu-text">הפקת טופס מתעניין</div>
                 </a>
             </li>
             {% endif %}
@@ -89,7 +89,6 @@
                         <h3>התקבל דרך</h3>
                         <p>{{ client.get_referred_display }}</p>
                     </div>
-
                 </div>
                 {% if client.remarks %}
                     <div class="row">
@@ -110,13 +109,13 @@
                         <div class="modal-content">
                             <div class="modal-body">
                                 <h1><i class="fas fa-exclamation-circle"></i></h1>
-                                <h3>האם אתה בטוח שברצונך למחוק את הלקוח {{ client.name }}?</h3>
+                                <h3>האם אתה בטוח שברצונך למחוק את הלקוח המתעניין {{ client.name }}?</h3>
                                 <p>תהליך זה ימחק את כל המידע הקשור ללקוח {{ client.name }}, כולל הזמנות.</p>
                                 <p style="font-weight: bold">לא ניתן לשחזר מידע שנמחק.</p>
                             </div>
                             <div class="modal-footer">
                                 {% csrf_token %}
-                                <button type="button" class="btn btn-danger" onclick="deleteClient({{ client.id }})">
+                                <button type="button" class="btn btn-danger" onclick="deletePotential({{ client.id }})">
                                     <i class="fas fa-check"></i> מחק
                                 </button>
                                 <button type="button" class="btn btn-info" data-dismiss="modal">

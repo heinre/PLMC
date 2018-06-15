@@ -34,6 +34,25 @@ def clients_index(request):
     return render(request, 'client_page.html', {'nbar': 'clients', 'clients': clients_dict})
 
 
+def potential_index(request):
+    clients_dict = {}
+    if request.GET:
+        answer = PotentialClient.objects.filter(name__contains=request.GET['query']) | \
+                 PotentialClient.objects.filter(id__contains=request.GET['query']) | \
+                 PotentialClient.objects.filter(address__contains=request.GET['query']) | \
+                 PotentialClient.objects.filter(contactEmail__contains=request.GET['query']) | \
+                 PotentialClient.objects.filter(contactName__contains=request.GET['query']) | \
+                 PotentialClient.objects.filter(contactPhone__contains=request.GET['query'])
+        for client in answer:
+            clients_dict[client.id] = [client, 0, 0]
+        return render(request, 'client_page.html', {'nbar': 'clients', 'clients': clients_dict,
+                      'query': request.GET['query'], 'search': True, 'potential': True})
+    answer = PotentialClient.objects.all()
+    for client in answer:
+        clients_dict[client.id] = [client, 0, 0]
+    return render(request, 'client_page.html', {'nbar': 'clients', 'clients': clients_dict, 'potential': True})
+
+
 def _not_exist_page(request):
     return render(request, 'client_info.html', {'nbar': 'clients',
                                                 'client': None})
@@ -56,7 +75,7 @@ def potential_new(request):
         if form.is_valid():
             form.instance.created = timezone.now()
             client = form.save()
-            return redirect('clients:p_new', client.id)
+            return redirect('clients:p_info', client.id)
         else:
             return render(request, 'potential_new.html', {'nbar': 'clients', 'form': form})
     return render(request, 'potential_new.html', {'nbar': 'clients', 'form': forms.PotentialNew()})
@@ -99,6 +118,23 @@ def client_edit(request, client_id):
         return _not_exist_page(request)
 
 
+def potential_edit(request, client_id):
+    try:
+        instance = PotentialClient.objects.get(id=client_id)
+        if request.method == 'POST':
+            form = forms.PotentialNew(request.POST or None, instance=instance)
+            if form.is_valid():
+                form.save()
+                return redirect('clients:p_info', client_id)
+            else:
+                return render(request, 'potential_new.html', {'nbar': 'clients',
+                                                           'form': forms.PotentialNew(request.POST), 'edit': True})
+        return render(request, 'potential_new.html', {'nbar': 'clients',
+                                                   'form': forms.PotentialNew(instance=instance), 'edit': True})
+    except ObjectDoesNotExist:
+        return _not_exist_page(request)
+
+
 def client_delete(request):
     if request.method == 'GET':
         return _not_exist_page(request)
@@ -112,4 +148,15 @@ def client_delete(request):
             return JsonResponse({'status': 'fail'})
 
 
+def potential_delete(request):
+    if request.method == 'GET':
+        return _not_exist_page(request)
+    else:
+        try:
+            client = PotentialClient.objects.get(id=request.POST['id'])
+            client.delete()
+            print('deleted ssss')
+            return JsonResponse({'status': 'success'})
+        except:
+            return JsonResponse({'status': 'fail'})
 

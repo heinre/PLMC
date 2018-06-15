@@ -18,3 +18,7 @@ def modulo(num, val):
 @register.filter(name='timestamp')
 def timestamp(stamp):
     return timezone.datetime.fromtimestamp(stamp)
+
+@register.filter(name='serialNum')
+def serialNum(number):
+    return str(number).zfill(6)
