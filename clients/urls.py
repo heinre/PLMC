@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^potential/edit/(?P<client_id>[0-9]+)$', views.potential_edit, name='p_edit'),
     url(r'^delete/$', views.client_delete),
     url(r'^potential/delete/$', views.potential_delete),
+    url(r'^potential/transform/$', views.transform_potential),
 ]

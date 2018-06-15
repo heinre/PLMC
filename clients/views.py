@@ -155,8 +155,21 @@ def potential_delete(request):
         try:
             client = PotentialClient.objects.get(id=request.POST['id'])
             client.delete()
-            print('deleted ssss')
+            print('deleted')
             return JsonResponse({'status': 'success'})
         except:
             return JsonResponse({'status': 'fail'})
 
+
+def transform_potential(request):
+    try:
+        potential = PotentialClient.objects.get(id=request.POST['id'])
+        print(potential.name)
+        client = Client(name=potential.name, address=potential.address, contactName=potential.contactName,
+                        contactPhone=potential.contactPhone, contactEmail=potential.contactEmail,
+                        remarks=potential.remarks)
+        client.save()
+        potential.delete()
+        return JsonResponse({'status': 'success', 'id': client.id})
+    except:
+        return JsonResponse({'status': 'fail'})

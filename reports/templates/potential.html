@@ -18,7 +18,7 @@
 
 <body>
 
-<div class="container">
+<div class="container" style="font-size: 1.2em;">
     <div class="row">
             <h4><img src="image/topShoham.jpg" align = "center" style="width: 100%; padding-top: 15px; padding-left: 10px" alt="top"></h4>
     </div>
@@ -29,18 +29,22 @@
             </div>
         </h4>
         <div dir="rtl" style="color:#1B4F72;">
-            <div style="padding: 5px"><b>תאריך הפנייה: </b>{{ client.created }}</div>
-            <div class = "column"><b>שם איש קשר: </b>{{ client.contactName }}</div>
-            <div class = "column"><b>שם החברה: </b>{{ client.name }}</div>
-            <div class = "column"><b>טלפון: </b>{{ client.contactPhone }}</div>
-            <div class = "column"><b>אימייל: </b>{{ client.contactEmail }}</div>
-            <div class = "column"><b>תחום התעניינות: </b>{{ client.field }}</div>
-            <div class = "column"><b>הופנה לטיפול של: </b>{{ client.operator }}</div>
+            <div class="line"><b>תאריך הפנייה: </b>{{ client.created|date:'j/n/Y H:i' }}</div>
+            <div class="line"><b>שם החברה: </b>{{ client.name }}</div>
+            <div class="line"><b>שם איש קשר: </b>{{ client.contactName }}</div>
+            {% if client.contactPhone %}
+                <div class="line"><b>טלפון: </b>{{ client.contactPhone }}</div>
+            {% endif %}
+            {% if client.contactEmail %}
+                <div class="line"><b>אימייל: </b>{{ client.contactEmail }}</div>
+            {% endif %}
+            <div class="line"><b>תחום התעניינות: </b>{{ client.field }}</div>
+            <div class="line"><b>הופנה לטיפול של: </b>{{ client.operator }}</div>
         </div>
     </div>
 	<div dir="rtl" style="color:#1B4F72; padding-top: 30px;">
         <div class="row">
-            <div class = "column3"><b>ההפנייה התקבלה דרך: </b></div>
+            <div><b>ההפנייה התקבלה דרך: </b></div>
             <div class = "column3">
             		{% ifequal client.referred 'GL' %}
                     <i class="far fa-window-close"></i>

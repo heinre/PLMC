@@ -40,11 +40,17 @@
                     </a>
                 </li>
                 <li class="right-menu">
-                <a href="{% url 'orders:new' %}?client={{ client.id }}">
-                    <div class="menu-icon"><i class="fas fa-cart-plus"></i></div>
-                    <div class="menu-text">הפקת טופס מתעניין</div>
-                </a>
-            </li>
+                    <a onclick="transformPotential({{ client.id }})">
+                        <div class="menu-icon"><i class="fas fa-exchange-alt"></i></div>
+                        <div class="menu-text">הפוך ללקוח רגיל</div>
+                    </a>
+                </li>
+                <li class="right-menu">
+                    <a href="{% url 'reports:potential' client.id %}" target="_blank">
+                        <div class="menu-icon"><i class="far fa-file-pdf"></i></div>
+                        <div class="menu-text">הפקת טופס מתעניין</div>
+                    </a>
+                </li>
             {% endif %}
                 </ul>
     </div>

@@ -71,7 +71,12 @@
                 </div>
                 <div class="input-group">
                     <span class="rtlform">{{ form.dueDate.label_tag }}</span>
-                    {{ form.dueDate }}
+                    {% if form.instance.doneTime %}
+                        {{ form.instance.dueDate }}
+                    {% else %}
+                        {{ form.dueDate }}
+                    {% endif %}
+
 
                 </div>
                 </div>
@@ -110,31 +115,77 @@
                                 <div class="col-lg-1">
 
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-2">
+                                </div>
 
-
-
+                                <div class="col-lg-3">
+                                    <div style="display: inline-block;" class="input-group">
+                                        <span class="rtlform"><label>טופס ניתוב:</label></span>
+                                        {% if product.routing %}
+                                            <a onclick="deleteForm({{ product.id }},'routing')" style="color:red;"><i class="fas fa-trash-alt"></i> מחק</a>
+                                        {% else %}
+                                            <span>לא קיים</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div style="display: inline-block;" class="input-group">
+                                        <span class="rtlform"><label>C.O.C:</label></span>
+                                        {% if product.coc %}
+                                            <a onclick="deleteForm({{ product.id }},'coc')" style="color:red;"><i class="fas fa-trash-alt"></i> מחק</a>
+                                        {% else %}
+                                            <span>לא קיים</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
                             </div>
                         {% endfor %}
                     {% endif %}
-                    <fieldset>
-                        <input type="hidden" id="Pcounter" name="Pcounter" value="0">
-                        <input type="hidden" id="Ecounter" name="Ecounter" value="{{ products|length }}">
-                        <div class="fields">
-                            <!--reserved for more menus -->
-                        </div>
-                        <div style="margin-right: 5%; margin-bottom: 5%;">
-                        <button type="button" class="btn btn-success" id="addProduct">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                        <button type="button" class="btn btn-danger" id="removeProduct">
-                            <span class="glyphicon glyphicon-minus"></span></button>
-                        </div>
-                    </fieldset>
+                    {% if not form.instance.doneTime %}
+                        <fieldset>
+                            <input type="hidden" id="Pcounter" name="Pcounter" value="0">
+                            <input type="hidden" id="Ecounter" name="Ecounter" value="{{ products|length }}">
+                            <div class="fields">
+                                <!--reserved for more menus -->
+                            </div>
+                            <div style="margin-right: 5%; margin-bottom: 5%;">
+                            <button type="button" class="btn btn-success" id="addProduct">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                            <button type="button" class="btn btn-danger" id="removeProduct">
+                                <span class="glyphicon glyphicon-minus"></span></button>
+                            </div>
+                        </fieldset>
+                    {% endif %}
                 </div>
                 <input type="" onclick="validateAndSubmit()" id="submit-form" class="hidden">
 
         </form>
     </div>
+                    <!-- DELETE MODAL -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <h1><i class="fas fa-exclamation-circle"></i></h1>
+                                <h3>האם אתה בטוח שברצונך למחוק טופס זה?</h3>
+                                <p>ניתן להפיק טופס חדש ממרכז הטפסים</p>
+                            </div>
+                            <div class="modal-footer">
+                                {% csrf_token %}
+                                <button id="dButton" type="button" class="btn btn-danger" onclick="">
+                                    <i class="fas fa-check"></i> מחק
+                                </button>
+                                <button type="button" class="btn btn-info" data-dismiss="modal">
+                                    <i class="fas fa-times"></i> בטל
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" type="text/css" media="all" />

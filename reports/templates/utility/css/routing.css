@@ -274,6 +274,7 @@ select option {
     width: 50%;
     padding: 5px;
 }
+
 @media only screen and (max-width: 540px) {
   .col-half {
     width: 100%;

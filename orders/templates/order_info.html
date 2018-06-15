@@ -42,16 +42,14 @@
                         </a>
                 </li>
                 {% endif %}
-                {% if not order.doneTime %}
                 <li>
                     <a href="{% url 'orders:edit' order.id %}" >
                         <div class="menu-icon"><i class="fas fa-pencil-alt"></i></div>
                         <div class="menu-text">ערוך</div>
                     </a>
                 </li>
-                {% endif %}
                 <li>
-                    <a id="delete" >
+                    <a id="delete">
                         <div class="menu-icon"><i class="fas fa-trash-alt"></i></div>
                         <div class="menu-text">מחק</div>
                     </a>
@@ -167,7 +165,13 @@
                                                     </td>
                                                     <td>
                                                         {% ifequal product.routing '' %}
-                                                            <i class="fas fa-arrows-alt" style="color:darkgray;"></i>
+                                                            {% ifequal product.processes ''  %}
+                                                                <i class="fas fa-arrows-alt" style="color:darkgray;"></i>
+                                                            {% else %}
+                                                                <a href="{% url 'reports:routing' product.id %}" target="_blank">
+                                                                    <i class="fas fa-arrows-alt" style="color:#eea236;"></i>
+                                                                </a>
+                                                            {% endifequal %}
                                                         {% else %}
                                                             <a href="{% url 'reports:routing' product.id %}" target="_blank">
                                                                 <i class="fas fa-arrows-alt"></i>
@@ -183,7 +187,11 @@
                                         {% endif %}
                                     </tbody>
                                 </table>
+                            <span style="color:darkgray">יש להפיק בעמוד הטפסים</span>
+                            <span style="color:#eea236; margin-right: 20px;">טיוטה</span>
+                            <span style="color:#428bca; margin-right: 20px;">טופס סופי</span>
                         </div>
+
                     </div>
                 </div>
 

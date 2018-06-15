@@ -129,7 +129,7 @@
                                             {% for order in active_orders %}
                                                 <tr class="clickable-order-row">
                                                     <td>{{ order.id }}</td>
-                                                    <td>{{ order.created|timesince }} ago</td>
+                                                    <td>{{ order.created|timesince }}</td>
                                                     <td>
                                                         {% if order.dueDate %}
                                                             {% if order.late_due %}

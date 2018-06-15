@@ -74,8 +74,6 @@ def order_edit(request, order_id):
             else:
                 return render(request, 'order_new.html', {'nbar': 'orders',
                                                            'form': forms.OrderNew(request.POST), 'edit': True})
-        if instance.doneTime:
-            return _not_exist_page(request, 'לא ניתן לערוך הזמנה שהסתיימה')
         products = Product.objects.filter(order=instance)
         return render(request, 'order_new.html', {'nbar': 'orders',
                                                   'form': forms.OrderNew(instance=instance), 'products': products,

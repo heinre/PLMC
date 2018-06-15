@@ -6,6 +6,7 @@ from clients.models import PotentialClient
 from django.http import HttpResponse
 import codecs
 import os
+from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.uploadedfile import SimpleUploadedFile
 import pdfkit
@@ -116,7 +117,7 @@ def potential(request, client_id):
         pdf = pdfkit.from_file(rand_file, False, options={'title': 'SHOHAM - Potential Client ' + client.name})
         response = HttpResponse(pdf, content_type='application/pdf')
         response['Content-Disposition'] = 'filename=potential_' + str(client.id) + '.pdf'
-        #os.remove(rand_file)
+        os.remove(rand_file)
         return response
     except ObjectDoesNotExist:
         return _not_exist_page(request, 'הלקוח אינו קיים')
@@ -129,7 +130,7 @@ def routing(request, product_id):
             response = HttpResponse(product.routing, content_type='application/pdf')
             response['Content-Disposition'] = 'filename='+str(product.order.id)+'_'+str(product.id)+'_routing.pdf'
             return response
-        else:
+        if not product.processes:
             if request.method == 'GET':
                 if not product.processes:
                     return render(request, 'routing_form.html', {'nbar': 'reports', 'product': product})
@@ -147,7 +148,6 @@ def routing(request, product_id):
                 for field in form:
                     if form[field] != '':
                         data[field] = form[field]
-                print(data)
                 rand_file = 'reports/templates/utility/' + random_string_generator() + '.html'
                 render_to_file('routing.html', rand_file, {"data": data})
                 pdf = pdfkit.from_file(rand_file, False,
@@ -157,6 +157,19 @@ def routing(request, product_id):
                 product.save()
                 os.remove(rand_file)
             return redirect('reports:routing', product.id)
+        else:
+            product = Product.objects.get(id=product_id)
+            data = {
+                'product': product,
+                'done_processes': json.loads(product.done_processes),
+                'draft': True,
+            }
+            rand_file = 'reports/templates/utility/' + random_string_generator() + '.html'
+            render_to_file('routing.html', rand_file, {"data": data})
+            pdf = pdfkit.from_file(rand_file, False,
+                                   options={'title': 'SHOHAM - routing card of product ' + str(product.id)})
+            os.remove(rand_file)
+            return HttpResponse(pdf, content_type='application/pdf')
     except ObjectDoesNotExist:
         return _not_exist_page(request, 'המוצר אינו קיים')
 
@@ -164,3 +177,33 @@ def routing(request, product_id):
 def _not_exist_page(request, error):
         return render(request, 'report_page.html', {'nbar': 'reports',
                                                     'error': error})
+
+
+def delete_coc(request):
+    if request.method == 'GET':
+        return _not_exist_page(request, 'הטופס אינו קיים')
+    else:
+        try:
+            product = Product.objects.get(id=request.POST['id'])
+            filename = str(product.order.id) + '_' + str(product.id) + '_coc.pdf'
+            os.remove('media/coc/'+filename)
+            product.coc = ''
+            product.save()
+            return JsonResponse({'status': 'success', 'order': product.order.id})
+        except:
+            return JsonResponse({'status': 'fail'})
+
+
+def delete_routing(request):
+    if request.method == 'GET':
+        return _not_exist_page(request, 'הטופס אינו קיים')
+    else:
+        try:
+            product = Product.objects.get(id=request.POST['id'])
+            filename = str(product.order.id) + '_' + str(product.id) + '_routing.pdf'
+            os.remove('media/routing/'+filename)
+            product.routing = ''
+            product.save()
+            return JsonResponse({'status': 'success', 'order': product.order.id})
+        except:
+            return JsonResponse({'status': 'fail'})

@@ -152,7 +152,14 @@
                 {% now 'j/n/Y' %}
             </div>
     </div>
-
+    {% if data.draft %}
+        <div class="draft" dir="rtl" align="center">
+    טיוטה
+        </div>
+        <div class="draft second" dir="rtl" align="center">
+    טיוטה
+        </div>
+    {% endif %}
       <div class="row">
           <div style="position: absolute; bottom: 10%">
               <h2 align="left" style="padding-left: 0px"><div>,תודה על שיתוף הפעולה</div></h2>

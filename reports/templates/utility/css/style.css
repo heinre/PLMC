@@ -20,7 +20,7 @@ select:active {
 }
 
 
-.input-group {
+.input-group{
   margin-bottom: 2.5em;
   zoom: 1;
   text-align: right;
@@ -58,8 +58,23 @@ select:active {
     padding: 5px;
 }
 
-
-
+.column3 {
+    float: right;
+    width: 33.33%;
+    padding: 5px;
+    margin-top: 15px;
+}
+.draft{
+    font-size: 150px;
+    font-weight: bold;
+    opacity: 0.15;
+    position: absolute;
+    top: 20%;
+    left: 25%;
+}
+.second{
+    top: 50%;
+}
 .container {
   background: white;
   display: block;
@@ -92,6 +107,10 @@ td, th {
     border: 1px solid #dddddd;
     text-align: center;
     padding: 8px;
+}
+
+.line {
+    margin-bottom: 20px;
 }
 @media only screen and (max-width: 540px) {
 

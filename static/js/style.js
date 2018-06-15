@@ -166,6 +166,50 @@
                 }
             });
         }
+        function transformPotential(id){
+            $.post("/clients/potential/transform/", {'csrfmiddlewaretoken': $("[name=csrfmiddlewaretoken]").val(), 'id': id},
+                function(data){
+                if (data['status'] == 'success'){
+                    window.location.href = '../'+data['id'];
+                }
+                else{
+                    window.location.href = './delete';
+                }
+            });
+        }
+        function deleteForm(id,form){
+            if (form == 'coc'){
+                $("#dButton").attr("onclick",'deleteCOC('+id+')');
+            }
+            else{
+                $("#dButton").attr("onclick",'deleteRouting('+id+')');
+            }
+            $("#deleteModal").modal();
+        }
+        function deleteCOC(id){
+            $.post("../../reports/coc/delete/", {'csrfmiddlewaretoken': $("[name=csrfmiddlewaretoken]").val(),
+                    'id': id},
+                function(data){
+                if (data['status'] == 'success'){
+                    window.location.href = '../'+data['order'];
+                }
+                else{
+                    window.location.href = '../../reports/coc/delete/';
+                }
+            });
+        }
+        function deleteRouting(id){
+            $.post("../../reports/routing/delete/", {'csrfmiddlewaretoken': $("[name=csrfmiddlewaretoken]").val(),
+                    'id': id},
+                function(data){
+                if (data['status'] == 'success'){
+                    window.location.href = '../'+data['order'];
+                }
+                else{
+                    window.location.href = '../../reports/routing/delete/';
+                }
+            });
+        }
         function setCharAt(str,index,chr) {
             if(index > str.length-1) return str;
             return str.substr(0,index) + chr + str.substr(index+1);
