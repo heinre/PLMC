@@ -35,12 +35,12 @@
         </div>
         <div align="right" style="color:#1B4F72"><b>:מספר שרטוט וגרסא</b></div>
         <div class="input-group input-group-icon">
-            <input dir="auto" type="text" name="version_number" placeholder="מספר שרטוט וגרסא"/>
+            <input dir="auto" type="text" name="version_number" value="{{ product.schema }}" placeholder="מספר שרטוט וגרסא"/>
             <div class="input-icon"><i class="fa fa-folder-open-o "></i></div>
         </div>
         <div align="right" style="color:#1B4F72"><b>:מקט מוצר / מקט לקוח</b></div>
         <div class="input-group input-group-icon">
-            <input type="text" name="product_number" placeholder="מקט מוצר / מקט לקוח"/>
+            <input type="text" name="product_number" value="{{ product.CN }}" placeholder="מקט מוצר / מקט לקוח"/>
             <div class="input-icon"><i class="fa fa-barcode"></i></div>
         </div>
         <div align="right" style="color:#1B4F72"><b>:תיאור מוצר / תהליך</b></div>

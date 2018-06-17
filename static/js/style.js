@@ -135,7 +135,7 @@
                     window.location.href = './../../'+orderId;
                 }
                 else{
-                    window.location.href = './delete';
+                    window.location.href = './0';
 
                 }
             });

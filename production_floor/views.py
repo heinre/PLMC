@@ -9,7 +9,6 @@ import json
 import os
 
 
-
 def product_edit(request, product_id):
     try:
         instance = Product.objects.get(id=product_id)
@@ -32,12 +31,27 @@ def product_delete(request):
     if request.method == 'GET':
         return _not_exist_page(request)
     else:
+        with open('./production_floor/utilities/schedule.json', 'r') as file:
+            data = json.load(file)
+        old_data = data.copy()
         try:
             product = Product.objects.get(id=request.POST['id'])
+            for key, value in data.items():
+                if key != 'time':
+                    for item in range(0,len(value)):
+                        if value[item][0] == product.id:
+                            value.pop(item)
+                            break
             product.delete()
+            os.remove('./production_floor/utilities/schedule.json')
+            with open('./production_floor/utilities/schedule.json', 'w') as file:
+                file.write(json.dumps(data))
             print('deleted')
             return JsonResponse({'status': 'success'})
         except:
+            os.remove('./production_floor/utilities/schedule.json')
+            with open('./production_floor/utilities/schedule.json', 'w') as file:
+                file.write(json.dumps(old_data))
             return JsonResponse({'status': 'fail'})
 
 

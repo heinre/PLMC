@@ -155,13 +155,17 @@
                                                             {% for p in product.get_done %}{% ifnotequal forloop.counter 1 %},{% endifnotequal %}<span style="color:lightgreen">{{ p }}</span>{% endfor %}{% if product.get_done and product.processes %},{% endif %}{{ product.processes }}
                                                         </td>
                                                     <td>
-                                                        {% ifequal product.coc '' %}
-                                                            <i class="fa fa-certificate" style="color:darkgray;"></i>
+                                                        {% if product.coc_needed %}
+                                                            {% ifequal product.coc '' %}
+                                                                <i class="fa fa-certificate" style="color:darkgray;"></i>
+                                                            {% else %}
+                                                                <a href="{% url 'reports:coc' product.id %}" target="_blank">
+                                                                    <i class="fa fa-certificate"></i>
+                                                                </a>
+                                                            {% endifequal %}
                                                         {% else %}
-                                                            <a href="{% url 'reports:coc' product.id %}" target="_blank">
-                                                                <i class="fa fa-certificate"></i>
-                                                            </a>
-                                                        {% endifequal %}
+                                                            <i class="fas fa-times red-x" style="color:darkgray;"></i>
+                                                        {% endif %}
                                                     </td>
                                                     <td>
                                                         {% ifequal product.routing '' %}

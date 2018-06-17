@@ -48,13 +48,17 @@
                                         </td>
                                         <td>{{ product.order.clientID.name }}</td>
                                         <td>
-                                            {% ifnotequal product.coc '' %}
-                                                <i class="fa fa-certificate" style="color:darkgray;"></i>
+                                            {% if product.coc_needed %}
+                                                {% ifnotequal product.coc '' %}
+                                                    <i class="fa fa-certificate" style="color:darkgray;"></i>
+                                                {% else %}
+                                                    <a href="{% url 'reports:coc' product.id %}" target="_blank">
+                                                        <i class="fa fa-certificate"></i>
+                                                    </a>
+                                                {% endifnotequal %}
                                             {% else %}
-                                                <a href="{% url 'reports:coc' product.id %}" target="_blank">
-                                                    <i class="fa fa-certificate"></i>
-                                                </a>
-                                            {% endifnotequal %}
+                                                <i class="fas fa-times red-x" style="color:darkgray;"></i>
+                                            {% endif %}
                                         </td>
                                         <td>
                                             {% ifnotequal product.routing '' %}

@@ -32,10 +32,10 @@
           <div dir="rtl" style="color:#1B4F72;">
               <div style="padding: 5px"><b>שם הלקוח: </b>{{ data.product.order.clientID.name }}</div>
               <div class = "column"><b>מספר הזמנה: </b>{{ data.product.order.id }}</div>
-              <div class = "column"><b>מספר שרטוט: </b></div>
-              <div class = "column"><b>מהדורה: </b></div>
+              <div class = "column"><b>מספר שרטוט: </b>{% if data.product.schema %}{{ data.product.schema }}{% endif %}</div>
+              <div class = "column"><b>מהדורה: </b>{% if data.product.edition %}{{ data.product.edition }}{% endif %}</div>
               <div class = "column"><b>תיאור פריט: </b>{{ data.product.name }}</div>
-              <div class = "column"><b>מק"ט: </b></div>
+              <div class = "column"><b>מק"ט: </b>{% if data.product.CN %}{{ data.product.CN }}{% endif %}</div>
               <div class = "column"><b>כמות: </b>{{ data.product.amount }}</div>
           </div>
       </div>

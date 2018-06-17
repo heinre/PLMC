@@ -26,7 +26,7 @@ def render_to_file(template, filepath, context):
 
 
 def reports_index(request):
-    products = Product.objects.filter(processes='').filter(coc='') | \
+    products = Product.objects.filter(processes='').filter(coc='').filter(coc_needed=True) | \
                Product.objects.filter(processes='').filter(routing='')
     return render(request, 'report_page.html', {'nbar': 'reports', 'products': products})
 

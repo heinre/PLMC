@@ -21,9 +21,9 @@
             {% else %}
                 <label style="color: lightgray">
             {% endif %}
-            <div class="menu-icon"><i class="fas fa-hourglass-start"></i></div>
-            <div class="menu-text">התחל עבודה</div>
-            </label>
+                <div class="menu-icon"><i class="fas fa-hourglass-start"></i></div>
+                <div class="menu-text">התחל עבודה</div>
+                </label>
             {% if not start_time %}
                 </a>
             {% endif %}
@@ -34,8 +34,9 @@
             {% else %}
                 <label style="color: lightgray">
             {% endif %}
-            <div class="menu-icon"><i class="fas fa-check-square"></i></div>
-            <div class="menu-text">סיים עבודה</div>
+                <div class="menu-icon"><i class="fas fa-check-square"></i></div>
+                <div class="menu-text">סיים עבודה</div>
+                </label>
             {% if start_time %}
                 </a>
             {% endif %}
@@ -84,7 +85,7 @@
                 <div class="col-lg-6">
                     <div class="input-group">
                         <span style="margin-left:19px;">שם המבצע:</span>
-                        <input type="text" name="operator" required>
+                        <input type="text" name="operator" value="{{ user.get_full_name }}" readonly required>
                     </div>
                     <div class="input-group">
                         <span style="margin-left:5px;">כמות שמישים:</span>

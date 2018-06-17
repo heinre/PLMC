@@ -75,6 +75,8 @@
                         {{ form.instance.dueDate }}
                     {% else %}
                         {{ form.dueDate }}
+                        <br/>
+                        <span style="font-size: 12px; padding-right: 200px;">hh:mm:ss YYYY-MM-DD</span>
                     {% endif %}
 
 
@@ -144,10 +146,11 @@
                             </div>
                         {% endfor %}
                     {% endif %}
+                <input type="hidden" id="Pcounter" name="Pcounter" value="0">
+                            <input type="hidden" id="Ecounter" name="Ecounter" value="{{ products|length }}">
                     {% if not form.instance.doneTime %}
                         <fieldset>
-                            <input type="hidden" id="Pcounter" name="Pcounter" value="0">
-                            <input type="hidden" id="Ecounter" name="Ecounter" value="{{ products|length }}">
+
                             <div class="fields">
                                 <!--reserved for more menus -->
                             </div>

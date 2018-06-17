@@ -23,13 +23,29 @@ class Product(models.Model):
     parameters = models.CharField(max_length=200, blank=True, null=True)
     done_processes = models.TextField(blank=True, null=True, default='{}')
     coc = models.FileField(upload_to='media/coc', null=True, blank=True)
+    coc_needed = models.BooleanField(default=True)
+    schema = models.CharField(max_length=100, blank=True, null=True)
+    edition = models.CharField(max_length=100, blank=True, null=True)
+    CN = models.CharField(max_length=100, blank=True, null=True)
     routing = models.FileField(upload_to='media/routing', null=True, blank=True)
     processes = models.TextField(blank=True, null=True)
+    volt = models.CharField(max_length=50, blank=True, null=True)
+    ms = models.CharField(max_length=50, blank=True, null=True)
+    hz = models.CharField(max_length=50, blank=True, null=True)
+    diameter = models.CharField(max_length=50, blank=True, null=True)
+    rotating = models.CharField(max_length=50, blank=True, null=True)
+    micro_weld = models.CharField(max_length=50, blank=True, null=True)
+    power = models.CharField(max_length=50, blank=True, null=True)
+    freq = models.CharField(max_length=50, blank=True, null=True)
+    speed = models.CharField(max_length=50, blank=True, null=True)
+    fs = models.CharField(max_length=50, blank=True, null=True)
+    density = models.CharField(max_length=50, blank=True, null=True)
+    others = models.CharField(max_length=50, blank=True, null=True)
+
 
     # should return a list of machines and another list machines in order
     def parse_machines(self):
         processes_list = self.processes.split(',')
-        return processes_list
 
     def parse_done(self):
         return json.loads(self.done_processes)
