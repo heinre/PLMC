@@ -5,6 +5,7 @@ from production_floor.models import Product
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from . import forms
+from production_floor.views import delete_product_inner as delete_product
 
 
 def orders_index(request):
@@ -88,8 +89,10 @@ def order_delete(request):
     else:
         try:
             order = Order.objects.get(id=request.POST['id'])
+            products = Product.objects.filter(order=order)
+            for product in products:
+                delete_product(product.id)
             order.delete()
-            print('deleted')
             return JsonResponse({'status': 'success'})
         except:
             return JsonResponse({'status': 'fail'})

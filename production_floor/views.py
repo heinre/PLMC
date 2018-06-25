@@ -31,28 +31,32 @@ def product_delete(request):
     if request.method == 'GET':
         return _not_exist_page(request)
     else:
-        with open('./production_floor/utilities/schedule.json', 'r') as file:
-            data = json.load(file)
-        old_data = data.copy()
-        try:
-            product = Product.objects.get(id=request.POST['id'])
-            for key, value in data.items():
-                if key != 'time':
-                    for item in range(0,len(value)):
-                        if value[item][0] == product.id:
-                            value.pop(item)
-                            break
-            product.delete()
-            os.remove('./production_floor/utilities/schedule.json')
-            with open('./production_floor/utilities/schedule.json', 'w') as file:
-                file.write(json.dumps(data))
-            print('deleted')
-            return JsonResponse({'status': 'success'})
-        except:
-            os.remove('./production_floor/utilities/schedule.json')
-            with open('./production_floor/utilities/schedule.json', 'w') as file:
-                file.write(json.dumps(old_data))
-            return JsonResponse({'status': 'fail'})
+        return delete_product_inner(request.POST['id'])
+
+
+def delete_product_inner(product_id):
+    with open('./production_floor/utilities/schedule.json', 'r') as file:
+        data = json.load(file)
+    old_data = data.copy()
+    try:
+        product = Product.objects.get(id=product_id)
+        for key, value in data.items():
+            if key != 'time':
+                for item in range(0, len(value)):
+                    if value[item][0] == product.id:
+                        value.pop(item)
+                        break
+        product.delete()
+        os.remove('./production_floor/utilities/schedule.json')
+        with open('./production_floor/utilities/schedule.json', 'w') as file:
+            file.write(json.dumps(data))
+        print('deleted')
+        return JsonResponse({'status': 'success'})
+    except:
+        os.remove('./production_floor/utilities/schedule.json')
+        with open('./production_floor/utilities/schedule.json', 'w') as file:
+            file.write(json.dumps(old_data))
+        return JsonResponse({'status': 'fail'})
 
 
 def station_new(request):
@@ -164,9 +168,9 @@ def end_process(request):
     done[request.POST['process']]['remarks'] = request.POST['remarks']
     done[request.POST['process']]['amount'] = request.POST['amount']
     processes.remove(request.POST['process'])
-    processes = str(processes).replace('[','').replace(']','').replace("'", "").replace(' ', '')
+    processes = ','.join(processes)
+    #processes = str(processes).replace('[','').replace(']','').replace("'", "").replace(' ', '')
     product.done_processes = json.dumps(done)
-
     with open('./production_floor/utilities/times.json') as file:
         knn = json.load(file)
     param = product.parse_param()

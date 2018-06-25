@@ -64,7 +64,11 @@
                                                 <tr class="clickable-schedule-row" style="background-color: {{ product.4 }};">
                                                     <td>{{ product.0.name }}</td>
                                                     <td>
-                                                        <a style="text-decoration: none;" href="{% url 'orders:info' product.0.order.id %}">{{ product.0.order.id }}</a>
+                                                        {% if request.user|has_group:"Manager" %}
+                                                            <a style="text-decoration: none;" href="{% url 'orders:info' product.0.order.id %}">{{ product.0.order.id }}</a>
+                                                        {% else %}
+                                                            {{ product.0.order.id }}
+                                                        {% endif %}
                                                     </td>
                                                     <td>{{ product.0.amount }}</td>
                                                     <td>{{ product.1|date:'H:i' }}</td>
@@ -107,7 +111,11 @@
                                                 <tr class="clickable-schedule-row" style="background-color: {{ product.4 }};">
                                                     <td>{{ product.0.name }}</td>
                                                     <td>
-                                                        <a style="text-decoration: none;" href="{% url 'orders:info' product.0.order.id %}">{{ product.0.order.id }}</a>
+                                                        {% if request.user|has_group:"Manager" %}
+                                                            <a style="text-decoration: none;" href="{% url 'orders:info' product.0.order.id %}">{{ product.0.order.id }}</a>
+                                                        {% else %}
+                                                            {{ product.0.order.id }}
+                                                        {% endif %}
                                                     </td>
                                                     <td>{{ product.0.amount }}</td>
                                                     <td>{{ product.1|date:'H:i' }}</td>
@@ -156,7 +164,11 @@
                                                 <tr class="clickable-schedule-row" style="background-color: {{ product.4 }};">
                                                     <td>{{ product.0.name }}</td>
                                                     <td>
-                                                        <a style="text-decoration: none;" href="{% url 'orders:info' product.0.order.id %}">{{ product.0.order.id }}</a>
+                                                        {% if request.user|has_group:"Manager" %}
+                                                            <a style="text-decoration: none;" href="{% url 'orders:info' product.0.order.id %}">{{ product.0.order.id }}</a>
+                                                        {% else %}
+                                                            {{ product.0.order.id }}
+                                                        {% endif %}
                                                     </td>
                                                     <td>{{ product.0.amount }}</td>
                                                     <td>{{ product.1|date:'H:i' }}</td>

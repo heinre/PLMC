@@ -10,7 +10,7 @@ import json
 
 
 def workers_index(request):
-    if request.user.groups.filter(name='Employee').exists():
+    if not request.user.groups.filter(name='Manager').exists():
         return redirect('workers:shifts')
     if request.GET:
         answer = Worker.objects.filter(id__contains=request.GET['query']) | \

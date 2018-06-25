@@ -45,7 +45,7 @@ class Product(models.Model):
 
     # should return a list of machines and another list machines in order
     def parse_machines(self):
-        processes_list = self.processes.split(',')
+        return self.processes.split(',')
 
     def parse_done(self):
         return json.loads(self.done_processes)

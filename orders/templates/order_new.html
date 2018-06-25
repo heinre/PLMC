@@ -109,9 +109,11 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-1">
-                                    <a href="{% url 'orders:pedit' product.id %}" >
-                                        <div style="display: inline;"><i class="fas fa-wrench"></i></div>
-                                    </a>
+                                    {% if not form.instance.doneTime %}
+                                        <a href="{% url 'orders:pedit' product.id %}" >
+                                            <div style="display: inline;"><i class="fas fa-wrench"></i></div>
+                                        </a>
+                                    {% endif %}
                                     <h4  style="display: inline; margin-right: 10px;">{{ forloop.counter }}.</h4>
                                 </div>
                                 <div class="col-lg-1">
@@ -213,7 +215,7 @@
         });
         $(function() {
             {% if client %}
-                $("#autocomplete-clients").val('{{ client.name }}');
+                $("#autocomplete-clients").val('{{ client.name }}'.replace('&quot;','"'));
                 $("select[name='clientID']").val({{ client.id }});
             {% endif %}
           $("#autocomplete-clients").autocomplete({

@@ -49,7 +49,7 @@ class Order(models.Model):
                 done += len(product.get_done()) * product.amount
             except:
                 done += 0
-            undone += (len(product.processes) - product.processes.count(',')) * product.amount
+            undone += len(product.parse_machines()) * product.amount
         return round(100*done/(done+undone)) if (undone > 0 or done > 0) else 0
 
     def get_cid(self):

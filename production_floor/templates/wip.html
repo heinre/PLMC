@@ -67,8 +67,8 @@
 <div>
     <form method="post" action="/productionFloor/start/">
         {% csrf_token %}
-        <input type="text" name="id" value={{ context.id }} class="hidden">
-        <input type="text" name="process" value={{ context.process }} class="hidden">
+        <input type="text" name="id" value="{{ context.id }}" class="hidden">
+        <input type="text" name="process" value="{{ context.process }}" class="hidden">
         <input type="submit" id="start-form" class="hidden">
     </form>
 </div>
@@ -98,9 +98,9 @@
                 </div>
                 <div class="input-group" style="display: none;">
                     <span style="margin-left:30px;">#מוצר</span>
-                    <input type="text" name="id" style="background-color: lightgray;" readonly value={{ context.id }}>
+                    <input type="text" name="id" style="background-color: lightgray;" readonly value="{{ context.id }}">
                     <span style="margin-left:30px;">תהליך</span>
-                    <input type="text" name="process" style="background-color: lightgray;" readonly value={{ context.process }}>
+                    <input type="text" name="process" style="background-color: lightgray;" readonly value="{{ context.process }}">
                 </div>
                 <br/>
                 <div class="row"></div>
