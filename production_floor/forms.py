@@ -19,7 +19,8 @@ class ProductForm(forms.ModelForm):
         model = models.Product
         fields = "__all__"
         labels = {'name': _("שם"), 'amount': _("כמות"), 'processes': _("תהליכים"),
-                  'done_processes': _("תהליכים שהסתיימו")}
+                  'done_processes': _("תהליכים שהסתיימו"), 'schema': _("מספר שרטוט"), 'edition': _("מהדורה/גרסה"),
+                  'CN': _("מק\"ט"), 'coc_needed': _("C.O.C")}
         widgets = {
-            'processes': forms.Textarea(attrs={'rows': 4, 'cols': 20}),
+            'processes': forms.TextInput(),
         }

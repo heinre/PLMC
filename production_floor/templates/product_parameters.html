@@ -1,0 +1,129 @@
+<html>
+    <head>
+         <meta charset="utf-8" />
+        {% load static %}
+        <title>פרמטרים עבור {{ product.name }}</title>
+        <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+       <div class="row" style="width: 550px;">
+            <div class="col-lg-12">
+                    <div class="panel panel-default" >
+                        <div class="panel-heading" align="center">
+                            <h4>
+                                פרמטרי ריתוך
+                            </h4>
+                        </div>
+                        <table class="table" dir="ltr">
+                            <thead>
+                                <tr>
+                                    <th>Volt</th>
+                                    <th>Ms</th>
+                                    <th>Hz</th>
+                                    <th>Diameter</th>
+                                    <th>Rotating</th>
+                                    <th>Micro Weld</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                   <td>
+                                        {% if product.volt %}
+                                        {{ product.volt }}
+                                        {% endif %}
+                                   </td>
+                                   <td>
+                                        {% if product.ms %}
+                                            {{ product.ms }}
+                                        {% endif %}
+                                   </td>
+                                   <td>
+                                        {% if product.hz %}
+                                            {{ product.hz }}
+                                        {% endif %}
+                                   </td>
+                                   <td>
+                                        {% if product.diameter %}
+                                        {{ product.diameter }}
+                                        {% endif %}
+                                   </td>
+                                   <td>
+                                        {% if product.rotating %}
+                                            {{ product.rotating }}
+                                        {% endif %}
+                                   </td>
+                                   <td>
+                                        {% if product.micro_weld %}
+                                            {{ product.micro_weld }}
+                                        {% endif %}
+                                   </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+       </div>
+       <div class="row"  style="width: 550px;">
+            <div class="col-lg-12">
+                    <div class="panel panel-default" >
+                        <div class="panel-heading" align="center">
+                            <h4>
+                                פרמטרי סימון
+                            </h4>
+                        </div>
+                        <table class="table" dir="ltr">
+                            <thead>
+                                <tr>
+                                    <th>Power</th>
+                                    <th>Freq</th>
+                                    <th>Speed</th>
+                                    <th>F.s</th>
+                                    <th>Density</th>
+                                    <th>Others</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                         {% if product.power %}
+                                             {{ product.power }}
+                                         {% endif %}
+                                    </td>
+                                    <td>
+                                         {% if product.freq %}
+                                             {{ product.freq }}
+                                         {% endif %}
+                                    </td>
+                                    <td>
+                                         {% if product.speed %}
+                                             {{ product.speed }}
+                                         {% endif %}
+                                    </td>
+                                    <td>
+                                         {% if product.fs %}
+                                             {{ product.fs }}
+                                         {% endif %}
+                                    </td>
+                                    <td>
+                                         {% if product.density %}
+                                             {{ product.density }}
+                                         {% endif %}
+                                    </td>
+                                    <td>
+                                         {% if product.others %}
+                                             {{ product.others }}
+                                         {% endif %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+       </div>
+    </body>
+<style type="text/css">
+td {
+    text-align: center;
+}
+</style>
+</html>

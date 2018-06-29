@@ -53,8 +53,9 @@
         <br/><br/><br/>
         {% if start_time %}
             <span style="font-size: 1.3em">העבודה החלה ב{{ start_time|date:'d/m/Y, H:i' }} (לפני {{ start_time|timesince }})</span>
+            <br/>
         {% endif %}
-        <br/><br/>
+
         {% if done_time %}
             <span style="font-size: 1.3em">העבודה הושלמה ב{{ done_time|date:'d/m/Y, H:i' }} (לפני {{ done_time|timesince }})</span>
             <br/>
@@ -64,6 +65,145 @@
         {% endif %}
     </div>
 </div>
+
+
+
+
+
+
+<div class="row" style="margin-top: 40px;">
+            <div class="col-lg-9"></div>
+            <div class="col-lg-1">
+                <h4>פרמטרי חיתוך</h4>
+            </div>
+        </div>
+        <div class="row" dir="ltr">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span>Volt:</span>
+                    {% if product.volt %}
+                        {{ product.volt }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group">
+                    <span>Ms:</span>
+                    {% if product.ms %}
+                        {{ product.ms }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group">
+                    <span>Hz:</span>
+                    {% if product.hz %}
+                        {{ product.hz }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row" dir="ltr">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span>Diameter:</span>
+                    {% if product.diameter %}
+                        {{ product.diameter }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group">
+                    <span>Rotating:</span>
+                    {% if product.rotating %}
+                        {{ product.rotating }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group">
+                    <span>Micro Weld:</span>
+                    {% if product.micro_weld %}
+                        {{ product.micro_weld }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9"></div>
+            <div class="col-lg-1">
+                <h4>פרמטרי סימון</h4>
+            </div>
+        </div>
+        <div class="row" dir="ltr">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span>Power:</span>
+                    {% if product.power %}
+                        {{ product.power }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group">
+                    <span>Freq.</span>
+                    {% if product.freq %}
+                        {{ product.freq }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group">
+                    <span>Speed:</span>
+                    {% if product.speed %}
+                        {{ product.speed }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row" dir="ltr">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span>Others:</span>
+                    {% if product.others %}
+                        {{ product.others }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group">
+                    <span>F.s:</span>
+                    {% if product.fs %}
+                        {{ product.fs }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-2" >
+                <div class="input-group">
+                    <span>Density:</span>
+                    {% if product.density %}
+                        {{ product.density }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div>
     <form method="post" action="/productionFloor/start/">
         {% csrf_token %}

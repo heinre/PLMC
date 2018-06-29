@@ -148,7 +148,8 @@
                                     <tbody>
                                         {% if products %}
                                             {% for product in products %}
-                                                <tr class="clickabl-order-row">
+                                                <tr class="clickable-product-row">
+                                                    <td hidden>{{ product.id }}</td>
                                                     <td>{{ product.name }}</td>
                                                     <td>{{ product.amount }}</td>
                                                     <td style="font-weight: 600;">

@@ -46,15 +46,34 @@
 
     </div>
     <div class="row"></div>
-    <div class="row">
-    <div class="col-lg-3"></div>
-        <form class="new-client-form" action="" method="POST">
-            {% csrf_token %}
+    <form class="new-client-form" id="form" action="" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2">
+                    <div class="input-group">
+                    <span class="rtlform" style="width:100px;">{{ form.coc_needed.label_tag }}</span>
+                    {{ form.coc_needed }}
+            </div>
+            </div>
             <div class="col-lg-3">
                 <div class="input-group" style="display: none;  ">
                     <span class="rtlform">{{ form.done_processes.label_tag }}</span>
                     {{ form.done_processes }}
                 </div>
+            <div class="input-group">
+                    <span class="rtlform">{{ form.schema.label_tag }}</span>
+                    {{ form.schema }}
+            </div>
+            <div class="input-group">
+                    <span class="rtlform">{{ form.edition.label_tag }}</span>
+                    {{ form.edition }}
+            </div>
+            <div class="input-group">
+                    <span class="rtlform">{{ form.CN.label_tag }}</span>
+                    {{ form.CN }}
+            </div>
+
             </div>
             <div class="col-lg-3">
                 <div class="input-group">
@@ -73,15 +92,112 @@
                 </div>
             </div>
             <div class="col-lg-4">
-
                 <div class="input-group" style="display: none;">
                     {{ form.parameters }}
                 </div>
             </div>
-                <input type="submit" id="submit-form" class="hidden">
-
-        </form>
-    </div>
+        </div>
+        <div class="row login-error" id="processes_error_msg" align="center" style="display:none; margin-bottom: 40px;">
+            <span>רשימת התהליכים אינה חוקית, אנא תקן אותה ונסה שנית.</span>
+        </div>
+        <div class="row">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-1">
+                <h4>פרמטרי חיתוך</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span class="rtlform" style="width: 100px;">{{ form.volt.label_tag }}</span>
+                    {{ form.volt }}
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span class="rtlform" style="width: 100px;">{{ form.ms.label_tag }}</span>
+                    {{ form.ms }}
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span class="rtlform" style="width: 100px;">{{ form.hz.label_tag }}</span>
+                    {{ form.hz }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3" style="left: 60px;">
+                <div class="input-group">
+                    <span class="rtlform">{{ form.diameter.label_tag }}</span>
+                    {{ form.diameter }}
+                </div>
+            </div>
+            <div class="col-lg-3" style="left: 60px;">
+                <div class="input-group">
+                    <span class="rtlform">{{ form.rotating.label_tag }}</span>
+                    {{ form.rotating }}
+                </div>
+            </div>
+            <div class="col-lg-3" style="left: 60px;">
+                <div class="input-group">
+                    <span class="rtlform">{{ form.micro_weld.label_tag }}</span>
+                    {{ form.micro_weld }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-1">
+                <h4>פרמטרי סימון</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span class="rtlform" style="width: 100px;">{{ form.power.label_tag }}</span>
+                    {{ form.power }}
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span class="rtlform" style="width: 100px;">{{ form.freq.label_tag }}</span>
+                    {{ form.freq }}
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span class="rtlform" style="width: 100px;">{{ form.speed.label_tag }}</span>
+                    {{ form.speed }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span class="rtlform" style="width: 100px;">{{ form.others.label_tag }}</span>
+                    {{ form.others }}
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <span class="rtlform" style="width: 100px;">{{ form.fs.label_tag }}</span>
+                    {{ form.fs }}
+                </div>
+            </div>
+            <div class="col-lg-3" style="left: 10px;">
+                <div class="input-group">
+                    <span class="rtlform" style="width: 110px;">{{ form.density.label_tag }}</span>
+                    {{ form.density }}
+                </div>
+            </div>
+        </div>
+    <input type="" onclick="validateAndSubmit()" id="submit-form" class="hidden">
+    </form>
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -102,4 +218,46 @@
         </div>
     </div>
 </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+                $.ajax({
+                    url: "/api/stations/",
+                    success: function(data){
+                    stations = JSON.parse(data);
+                    {% if not edit %}
+                        addProduct();
+                    {% endif %}
+                }});
+
+        });
+        function isProcessList(){
+            var list = $("#id_processes").val();
+            if (list.length < 1){
+                return false;
+            }
+            list = list.split(',');
+            if (list[list.length-1]==''){
+                list.pop();
+            }
+            for (var i=0; i<list.length; i++){
+                if (!stations.includes(list[i])) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        function validateAndSubmit(){
+            $("#processes_error_msg").hide();
+            if (isProcessList()){
+                $("#form").submit();
+            }
+            else{
+                $("#processes_error_msg").show();
+            }
+        }
+
+
+    </script>
 {% endblock %}

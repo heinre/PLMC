@@ -32,9 +32,27 @@ def orders_new(request):
                 processes = request.POST['process'+str(i)]
                 if processes[-1] == ',':
                     processes = processes[:-1]
-                product = Product(name=request.POST['pname'+str(i)], order=order,
-                                  amount=request.POST['pamount'+str(i)], processes=processes,
-                                  parameters=request.POST['parameters'+str(i)])
+                product = Product(name=request.POST['pname'+str(i)],
+                                  order=order,
+                                  amount=request.POST['pamount'+str(i)],
+                                  processes=processes,
+                                  parameters=request.POST['parameters'+str(i)],
+                                  coc_needed='coc'+str(i) in request.POST,
+                                  schema=request.POST['schema'+str(i)],
+                                  edition=request.POST['version'+str(i)],
+                                  CN=request.POST['CN'+str(i)],
+                                  volt=request.POST['volt'+str(i)],
+                                  ms=request.POST['Ms'+str(i)],
+                                  hz=request.POST['Hz'+str(i)],
+                                  diameter=request.POST['diameter'+str(i)],
+                                  rotating=request.POST['rotating'+str(i)],
+                                  micro_weld=request.POST['microWeld'+str(i)],
+                                  power=request.POST['power'+str(i)],
+                                  freq=request.POST['freq'+str(i)],
+                                  speed=request.POST['speed'+str(i)],
+                                  fs=request.POST['Fs'+str(i)],
+                                  density=request.POST['density'+str(i)],
+                                  others=request.POST['others'+str(i)])
                 product.save()
             return redirect('orders:info', order.id)
         else:
@@ -66,10 +84,30 @@ def order_edit(request, order_id):
             if form.is_valid():
                 form.save()
                 for i in range(0, int(request.POST['Pcounter'])):
-                    product = Product(name=request.POST['pname' + str(i)], order=instance,
+                    processes = request.POST['process' + str(i)]
+                    if processes[-1] == ',':
+                        processes = processes[:-1]
+                    product = Product(name=request.POST['pname' + str(i)],
+                                      order=instance,
                                       amount=request.POST['pamount' + str(i)],
-                                      processes=request.POST['process' + str(i)][:-1],
-                                      parameters=request.POST['parameters'+str(i)])
+                                      processes=processes,
+                                      parameters=request.POST['parameters' + str(i)],
+                                      coc_needed='coc' + str(i) in request.POST,
+                                      schema=request.POST['schema' + str(i)],
+                                      edition=request.POST['version' + str(i)],
+                                      CN=request.POST['CN' + str(i)],
+                                      volt=request.POST['volt' + str(i)],
+                                      ms=request.POST['Ms' + str(i)],
+                                      hz=request.POST['Hz' + str(i)],
+                                      diameter=request.POST['diameter' + str(i)],
+                                      rotating=request.POST['rotating' + str(i)],
+                                      micro_weld=request.POST['microWeld' + str(i)],
+                                      power=request.POST['power' + str(i)],
+                                      freq=request.POST['freq' + str(i)],
+                                      speed=request.POST['speed' + str(i)],
+                                      fs=request.POST['Fs' + str(i)],
+                                      density=request.POST['density' + str(i)],
+                                      others=request.POST['others' + str(i)])
                     product.save()
                 return redirect('orders:info', order_id)
             else:

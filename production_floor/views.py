@@ -27,6 +27,14 @@ def product_edit(request, product_id):
         return _not_exist_page(request)
 
 
+def product_parameters(request, product_id):
+    try:
+        product = Product.objects.get(id=product_id)
+        return render(request, 'product_parameters.html', {'product': product})
+    except ObjectDoesNotExist:
+        return _not_exist_page(request)
+
+
 def product_delete(request):
     if request.method == 'GET':
         return _not_exist_page(request)
@@ -141,7 +149,8 @@ def _not_exist_page(request):
 
 def wip_view(request):
     time = request.GET['p_time'].replace('&nbsp;', ' ')
-    product_processes = Product.objects.get(id=request.GET['id']).parse_done()
+    product = Product.objects.get(id=request.GET['id'])
+    product_processes = product.parse_done()
     start_time = None
     done_time = None
     operator = None
@@ -156,7 +165,7 @@ def wip_view(request):
 
     return render(request, 'wip.html', {'nbar': 'production_floor', 'context': request.GET,
                                         'time': time, 'start_time': start_time, 'done_time': done_time,
-                                        'operator': operator})
+                                        'operator': operator, 'product': product})
 
 
 def end_process(request):

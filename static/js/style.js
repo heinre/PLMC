@@ -55,8 +55,15 @@
         $(".clickable-order-row").dblclick(function() {
             window.location="/orders/"+$(this).children('td')[0].innerHTML;
         });
+        $(".clickable-product-row").dblclick(function() {
+            var features = "innerHeight=320,location=no";
+            var strWindowFeatures = "menubar=no,location=no,resizable=no,scrollbars=no,status=yes";
+           // window.open("/orders/product/parameters/" +$(this).children('td')[0].innerHTML, "parameters",features);
+            window.open("/orders/product/parameters/" +$(this).children('td')[0].innerHTML, "parameters",
+                "toolbar=0,location=0,status=0,menubar=0,scrollbars=0,resizable=0,width=540,height=320");
+        });
         $(".clickable-coc-row").dblclick(function() {
-        window.open("/reports/coc/" +$(this).children('td')[0].innerHTML);
+            window.open("/reports/coc/" +$(this).children('td')[0].innerHTML);
         });
         $(".clickable-worker-row").dblclick(function() {
             window.location="/workers/"+$(this).children('td')[0].innerHTML;
