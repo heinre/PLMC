@@ -53,14 +53,16 @@
                   </thead>
                   <tbody>
                		{% for process, info in data.done_processes.items %}
-                        <tr>
-                            <td>{{ forloop.counter }}</td>
-                            <td>{{ process }}</td>
-                            <td>{{ info.amount }}</td>
-                            <td>{{ info.operator }}</td>
-                            <td>{{ info.done_time|timestamp|date:'H:i j/n/Y' }}</td>
-                        </tr>
-                        {% endfor %}
+                        {% if info.done_time %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ process }}</td>
+                                <td>{{ info.amount }}</td>
+                                <td>{{ info.operator }}</td>
+                                <td>{{ info.done_time|timestamp|date:'H:i j/n/Y' }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
                   </tbody>
               </table>
           </div>
