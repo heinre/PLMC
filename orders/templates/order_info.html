@@ -158,9 +158,13 @@
                                                     <td>
                                                         {% if product.coc_needed %}
                                                             {% ifequal product.coc '' %}
-                                                                <i class="fa fa-certificate" style="color:darkgray;"></i>
+                                                                {% ifequal product.processes '' %}
+                                                                    <i class="fa fa-certificate" style="color:#5e5e5e;"></i>
+                                                                {% else %}
+                                                                    <i class="fa fa-certificate" style="color:darkgray;"></i>
+                                                                {% endifequal %}
                                                             {% else %}
-                                                                <a href="{% url 'reports:coc' product.id %}" target="_blank">
+                                                                <a href="{% url 'reports:coc' product.id %}" target="_blank" >
                                                                     <i class="fa fa-certificate"></i>
                                                                 </a>
                                                             {% endifequal %}
@@ -171,7 +175,7 @@
                                                     <td>
                                                         {% ifequal product.routing '' %}
                                                             {% ifequal product.processes ''  %}
-                                                                <i class="fas fa-arrows-alt" style="color:darkgray;"></i>
+                                                                <i class="fas fa-arrows-alt" style="color:#5e5e5e;"></i>
                                                             {% else %}
                                                                 <a href="{% url 'reports:routing' product.id %}" target="_blank">
                                                                     <i class="fas fa-arrows-alt" style="color:#eea236;"></i>
@@ -192,11 +196,29 @@
                                         {% endif %}
                                     </tbody>
                                 </table>
-                            <span style="color:darkgray">יש להפיק בעמוד הטפסים</span>
-                            <span style="color:#eea236; margin-right: 20px;">טיוטה</span>
-                            <span style="color:#428bca; margin-right: 20px;">טופס סופי</span>
                         </div>
+                        <div>
+                            <i class="fa fa-certificate" style="color:#428bca;"></i>
+                            <span>,</span>
+                            <i class="fas fa-arrows-alt" style="color:#428bca;"></i>
+                            <span>- טופס C.O.C/ניתוב ניתן הופק וניתן לצפייה</span>
+                            <br/>
+                            <i class="fa fa-certificate" style="color:#5e5e5e;"></i>
+                            <span>,</span>
+                            <i class="fas fa-arrows-alt" style="color:#5e5e5e;"></i>
+                            <span>- יש להפיק טופס C.O.C/ניתוב במרכז הטפסים</span>
+                            <br/>
+                            <i class="fas fa-certificate" style="color:darkgray;"></i>
+                            <span>- הפקת טופס תתאפשר לאחר עיבוד המוצר במלואו</span>
+                            <br/>
+                            <i class="fas fa-arrows-alt" style="color:#eea236;"></i>
+                            <span>- צפייה בטיוטת טופס ניתוב</span>
+                            <br/>
+                            <i class="fas fa-times red-x" style="color:darkgray;"></i>
+                            <span>- אין צורך בטופס C.O.C (לפי הגדרות המוצר)</span>
 
+
+                         </div>
                     </div>
                 </div>
 

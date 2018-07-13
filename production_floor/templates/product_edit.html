@@ -86,10 +86,15 @@
                     <span class="rtlform">{{ form.amount.label_tag }}</span>
                     {{ form.amount }}
                 </div>
-                <div class="input-group">
+                <div class="input-group" dir="rtl">
                     <span class="rtlform">{{ form.processes.label_tag }}</span>
                     {{ form.processes }}
                 </div>
+                <div class="input-group" style="right:100px;" id="processSelector">
+                    <span style="font-weight: bold; font-size: 1.5em;"> + </span>
+
+                </div>
+
             </div>
             <div class="col-lg-4">
                 <div class="input-group" style="display: none;">
@@ -99,6 +104,8 @@
         </div>
         <div class="row login-error" id="processes_error_msg" align="center" style="display:none; margin-bottom: 40px;">
             <span>רשימת התהליכים אינה חוקית, אנא תקן אותה ונסה שנית.</span>
+            <br/>
+            <span>(רשימה חוקית: תהליך אחד או יותר,פסיק מפריד בין התהליכים, תהליך מופיע לכל היותר פעם אחת)</span>
         </div>
         <div class="row">
             <div class="col-lg-10"></div>
@@ -228,13 +235,17 @@
                     stations = JSON.parse(data);
                     {% if not edit %}
                         addProduct();
+                    {% else %}
+                        editProduct();
                     {% endif %}
                 }});
+
+
 
         });
         function isProcessList(){
             var list = $("#id_processes").val();
-            if (list.length < 1){
+            if (list.length < 0){
                 return false;
             }
             list = list.split(',');
@@ -246,18 +257,54 @@
                     return false;
                 }
             }
+            return uniqueList(list) && true;
+        }
+
+        function uniqueList(list){
+            var dict = {};
+            for (var i=0; i<list.length; i++){
+                if (list[i] in dict){
+                    return false;
+                }
+                else{
+                    dict[list[i]] = 1;
+                }
+            }
             return true;
         }
         function validateAndSubmit(){
             $("#processes_error_msg").hide();
+            var list = $("#id_processes").val();
             if (isProcessList()){
+                if(list[list.length-1] == ','){
+                    list = list.slice(0,list.length-1);
+                    $("#id_processes").val(list);
+                }
                 $("#form").submit();
             }
             else{
                 $("#processes_error_msg").show();
             }
         }
-
-
+        function editProduct() {
+            var sec1 = '<select onchange="addProcess(this.value)">\n' +
+                '                        <option style="display: none;" selected>תהליך</option>';
+            var sec2 = '</select>';
+            var final = sec1;
+            for (var i in stations){
+	        final+='<option>'+stations[i]+'</option>';
+        }
+            final += sec2;
+            $("#processSelector").append(final);
+        }
+        var firstAddition = true;
+        function addProcess(station){
+            var delimiter = '';
+            if ($("#id_processes").val().length > 1 && firstAddition){
+                delimiter = ',';
+            }
+            $("#id_processes")[0].value += delimiter+station +',';
+            firstAddition = false;
+        }
     </script>
 {% endblock %}

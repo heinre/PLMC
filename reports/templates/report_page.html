@@ -50,7 +50,7 @@
                                         <td>
                                             {% if product.coc_needed %}
                                                 {% ifnotequal product.coc '' %}
-                                                    <i class="fa fa-certificate" style="color:darkgray;"></i>
+                                                    <i class="fa fa-certificate" style="color:green;"></i>
                                                 {% else %}
                                                     <a href="{% url 'reports:coc' product.id %}" target="_blank">
                                                         <i class="fa fa-certificate"></i>
@@ -62,7 +62,7 @@
                                         </td>
                                         <td>
                                             {% ifnotequal product.routing '' %}
-                                                <i class="fas fa-arrows-alt" style="color:darkgray;"></i>
+                                                <i class="fas fa-arrows-alt" style="color:green;"></i>
                                             {% else %}
                                                 <a href="{% url 'reports:routing' product.id %}" target="_blank">
                                                     <i class="fas fa-arrows-alt"></i>
@@ -79,7 +79,22 @@
                             </tbody>
                         </table>
                     </div>
+                <div>
+                    <i class="fa fa-certificate" style="color:green;"></i>
+                    <span>,</span>
+                    <i class="fas fa-arrows-alt" style="color:green;"></i>
+                    <span>- טופס C.O.C/ניתוב הופק</span>
+                    <br/>
+                    <i class="fa fa-certificate" style="color:#428bca;"></i>
+                    <span>,</span>
+                    <i class="fas fa-arrows-alt" style="color:#428bca;"></i>
+                    <span>- טופס C.O.C/ניתוב ניתן להפקה</span>
+                    <br/>
+                    <i class="fas fa-times red-x" style="color:darkgray;"></i>
+                    <span>- אין צורך בטופס C.O.C (לפי הגדרות המוצר)</span>
 
+
+                </div>
             </div>
         </div>
     {% else %}

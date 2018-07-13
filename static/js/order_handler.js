@@ -84,7 +84,8 @@ var sec22='"></div></div></div>' +
     '<input style="display: none;" type="text" name="parameters';
 var sec23='" value="0,0,1,0,0"></div><div id="perror';
 var sec24='" class="row login-error" align="center" style="display:none; margin-bottom: 40px;"> \n' +
-    '<span>אנא וודא שנתת למוצר שם, כמות גדולה מ-0 ורשימת תהליכים חוקית.</span></div></div>';
+    '<span>אנא וודא שנתת למוצר שם, כמות גדולה מ-0 ורשימת תהליכים חוקית.</span><br/>' +
+    '<span>(רשימה חוקית: תהליך אחד או יותר,פסיק מפריד בין התהליכים, תהליך מופיע לכל היותר פעם אחת)</span></div></div>';
 
 var Pindex = 0;
 var Ecounter = 0;
@@ -184,8 +185,22 @@ function isProcessList(index){
             return false;
         }
     }
+    return uniqueList(list) && true;
+}
+
+function uniqueList(list){
+    var dict = {};
+    for (var i=0; i<list.length; i++){
+        if (list[i] in dict){
+            return false;
+        }
+        else{
+            dict[list[i]] = 1;
+        }
+    }
     return true;
 }
+
 
 function updateParameters(obj,index){
     $element = $(obj)
