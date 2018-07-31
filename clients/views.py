@@ -10,7 +10,7 @@ from .models import Client, PotentialClient
 from orders.models import Order
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
-
+from orders.views import delelte_aux as order_delete
 
 def clients_index(request):
     clients_dict = {}
@@ -141,8 +141,10 @@ def client_delete(request):
     else:
         try:
             client = Client.objects.get(id=request.POST['id'])
+            orders = Order.objects.filter(clientID=client)
+            for order in orders:
+                order_delete(order.id)
             client.delete()
-            print('deleted')
             return JsonResponse({'status': 'success'})
         except:
             return JsonResponse({'status': 'fail'})

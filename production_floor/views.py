@@ -58,7 +58,6 @@ def delete_product_inner(product_id):
         os.remove('./production_floor/utilities/schedule.json')
         with open('./production_floor/utilities/schedule.json', 'w') as file:
             file.write(json.dumps(data))
-        print('deleted')
         return JsonResponse({'status': 'success'})
     except:
         os.remove('./production_floor/utilities/schedule.json')

@@ -120,17 +120,19 @@ def order_edit(request, order_id):
     except ObjectDoesNotExist:
         return _not_exist_page(request, 'ההזמנה אינה קיימת')
 
+def delelte_aux(order_id):
+    try:
+        order = Order.objects.get(id=order_id)
+        products = Product.objects.filter(order=order)
+        for product in products:
+            delete_product(product.id)
+        order.delete()
+        return JsonResponse({'status': 'success'})
+    except:
+        return JsonResponse({'status': 'fail'})
 
 def order_delete(request):
     if request.method == 'GET':
         return _not_exist_page(request, 'ההזמנה אינה קיימת')
     else:
-        try:
-            order = Order.objects.get(id=request.POST['id'])
-            products = Product.objects.filter(order=order)
-            for product in products:
-                delete_product(product.id)
-            order.delete()
-            return JsonResponse({'status': 'success'})
-        except:
-            return JsonResponse({'status': 'fail'})
+        return delelte_aux(request.POST['id'])
